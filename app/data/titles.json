@@ -1,0 +1,22 @@
+[
+    {
+        "id": "240f281b-89be-43c6-a5d0-ccf97c964566",
+        "name": "Doraemon Truyện Dài",
+        "pub_status": "COMPLETED",
+        "views": 200,
+        "created_date": "2024-07-02T08:30:12+07:00",
+        "picture": true,
+        "cover": "cover_path",
+        "category_id": "4194d8e8-ba07-4fe7-879e-d1b828b3763d"
+    },
+    {
+        "id": "754dd914-5b6f-4708-837a-de9011249569",
+        "name": "Alice ở xứ sở thần tiên (ENGLISH)",
+        "pub_status": "COMPLETED",
+        "views": 23,
+        "created_date": "2020-12-27T17:30:12+07:00",
+        "picture": false,
+        "cover": "cover_path",
+        "category_id": "9ea92bb9-5361-4e99-983e-deb120374b3e"
+    }
+]
