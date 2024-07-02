@@ -9,6 +9,7 @@
 /.idea/assetWizardSettings.xml
 /.idea/*
 /app/data/key/
+/app/scripts/venv
 .DS_Store
 /build
 /captures
