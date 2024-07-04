@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">Comic App</string>
+
+    <string name="title_detail_title_name">Tên truyện</string>
+    <string name="title_detail_title_category">Thể loại:</string>
+    <string name="title_detail_view_count">View:</string>
+    <string name="title_detail_publish_status">Tình trạng:</string>
+    <string name="title_detail_created_date">Ngày tạo:</string>
+    <string name="title_detail_chapter_list">Danh sách các chương</string>
+    <string name="title_detail_comment_list">Bình luận</string>
+
+    <string name="comment_confirm_button">Xác nhận</string>
+    <string name="comment_cancel_button">Hủy</string>
+    <string name="comment_content_placeholder">Nhập bình luận</string>
+
+    <string name="home_latest_title_label">Truyện mới nhất>></string>
+    <string name="home_all_title_label">Tất cả truyện>></string>
 </resources>
