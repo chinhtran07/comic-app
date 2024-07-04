@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".HomeActivity">
+
+    <SearchView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="30dp"
+        android:text="@string/home_latest_title_label"/>
+    <HorizontalScrollView
+        android:id="@+id/latest_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </HorizontalScrollView>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="30dp"
+        android:text="@string/home_all_title_label"/>
+    <HorizontalScrollView
+        android:id="@+id/all_titles"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </HorizontalScrollView>
+
+</LinearLayout>
