@@ -33,10 +33,9 @@ public class LoginActivity extends AppCompatActivity {
                 if (email.isEmpty() || password.isEmpty()) {
                     Toast.makeText(LoginActivity.this, "Please enter all the fields", Toast.LENGTH_SHORT).show();
                 } else {
-                    // Logic đăng nhập
+                    // Logic xác thực
                     Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
-
-                    // Chuyển tới MainActivity hoặc một Activity khác sau khi đăng nhập thành công
+                    // Set up page chuyển đến sau khi login thành công
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
