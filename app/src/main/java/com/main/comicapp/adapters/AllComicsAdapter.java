@@ -18,12 +18,23 @@ import java.util.List;
 
 public class AllComicsAdapter extends RecyclerView.Adapter<AllComicsAdapter.ComicViewHolder> {
 
+    public interface OnComicClickListener {
+        void onComicClick(Comic comic);
+    }
+
     private Context context;
     private List<Comic> comics;
+    private OnComicClickListener listener;
 
     public AllComicsAdapter(Context context, List<Comic> comics) {
         this.context = context;
         this.comics = comics;
+    }
+
+    public AllComicsAdapter(Context context, List<Comic> comics, OnComicClickListener listener) {
+        this.context = context;
+        this.comics = comics;
+        this.listener = listener;
     }
 
     @NonNull
@@ -41,6 +52,8 @@ public class AllComicsAdapter extends RecyclerView.Adapter<AllComicsAdapter.Comi
         Glide.with(context)
                 .load(comic.getCoverUri())
                 .into(holder.ivComicCover);
+
+        holder.itemView.setOnClickListener(v -> listener.onComicClick(comic));
     }
 
     @Override
@@ -58,4 +71,6 @@ public class AllComicsAdapter extends RecyclerView.Adapter<AllComicsAdapter.Comi
             tvComicTitle = itemView.findViewById(R.id.tv_comic_title);
         }
     }
+
+
 }

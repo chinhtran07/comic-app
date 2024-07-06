@@ -17,12 +17,23 @@ import java.util.List;
 
 public class RecentComicsAdapter extends RecyclerView.Adapter<RecentComicsAdapter.ComicViewHolder> {
 
+    public interface OnComicClickListener {
+        void onComicClick(Comic comic);
+    }
+
     private Context context;
     private List<Comic> comics;
+    private AllComicsAdapter.OnComicClickListener listener;
 
     public RecentComicsAdapter(Context context, List<Comic> comics) {
         this.context = context;
         this.comics = comics;
+    }
+
+    public RecentComicsAdapter(Context context, List<Comic> comics, AllComicsAdapter.OnComicClickListener listener) {
+        this.context = context;
+        this.comics = comics;
+        this.listener = listener;
     }
 
     @NonNull
@@ -40,6 +51,8 @@ public class RecentComicsAdapter extends RecyclerView.Adapter<RecentComicsAdapte
         Glide.with(context)
                 .load(comic.getCoverUri())
                 .into(holder.ivComicCover);
+
+        holder.itemView.setOnClickListener(v -> listener.onComicClick(comic));
     }
 
     @Override

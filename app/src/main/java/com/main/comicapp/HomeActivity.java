@@ -11,6 +11,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.main.comicapp.adapters.AllComicsAdapter;
 import com.main.comicapp.adapters.RecentComicsAdapter;
 import com.main.comicapp.models.Comic;
 
@@ -48,5 +49,4 @@ public class HomeActivity extends AppCompatActivity {
             startActivity(intent);
         });
     }
-
 }

@@ -1,6 +1,7 @@
 package com.main.comicapp;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -13,12 +14,13 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.main.comicapp.adapters.AllComicsAdapter;
+import com.main.comicapp.adapters.RecentComicsAdapter;
 import com.main.comicapp.models.Comic;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AllRecentComicActivity extends AppCompatActivity {
+public class AllRecentComicActivity extends AppCompatActivity implements RecentComicsAdapter.OnComicClickListener{
 
     private RecyclerView rvAllComics;
     private AllComicsAdapter adapter;
@@ -52,5 +54,12 @@ public class AllRecentComicActivity extends AppCompatActivity {
             comics.clear();
         });
 
+    }
+
+
+    @Override
+    public void onComicClick(Comic comic) {
+        Intent intent = new Intent(this, ReadingActivity.class);
+        startActivity(intent);
     }
 }

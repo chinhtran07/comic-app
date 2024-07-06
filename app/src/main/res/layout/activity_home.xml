@@ -14,13 +14,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            tools:ignore="UselessParent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Gần đây"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:paddingEnd="10dp"
+                tools:ignore="HardcodedText,RtlSymmetry" />
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/ll_all_comics"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="end"
             android:orientation="horizontal"
+            android:gravity="end"
             tools:ignore="UselessParent">
 
             <TextView
@@ -49,7 +64,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/home_latest_title_label"
-        android:textSize="30dp" />
+        android:textSize="30sp" />
 
     <HorizontalScrollView
         android:id="@+id/latest_title"
@@ -60,11 +75,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/home_all_title_label"
-        android:textSize="30dp" />
+        android:textSize="30sp" />
 
     <HorizontalScrollView
         android:id="@+id/all_titles"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></HorizontalScrollView>
+        android:layout_height="wrap_content">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            />
+    </HorizontalScrollView>
 
 </LinearLayout>

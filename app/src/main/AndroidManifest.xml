@@ -17,13 +17,13 @@
             android:exported="true" />
         <activity
             android:name=".ReadingActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".CommentActivity"
             android:exported="true" />
         <activity
             android:name=".TitleDetailActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".HomeActivity"
             android:exported="true">
