@@ -8,27 +8,84 @@
 
     <SearchView
         android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        />
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            tools:ignore="UselessParent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Gần đây"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:paddingEnd="10dp"
+                tools:ignore="HardcodedText,RtlSymmetry" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_all_comics"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="end"
+            tools:ignore="UselessParent">
+
+            <TextView
+                android:id="@+id/tv_all_comics"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tất cả >"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:paddingEnd="10dp"
+                tools:ignore="HardcodedText,RtlSymmetry" />
+        </LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_recent_comics"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ll_all_comics"
+            android:layout_marginTop="16dp"
+            android:padding="16dp"
+            android:orientation="horizontal"
+            tools:listitem="@layout/item_comic"
+            />
+    </RelativeLayout>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="30dp"
-        android:text="@string/home_latest_title_label"/>
+        android:text="@string/home_latest_title_label"
+        android:textSize="30sp" />
+
     <HorizontalScrollView
         android:id="@+id/latest_title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </HorizontalScrollView>
+        android:layout_height="wrap_content"></HorizontalScrollView>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="30dp"
-        android:text="@string/home_all_title_label"/>
+        android:text="@string/home_all_title_label"
+        android:textSize="30sp" />
+
     <HorizontalScrollView
         android:id="@+id/all_titles"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            />
     </HorizontalScrollView>
 
 </LinearLayout>
