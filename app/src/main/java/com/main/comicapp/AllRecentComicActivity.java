@@ -5,17 +5,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.main.comicapp.adapters.AllComicsAdapter;
 import com.main.comicapp.adapters.RecentComicsAdapter;
 import com.main.comicapp.models.Comic;
+import com.main.comicapp.utils.FirebaseUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,13 +35,6 @@ public class AllRecentComicActivity extends AppCompatActivity implements RecentC
 
         comics = new ArrayList<>();
 
-        comics.add(new Comic("Comic Title 1", "https://res.cloudinary.com/dk4uoxtsx/image/upload/v1714275085/bisui8vnhfwwzgunpdlo.jpg"));
-        comics.add(new Comic("Comic Title 2", "https://res.cloudinary.com/dk4uoxtsx/image/upload/v1714275085/bisui8vnhfwwzgunpdlo.jpg"));
-        comics.add(new Comic("Comic Title 3", "https://res.cloudinary.com/dk4uoxtsx/image/upload/v1714275085/bisui8vnhfwwzgunpdlo.jpg"));
-        comics.add(new Comic("Comic Title 4", "https://res.cloudinary.com/dk4uoxtsx/image/upload/v1714275085/bisui8vnhfwwzgunpdlo.jpg"));
-        comics.add(new Comic("Comic Title 5", "https://res.cloudinary.com/dk4uoxtsx/image/upload/v1714275085/bisui8vnhfwwzgunpdlo.jpg"));
-        comics.add(new Comic("Comic Title 6", "https://res.cloudinary.com/dk4uoxtsx/image/upload/v1714275085/bisui8vnhfwwzgunpdlo.jpg"));
-
         adapter = new AllComicsAdapter(this, comics);
         rvAllComics.setAdapter(adapter);
 
@@ -54,6 +44,22 @@ public class AllRecentComicActivity extends AppCompatActivity implements RecentC
             comics.clear();
         });
 
+        fetchComicsFromFirebase("titles", Comic.class);
+
+    }
+
+    private <T> void fetchComicsFromFirebase(String collectionName, Class<T> type) {
+        FirebaseUtils.getInstance().fetchData(collectionName, type, new FirebaseUtils.DataFetchListener<T>() {
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onDataFetched(List<T> data) {
+                comics.clear();
+                for (T item : data) {
+                    comics.add((Comic) item);  // Casting to Comic, ensure your collection contains Comics
+                }
+                adapter.notifyDataSetChanged();
+            }
+        });
     }
 
 
