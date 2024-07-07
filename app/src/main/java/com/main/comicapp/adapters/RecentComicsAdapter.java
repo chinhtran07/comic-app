@@ -21,8 +21,8 @@ public class RecentComicsAdapter extends RecyclerView.Adapter<RecentComicsAdapte
         void onComicClick(Comic comic);
     }
 
-    private Context context;
-    private List<Comic> comics;
+    private final Context context;
+    private final List<Comic> comics;
     private AllComicsAdapter.OnComicClickListener listener;
 
     public RecentComicsAdapter(Context context, List<Comic> comics) {
@@ -47,9 +47,9 @@ public class RecentComicsAdapter extends RecyclerView.Adapter<RecentComicsAdapte
     public void onBindViewHolder(@NonNull ComicViewHolder holder, int position) {
         Comic comic = comics.get(position);
         // Set comic cover image and title
-        holder.tvComicTitle.setText(comic.getTitle());
+        holder.tvComicTitle.setText(comic.getName());
         Glide.with(context)
-                .load(comic.getCoverUri())
+                .load(comic.getCover())
                 .into(holder.ivComicCover);
 
         holder.itemView.setOnClickListener(v -> listener.onComicClick(comic));

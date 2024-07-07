@@ -7,20 +7,39 @@
     tools:context=".AllRecentComicActivity">
 
     <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Lịch sử"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:padding="16dp"
+        android:background="@color/white"
+        android:textColor="#99000000"
+        tools:ignore="HardcodedText"
+        android:layout_alignParentTop="true" />
+
+    <TextView
         android:id="@+id/clear_history"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Xóa tất cả lịch sử"
         tools:ignore="HardcodedText,RtlSymmetry"
-        android:paddingEnd="20dp"
-        android:layout_marginBottom="30dp"
         android:gravity="end"
-        android:textSize="20sp"/>
+        android:textSize="20sp"
+        android:layout_below="@id/tvTitle"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentEnd="true"
+        />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_all_comics"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="10dp"
-        android:padding="16dp"/>
+        android:padding="16dp"
+        android:layout_below="@id/clear_history"
+        tools:listitem="@layout/item_comic"/>
 
 </RelativeLayout>
