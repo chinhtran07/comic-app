@@ -1,23 +1,38 @@
-[
-    {
-        "id": "f662048c-508c-409a-abf7-71be93d34fe1",
+{
+    "9cdcd52f-7d8f-4634-8cbb-93324a9f67bd": {
         "username": "admin",
-        "password": "b'$2b$12$yBgLaHavKb.cDw7eYh/14utm1rfmxrbcl/8jVz5CEwAP2xtDdnZGC'",
+        "password": "$2b$12$9ejwAw3B2UgEafWfuVfGO.xUOH5f9ElqOTGRvKgjrjpldQBeFyz9m",
         "email": "admin@gmail.com",
-        "user_role": "ADMIN"
+        "user_role": "ADMIN",
+        "preferences": {
+            "theme": "dark",
+            "fontSize": 14,
+            "notificationsEnabled": true,
+            "nightModeEnabled": false
+        }
     },
-    {
-        "id": "c528b4ae-7672-4ccc-810d-f683ff81618b",
+    "8757eb6c-19b0-434a-a86d-f09cdc844248": {
         "username": "binh",
-        "password": "b'$2b$12$T498dMaMWeCCY/cU6CK3ZOTknbbH7E0PCfKJ2VClYhl.uB2TqWNzm'",
+        "password": "$2b$12$IKkCPjH3mYOnaia2UQgHfOaN2dfsmDvRstzxTcJdxGxMd72eEmtMW",
         "email": "binh@gmail.com",
-        "user_role": "READER"
+        "user_role": "READER",
+        "preferences": {
+            "theme": "light",
+            "fontSize": 16,
+            "notificationsEnabled": false,
+            "nightModeEnabled": true
+        }
     },
-    {
-        "id": "195535fd-f45b-4da6-8aa7-38ae934f84fe",
+    "c7f746be-a7d1-4c30-be88-7fca92080830": {
         "username": "an",
-        "password": "b'$2b$12$LqJ3wzhzNeEnLX.xOl8icO3PvuXvO1pxFfa4SVPu.cxPmdwKPtXqi'",
+        "password": "$2b$12$3vy9.XNC6Xk5UG3BcweZc.tojHZ6jGBcDW2C/tdOApvK9Zop/Dr6e",
         "email": "an@gmail.com",
-        "user_role": "READER"
+        "user_role": "READER",
+        "preferences": {
+            "theme": "dark",
+            "fontSize": 12,
+            "notificationsEnabled": true,
+            "nightModeEnabled": false
+        }
     }
-]
+}

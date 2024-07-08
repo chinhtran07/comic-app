@@ -12,28 +12,28 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.main.comicapp.R;
-import com.main.comicapp.models.Comic;
+import com.main.comicapp.models.Title;
 
 import java.util.List;
 
 public class AllComicsAdapter extends RecyclerView.Adapter<AllComicsAdapter.ComicViewHolder> {
 
     public interface OnComicClickListener {
-        void onComicClick(Comic comic);
+        void onComicClick(Title title);
     }
 
     private final Context context;
-    private final List<Comic> comics;
+    private final List<Title> titles;
     private OnComicClickListener listener;
 
-    public AllComicsAdapter(Context context, List<Comic> comics) {
+    public AllComicsAdapter(Context context, List<Title> titles) {
         this.context = context;
-        this.comics = comics;
+        this.titles = titles;
     }
 
-    public AllComicsAdapter(Context context, List<Comic> comics, OnComicClickListener listener) {
+    public AllComicsAdapter(Context context, List<Title> titles, OnComicClickListener listener) {
         this.context = context;
-        this.comics = comics;
+        this.titles = titles;
         this.listener = listener;
     }
 
@@ -46,19 +46,19 @@ public class AllComicsAdapter extends RecyclerView.Adapter<AllComicsAdapter.Comi
 
     @Override
     public void onBindViewHolder(@NonNull ComicViewHolder holder, int position) {
-        Comic comic = comics.get(position);
+        Title title = titles.get(position);
         // Set comic cover image and title
-        holder.tvComicTitle.setText(comic.getName());
+        holder.tvComicTitle.setText(title.getName());
         Glide.with(context)
-                .load(comic.getCover())
+                .load(title.getCover())
                 .into(holder.ivComicCover);
 
-        holder.itemView.setOnClickListener(v -> listener.onComicClick(comic));
+        holder.itemView.setOnClickListener(v -> listener.onComicClick(title));
     }
 
     @Override
     public int getItemCount() {
-        return comics.size();
+        return titles.size();
     }
 
     public static class ComicViewHolder extends RecyclerView.ViewHolder {

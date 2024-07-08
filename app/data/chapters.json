@@ -1,38 +1,12 @@
-[
-    {
-        "id": "4f983a68-d76e-47d2-a72c-954495d73ddd",
-        "chapter_number": 1,
-        "uploaded_date": "2024-07-02T08:35:00+07:00",
-        "title_id": "240f281b-89be-43c6-a5d0-ccf97c964566"
+{
+    "882dd9d7-22a8-4bfa-8bd9-3e1bb39fcbb0": {
+        "comicId": "e452c7a2-cd88-4fc2-b206-fe3ea14bc313",
+        "chapterNumber": 1,
+        "title": "Chapter 1"
     },
-    {
-        "id": "70b3c3b0-894a-4775-900a-39d74d65915b",
-        "chapter_number": 2,
-        "uploaded_date": "2024-07-02T08:35:00+07:00",
-        "title_id": "240f281b-89be-43c6-a5d0-ccf97c964566"
-    },
-    {
-        "id": "e26570e7-20fa-4c3b-a34d-f0ce451ab983",
-        "chapter_number": 3,
-        "uploaded_date": "2024-07-02T08:35:00+07:00",
-        "title_id": "240f281b-89be-43c6-a5d0-ccf97c964566"
-    },
-    {
-        "id": "dc4828c7-9e85-4f6c-a02f-425ae7c3c17c",
-        "chapter_number": 1,
-        "uploaded_date": "2020-12-27T18:00:00+07:00",
-        "title_id": "754dd914-5b6f-4708-837a-de9011249569"
-    },
-    {
-        "id": "49466a1f-a5e2-4a2b-9324-fc723353e987",
-        "chapter_number": 2,
-        "uploaded_date": "2020-12-27T18:00:00+07:00",
-        "title_id": "754dd914-5b6f-4708-837a-de9011249569"
-    },
-    {
-        "id": "17bc8805-f6e5-46dc-b60d-ab0458674f44",
-        "chapter_number": 3,
-        "uploaded_date": "2020-12-27T18:00:00+07:00",
-        "title_id": "754dd914-5b6f-4708-837a-de9011249569"
+    "9cc63a35-e56c-4f39-8443-1dbfc2750ee5": {
+        "comicId": "0c0bdee6-6280-4644-8d78-086bd3b1e254",
+        "chapterNumber": 1,
+        "title": "Chapter 1"
     }
-]
+}

@@ -1,0 +1,16 @@
+{
+    "9cdcd52f-7d8f-4634-8cbb-93324a9f67bd": {
+        "downloadedChapters": {
+            "882dd9d7-22a8-4bfa-8bd9-3e1bb39fcbb0": {
+                "chapterNumber": 1,
+                "title": "Chapter 1",
+                "pages": {
+                    "d9336f03-3b21-4e0c-bbcf-f6ee3c74bfa7": {
+                        "pageNumber": 1,
+                        "imageUrl": "url_to_page_image_1"
+                    }
+                }
+            }
+        }
+    }
+}
