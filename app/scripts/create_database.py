@@ -5,11 +5,12 @@ from firebase_admin import firestore
 import json
 
 
-def batch_execute(item_list, db_ref, collection, item_id='id'):
+def batch_execute(item_list, db_ref, collection, item_id='id', ref_field=''):
     try:
         print(f"Creating collection {collection}")
         batch = db_ref.batch()
         for item in item_list:
+            print(f"Creating document {item[item_id]}")
             doc_ref = db.collection(collection).document(item[item_id])
             del item[item_id]
             batch.set(doc_ref, item)
@@ -17,7 +18,7 @@ def batch_execute(item_list, db_ref, collection, item_id='id'):
     except Exception as e:
         print(f"Error processing batch write: {e.with_traceback()}")
 
-cred = credentials.Certificate("../data/comic-app-b344c-firebase-adminsdk-ot4l1-e17e2b10be.json")
+cred = credentials.Certificate("../data/key/comic-app-b344c-firebase-adminsdk-ot4l1-e17e2b10be.json")
 app = firebase_admin.initialize_app(cred)
 
 
@@ -44,6 +45,12 @@ filedata = [
     },
     {
         "name": "comments",
+    },
+    {
+        "name": "authors"
+    },
+    {
+        "name": "titles_authors"
     }
 ]
 

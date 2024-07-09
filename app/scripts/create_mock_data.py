@@ -47,6 +47,21 @@ categories = [
     }
 ]
 
+authors = [
+    {
+        "id": str(uuid.uuid4()),
+        "name": "Hiroshi Fujimoto"
+    },
+    {
+        "id": str(uuid.uuid4()),
+        "name": "Motou Abiko"
+    },
+    {
+        "id": str(uuid.uuid4()),
+        "name": "Lewis Carroll"
+    }
+]
+
 
 # Title Collection
 titles = [
@@ -56,7 +71,7 @@ titles = [
         "pub_status": "COMPLETED",
         "views": 200,
         "created_date": datetime(year=2024, month=7, day=2, hour=8, minute=30, second=12, tzinfo=ZoneInfo("Asia/Ho_Chi_Minh")).isoformat(),
-        "picture": True,
+        "format": "COMIC",
         "cover": "cover_path",
         "category_id": categories[0]["id"]
     },
@@ -66,9 +81,27 @@ titles = [
         "pub_status": "COMPLETED",
         "views": 23,
         "created_date": datetime(year=2020, month=12, day=27, hour=17, minute=30, second=12, tzinfo=ZoneInfo("Asia/Ho_Chi_Minh")).isoformat(),
-        "picture": False,
+        "format": "NOVEL",
         "cover": "cover_path",
         "category_id": categories[1]["id"]
+    }
+]
+
+titles_authors = [
+    {
+        "id": str(uuid.uuid4()),
+        "title_id": titles[0]["id"],
+        "author_id": authors[0]["id"]
+    },
+    {
+        "id": str(uuid.uuid4()),
+        "title_id": titles[0]["id"],
+        "author_id": authors[1]["id"]
+    },
+    {
+        "id": str(uuid.uuid4()),
+        "title_id": titles[1]["id"],
+        "author_id": authors[2]["id"]
     }
 ]
 
@@ -79,36 +112,42 @@ chapters = [
         "chapter_number": 1,
         "uploaded_date": datetime(year=2024, month=7, day=2, hour=8, minute=35, second=0, tzinfo=ZoneInfo("Asia/Ho_Chi_Minh")).isoformat(),
         "title_id": titles[0]["id"],
+        "content": "content_path"
     },
     {
         "id": str(uuid.uuid4()),
         "chapter_number": 2,
         "uploaded_date": datetime(year=2024, month=7, day=2, hour=8, minute=35, second=0, tzinfo=ZoneInfo("Asia/Ho_Chi_Minh")).isoformat(),
         "title_id": titles[0]["id"],
+        "content": "content_path"
     },
     {
         "id": str(uuid.uuid4()),
         "chapter_number": 3,
         "uploaded_date": datetime(year=2024, month=7, day=2, hour=8, minute=35, second=0, tzinfo=ZoneInfo("Asia/Ho_Chi_Minh")).isoformat(),
         "title_id": titles[0]["id"],
+        "content": "content_path"
     },
     {
         "id": str(uuid.uuid4()),
         "chapter_number": 1,
         "uploaded_date": datetime(year=2020, month=12, day=27, hour=18, minute=0, second=0, tzinfo=ZoneInfo("Asia/Ho_Chi_Minh")).isoformat(),
         "title_id": titles[1]["id"],
+        "content": "content_path"
     },
     {
         "id": str(uuid.uuid4()),
         "chapter_number": 2,
         "uploaded_date": datetime(year=2020, month=12, day=27, hour=18, minute=0, second=0, tzinfo=ZoneInfo("Asia/Ho_Chi_Minh")).isoformat(),
         "title_id": titles[1]["id"],
+        "content": "content_path"
     },
     {
         "id": str(uuid.uuid4()),
         "chapter_number": 3,
         "uploaded_date": datetime(year=2020, month=12, day=27, hour=18, minute=0, second=0, tzinfo=ZoneInfo("Asia/Ho_Chi_Minh")).isoformat(),
         "title_id": titles[1]["id"],
+        "content": "content_path"
     }
 ]
 
@@ -198,7 +237,15 @@ filedata = [
     {
         "name": "comments",
         "data": comments
-    }
+    },
+    {
+        "name": "authors",
+        "data": authors
+    },
+    {
+        "name": "titles_authors",
+        "data": titles_authors
+    },
 ]
 
 for idx in range(len(filedata)):

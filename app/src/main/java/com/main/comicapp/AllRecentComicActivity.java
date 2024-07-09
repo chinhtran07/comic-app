@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.main.comicapp.adapters.AllTitlesAdapter;
 import com.main.comicapp.adapters.RecentTitlesAdapter;
 import com.main.comicapp.models.Title;
+import com.google.firebase.firestore.Query;
 import com.main.comicapp.utils.FirebaseUtils;
 
 import java.util.ArrayList;
@@ -49,7 +50,8 @@ public class AllRecentComicActivity extends AppCompatActivity implements RecentT
     }
 
     private <T> void fetchComicsFromFirebase(String collectionName, Class<T> type) {
-        FirebaseUtils.getInstance().fetchData(collectionName, type, new FirebaseUtils.DataFetchListener<T>() {
+        Query query = FirebaseUtils.getInstance().getDb().collection(collectionName);
+        FirebaseUtils.getInstance().fetchData(collectionName, query , type, new FirebaseUtils.DataFetchListener<T>() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onDataFetched(List<T> data) {

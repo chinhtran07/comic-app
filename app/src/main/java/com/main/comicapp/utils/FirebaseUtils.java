@@ -9,10 +9,15 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class FirebaseUtils {
 
@@ -30,34 +35,37 @@ public class FirebaseUtils {
         return instance;
     }
 
+    public FirebaseFirestore getDb() {
+        return db;
+    }
+
     public interface DataFetchListener<T> {
         void onDataFetched(List<T> data);
     }
 
-    public <T> void fetchData(String collectionName, final Class<T> type, final DataFetchListener<T> listener) {
-        CollectionReference collectionRef = db.collection(collectionName);
-        collectionRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                if (error != null) {
-                    Log.e("FirebaseDataManager", "Error fetching data: ", error);
-                    return;
-                }
+    public <T> ListenerRegistration fetchData(String collectionName, Query query, final Class<T> type, final DataFetchListener<T> listener) {
 
-                List<T> dataList = new ArrayList<>();
-                assert value != null;
+        // Use of query path validation not needed in the context of using a single database.
+        return query.addSnapshotListener((value, error) -> {
+            if (error != null) {
+                String errorMessage = "Error fetching data from " + collectionName + ": " + (error.getMessage() != null ? error.getMessage() : "Unknown error");
+                Log.e("FirebaseDataManager", errorMessage);
+                return;
+            }
 
-                for (DocumentSnapshot document : value.getDocuments()) {
+            List<T> dataList = new ArrayList<>();
+            if (value != null) {
+                for (QueryDocumentSnapshot document : value) {
                     Log.d("Firebase", "Document Data: " + document.getData());
-                    T item = document.toObject(type);
-                    if (item != null) {
+                    try {
+                        T item = document.toObject(type);
                         dataList.add(item);
-                    } else {
-                        Log.e("Firebase", "Error parsing document to " + type.getSimpleName());
+                    } catch (RuntimeException e) {
+                        Log.e("Firebase", "Error parsing document: " + e.getMessage(), e);
                     }
                 }
-                listener.onDataFetched(dataList);
             }
+            listener.onDataFetched(dataList);
         });
     }
 }
