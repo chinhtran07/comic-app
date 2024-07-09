@@ -12,28 +12,28 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.main.comicapp.R;
-import com.main.comicapp.models.Comic;
+import com.main.comicapp.models.Title;
 
 import java.util.List;
 
-public class AllComicsAdapter extends RecyclerView.Adapter<AllComicsAdapter.ComicViewHolder> {
+public class AllTitlesAdapter extends RecyclerView.Adapter<AllTitlesAdapter.ComicViewHolder> {
 
-    public interface OnComicClickListener {
-        void onComicClick(Comic comic);
+    public interface OnTitleClickListener {
+        void onTitleClick(Title title);
     }
 
     private final Context context;
-    private final List<Comic> comics;
-    private OnComicClickListener listener;
+    private final List<Title> titles;
+    private OnTitleClickListener listener;
 
-    public AllComicsAdapter(Context context, List<Comic> comics) {
+    public AllTitlesAdapter(Context context, List<Title> titles) {
         this.context = context;
-        this.comics = comics;
+        this.titles = titles;
     }
 
-    public AllComicsAdapter(Context context, List<Comic> comics, OnComicClickListener listener) {
+    public AllTitlesAdapter(Context context, List<Title> titles, OnTitleClickListener listener) {
         this.context = context;
-        this.comics = comics;
+        this.titles = titles;
         this.listener = listener;
     }
 
@@ -46,29 +46,29 @@ public class AllComicsAdapter extends RecyclerView.Adapter<AllComicsAdapter.Comi
 
     @Override
     public void onBindViewHolder(@NonNull ComicViewHolder holder, int position) {
-        Comic comic = comics.get(position);
+        Title title = titles.get(position);
         // Set comic cover image and title
-        holder.tvComicTitle.setText(comic.getName());
+        holder.tvTitleName.setText(title.getTitle());
         Glide.with(context)
-                .load(comic.getCover())
-                .into(holder.ivComicCover);
+                .load(title.getCoverUrl())
+                .into(holder.ivTitleCover);
 
-        holder.itemView.setOnClickListener(v -> listener.onComicClick(comic));
+        holder.itemView.setOnClickListener(v -> listener.onTitleClick(title));
     }
 
     @Override
     public int getItemCount() {
-        return comics.size();
+        return titles.size();
     }
 
     public static class ComicViewHolder extends RecyclerView.ViewHolder {
-        ImageView ivComicCover;
-        TextView tvComicTitle;
+        ImageView ivTitleCover;
+        TextView tvTitleName;
 
         public ComicViewHolder(@NonNull View itemView) {
             super(itemView);
-            ivComicCover = itemView.findViewById(R.id.iv_comic_cover);
-            tvComicTitle = itemView.findViewById(R.id.tv_comic_title);
+            ivTitleCover = itemView.findViewById(R.id.iv_title_cover);
+            tvTitleName = itemView.findViewById(R.id.tv_title_name);
         }
     }
 

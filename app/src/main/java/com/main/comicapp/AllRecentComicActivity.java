@@ -9,20 +9,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.main.comicapp.adapters.AllTitlesAdapter;
+import com.main.comicapp.adapters.RecentTitlesAdapter;
+import com.main.comicapp.models.Title;
 import com.google.firebase.firestore.Query;
-import com.main.comicapp.adapters.AllComicsAdapter;
-import com.main.comicapp.adapters.RecentComicsAdapter;
-import com.main.comicapp.models.Comic;
 import com.main.comicapp.utils.FirebaseUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AllRecentComicActivity extends AppCompatActivity implements RecentComicsAdapter.OnComicClickListener{
+public class AllRecentComicActivity extends AppCompatActivity implements RecentTitlesAdapter.OnTitleClickListener{
 
     private RecyclerView rvAllComics;
-    private AllComicsAdapter adapter;
-    private List<Comic> comics;
+    private AllTitlesAdapter adapter;
+    private List<Title> titles;
     private TextView tvClearHistory;
 
     @SuppressLint("MissingInflatedId")
@@ -34,18 +34,18 @@ public class AllRecentComicActivity extends AppCompatActivity implements RecentC
         rvAllComics = findViewById(R.id.rv_all_comics);
         rvAllComics.setLayoutManager(new GridLayoutManager(this, 3));
 
-        comics = new ArrayList<>();
+        titles = new ArrayList<>();
 
-        adapter = new AllComicsAdapter(this, comics);
+        adapter = new AllTitlesAdapter(this, titles);
         rvAllComics.setAdapter(adapter);
 
         tvClearHistory = findViewById(R.id.clear_history);
 
         tvClearHistory.setOnClickListener(view -> {
-            comics.clear();
+            titles.clear();
         });
 
-        fetchComicsFromFirebase("titles", Comic.class);
+        fetchComicsFromFirebase("titles", Title.class);
 
     }
 
@@ -55,9 +55,9 @@ public class AllRecentComicActivity extends AppCompatActivity implements RecentC
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onDataFetched(List<T> data) {
-                comics.clear();
+                titles.clear();
                 for (T item : data) {
-                    comics.add((Comic) item);  // Casting to Comic, ensure your collection contains Comics
+                    titles.add((Title) item);  // Casting to Title, ensure your collection contains Comics
                 }
                 adapter.notifyDataSetChanged();
             }
@@ -66,7 +66,7 @@ public class AllRecentComicActivity extends AppCompatActivity implements RecentC
 
 
     @Override
-    public void onComicClick(Comic comic) {
+    public void onTitleClick(Title title) {
         Intent intent = new Intent(this, ReadingActivity.class);
         startActivity(intent);
     }
