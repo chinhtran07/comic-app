@@ -19,6 +19,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.main.comicapp.adapters.AllComicsAdapter;
 import com.main.comicapp.adapters.RecentComicsAdapter;
@@ -60,7 +61,8 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private <T> void fetchComicsFromFirebase(String collectionName, Class<T> type) {
-        FirebaseUtils.getInstance().fetchData(collectionName, type, new FirebaseUtils.DataFetchListener<T>() {
+        Query query = FirebaseUtils.getInstance().getDb().collection(collectionName);
+        FirebaseUtils.getInstance().fetchData(collectionName, query, type, new FirebaseUtils.DataFetchListener<T>() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onDataFetched(List<T> data) {
