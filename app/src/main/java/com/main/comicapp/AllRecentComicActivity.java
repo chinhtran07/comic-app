@@ -9,18 +9,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.main.comicapp.adapters.AllComicsAdapter;
-import com.main.comicapp.adapters.RecentComicsAdapter;
+import com.main.comicapp.adapters.AllTitlesAdapter;
+import com.main.comicapp.adapters.RecentTitlesAdapter;
 import com.main.comicapp.models.Title;
 import com.main.comicapp.utils.FirebaseUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AllRecentComicActivity extends AppCompatActivity implements RecentComicsAdapter.OnComicClickListener{
+public class AllRecentComicActivity extends AppCompatActivity implements RecentTitlesAdapter.OnTitleClickListener{
 
     private RecyclerView rvAllComics;
-    private AllComicsAdapter adapter;
+    private AllTitlesAdapter adapter;
     private List<Title> titles;
     private TextView tvClearHistory;
 
@@ -35,7 +35,7 @@ public class AllRecentComicActivity extends AppCompatActivity implements RecentC
 
         titles = new ArrayList<>();
 
-        adapter = new AllComicsAdapter(this, titles);
+        adapter = new AllTitlesAdapter(this, titles);
         rvAllComics.setAdapter(adapter);
 
         tvClearHistory = findViewById(R.id.clear_history);
@@ -55,7 +55,7 @@ public class AllRecentComicActivity extends AppCompatActivity implements RecentC
             public void onDataFetched(List<T> data) {
                 titles.clear();
                 for (T item : data) {
-                    titles.add((Title) item);  // Casting to Comic, ensure your collection contains Comics
+                    titles.add((Title) item);  // Casting to Title, ensure your collection contains Comics
                 }
                 adapter.notifyDataSetChanged();
             }
@@ -64,7 +64,7 @@ public class AllRecentComicActivity extends AppCompatActivity implements RecentC
 
 
     @Override
-    public void onComicClick(Title title) {
+    public void onTitleClick(Title title) {
         Intent intent = new Intent(this, ReadingActivity.class);
         startActivity(intent);
     }

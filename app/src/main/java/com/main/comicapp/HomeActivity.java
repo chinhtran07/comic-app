@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.main.comicapp.adapters.RecentComicsAdapter;
+import com.main.comicapp.adapters.RecentTitlesAdapter;
 import com.main.comicapp.models.Title;
 import com.main.comicapp.utils.FirebaseUtils;
 
@@ -19,7 +19,7 @@ import java.util.List;
 public class HomeActivity extends AppCompatActivity {
 
     private RecyclerView rvRecentComics;
-    private RecentComicsAdapter adapter;
+    private RecentTitlesAdapter adapter;
     private List<Title> recentTitles;
     private FirebaseFirestore db;
 
@@ -43,7 +43,7 @@ public class HomeActivity extends AppCompatActivity {
         rvRecentComics.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
         recentTitles = new ArrayList<>();
-        adapter = new RecentComicsAdapter(this, recentTitles);
+        adapter = new RecentTitlesAdapter(this, recentTitles);
         rvRecentComics.setAdapter(adapter);
     }
 
@@ -54,7 +54,7 @@ public class HomeActivity extends AppCompatActivity {
             public void onDataFetched(List<T> data) {
                 recentTitles.clear();
                 for (T item : data) {
-                    recentTitles.add((Title) item);  // Casting to Comic, ensure your collection contains Comics
+                    recentTitles.add((Title) item);  // Casting to Title, ensure your collection contains Comics
                 }
                 adapter.notifyDataSetChanged();
             }
