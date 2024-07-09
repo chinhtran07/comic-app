@@ -21,7 +21,7 @@ def delete_collection(collection_ref, batch_size):
         return delete_collection(collection_ref, batch_size)
 
 
-cred = credentials.Certificate("../data/comic-app-b344c-firebase-adminsdk-ot4l1-e17e2b10be.json")
+cred = credentials.Certificate("../data/key/comic-app-b344c-firebase-adminsdk-ot4l1-e17e2b10be.json")
 app = firebase_admin.initialize_app(cred)
 
 db = firestore.client()
