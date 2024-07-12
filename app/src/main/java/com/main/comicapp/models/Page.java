@@ -2,7 +2,10 @@ package com.main.comicapp.models;
 
 import com.google.firebase.firestore.PropertyName;
 
-public class Page {
+import java.io.Serializable;
+
+public class Page implements Serializable {
+    private String id;
     @PropertyName("page_number")
     private int pageNumber;
     @PropertyName("image_path")
@@ -18,6 +21,14 @@ public class Page {
         this.pageNumber = pageNumber;
         this.imagePath = imagePath;
         this.chapterId = chapterId;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public int getPageNumber() {

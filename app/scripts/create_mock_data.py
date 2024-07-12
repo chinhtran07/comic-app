@@ -10,6 +10,7 @@ def hash_password(password):
     hashed_password = bcrypt.hashpw(password.encode(), salt)
     return hashed_password
 
+
 # User Collection
 users = [
     {
@@ -36,7 +37,7 @@ users = [
 ]
 
 # Category Collection
-categories = [
+genres = [
     {
         "id": str(uuid.uuid4()),
         "name": "Thiếu nhi"
@@ -44,6 +45,14 @@ categories = [
     {
         "id": str(uuid.uuid4()),
         "name": "Tiểu thuyết"
+    },
+    {
+        "id": str(uuid.uuid4()),
+        "name": "Huyền bí"
+    },
+    {
+        "id": str(uuid.uuid4()),
+        "name": "Gia đình"
     }
 ]
 
@@ -73,7 +82,7 @@ titles = [
         "created_date": datetime(year=2024, month=7, day=2, hour=8, minute=30, second=12, tzinfo=ZoneInfo("Asia/Ho_Chi_Minh")).isoformat(),
         "format": "COMIC",
         "cover": "cover_path",
-        "category_id": categories[0]["id"]
+        "genres": [genres[0]["id"]]
     },
     {
         "id": str(uuid.uuid4()),
@@ -83,7 +92,7 @@ titles = [
         "created_date": datetime(year=2020, month=12, day=27, hour=17, minute=30, second=12, tzinfo=ZoneInfo("Asia/Ho_Chi_Minh")).isoformat(),
         "format": "NOVEL",
         "cover": "cover_path",
-        "category_id": categories[1]["id"]
+        "genres": [genres[1]["id"]]
     }
 ]
 
@@ -215,8 +224,8 @@ filedata = [
         "data": users
     },
     {
-        "name": "categories",
-        "data": categories
+        "name": "genres",
+        "data": genres
     },
     {
         "name": "titles",
@@ -247,6 +256,7 @@ filedata = [
         "data": titles_authors
     },
 ]
+
 
 for idx in range(len(filedata)):
     with open(f"../data/{filedata[idx]["name"]}.json", "w", encoding="utf-8") as write_file:

@@ -1,11 +1,15 @@
 package com.main.comicapp.models;
 
 import com.google.firebase.firestore.PropertyName;
+import com.main.comicapp.enums.PubStatus;
+import com.main.comicapp.enums.TitleFormat;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 
-public class Title {
+public class Title implements Serializable {
+    private String id;
     @PropertyName("name")
     private String title;
     @PropertyName("created_date")
@@ -31,6 +35,14 @@ public class Title {
         this.pubStatus = PubStatus.valueOf(pubStatus);
         this.titleFormat = TitleFormat.valueOf(titleFormat);
         this.genres = genres;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -89,11 +101,5 @@ public class Title {
         this.genres = genres;
     }
 
-    private enum PubStatus {
-        ONGOING, COMPLETED
-    }
 
-    private enum TitleFormat {
-        COMIC, NOVEL
-    }
 }

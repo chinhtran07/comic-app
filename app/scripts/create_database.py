@@ -29,7 +29,7 @@ filedata = [
         "name": "users",
     },
     {
-        "name": "categories",
+        "name": "genres",
     },
     {
         "name": "titles",
