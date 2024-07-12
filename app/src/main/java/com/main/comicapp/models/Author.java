@@ -1,6 +1,11 @@
 package com.main.comicapp.models;
 
-public class Author {
+import java.io.Serializable;
+
+public class Author implements Serializable {
+
+
+    private String id;
     private String name;
 
     public Author() {
@@ -9,6 +14,14 @@ public class Author {
 
     public Author(String name) {
         this.name = name;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {

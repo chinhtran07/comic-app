@@ -2,9 +2,11 @@ package com.main.comicapp.models;
 
 import com.google.firebase.firestore.PropertyName;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Comment {
+public class Comment implements Serializable {
+    private String id;
     @PropertyName("content")
     private String text;
     @PropertyName("base_comment_id")
@@ -23,6 +25,14 @@ public class Comment {
         this.baseCommentId = baseCommendId;
         this.userId = userId;
         this.titleId = titleId;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getText() {

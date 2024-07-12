@@ -2,8 +2,12 @@ package com.main.comicapp.models;
 
 
 import com.google.firebase.firestore.PropertyName;
+import com.main.comicapp.enums.UserRole;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
+    private String id;
     private String username;
     private String password;
     private String email;
@@ -52,10 +56,5 @@ public class User {
 
     public void setUserRole(String userRole) {
         this.userRole = UserRole.valueOf(userRole);
-    }
-
-
-    private enum UserRole {
-        ADMIN, USER
     }
 }

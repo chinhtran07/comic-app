@@ -2,9 +2,11 @@ package com.main.comicapp.models;
 
 import com.google.firebase.firestore.PropertyName;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Chapter {
+public class Chapter implements Serializable {
+    private String id;
     @PropertyName("chapter_number")
     private int chapterNumber;
     @PropertyName("content")
@@ -23,6 +25,14 @@ public class Chapter {
         this.description = description;
         this.uploadedDate = uploadedDate;
         this.titleId = titleId;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getDescription() {
