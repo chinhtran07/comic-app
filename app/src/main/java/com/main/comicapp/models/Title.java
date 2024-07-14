@@ -1,13 +1,12 @@
 package com.main.comicapp.models;
 
-import com.google.firebase.firestore.PropertyName;
 import com.main.comicapp.enums.PubStatus;
 import com.main.comicapp.enums.TitleFormat;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
+
 
 public class Title implements Serializable {
     private String id;
