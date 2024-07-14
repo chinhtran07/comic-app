@@ -43,20 +43,16 @@ public class FirebaseUtils {
         void onDataFetched(List<T> data);
     }
 
-    public <T> ListenerRegistration fetchData(String collectionName, Query query, final Class<T> type, final DataFetchListener<T> listener) {
-
-        // Use of query path validation not needed in the context of using a single database.
-        return query.addSnapshotListener((value, error) -> {
+    public <T> void fetchData(String collectionName, Query query, final Class<T> type, final DataFetchListener<T> listener) {
+        query.addSnapshotListener((value, error) -> {
             if (error != null) {
-                String errorMessage = "Error fetching data from " + collectionName + ": " + (error.getMessage() != null ? error.getMessage() : "Unknown error");
-                Log.e("FirebaseDataManager", errorMessage);
+                Log.e("FirebaseDataManager", "Error fetching data from " + collectionName + ": " + error.getMessage(), error);
                 return;
             }
 
             List<T> dataList = new ArrayList<>();
             if (value != null) {
                 for (QueryDocumentSnapshot document : value) {
-                    Log.d("Firebase", "Document Data: " + document.getData());
                     try {
                         T item = document.toObject(type);
                         dataList.add(item);

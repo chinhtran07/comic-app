@@ -10,7 +10,7 @@ import java.util.List;
 
 public class Title implements Serializable {
     private String id;
-    private String name;
+    private String title;
     private Date uploadedDate;
     private String cover;
     private int views;
@@ -22,13 +22,13 @@ public class Title implements Serializable {
 
     }
 
-    public Title(String name, Date uploadedDate, String cover, int views, PubStatus pubStatus, TitleFormat titleFormat, List<Genre> genres) {
-        this.name = name;
+    public Title(String title, Date uploadedDate, String cover, int views, String pubStatus, String titleFormat, List<Genre> genres) {
+        this.title = title;
         this.uploadedDate = uploadedDate;
         this.cover = cover;
         this.views = views;
-        this.pubStatus = pubStatus;
-        this.titleFormat = titleFormat;
+        this.pubStatus = PubStatus.valueOf(pubStatus);
+        this.titleFormat = TitleFormat.valueOf(titleFormat);
         this.genres = genres;
     }
 
@@ -40,20 +40,20 @@ public class Title implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public Date getUploadedDate() {
         return uploadedDate;
     }
 
-    public void setUploadedDate(Date createdDate) {
-        this.uploadedDate = createdDate;
+    public void setUploadedDate(Date uploadedDate) {
+        this.uploadedDate = uploadedDate;
     }
 
     public String getCover() {
@@ -72,20 +72,20 @@ public class Title implements Serializable {
         this.views = views;
     }
 
-    public PubStatus getPubStatus() {
-        return pubStatus;
+    public String getPubStatus() {
+        return pubStatus.name();
     }
 
-    public void setPubStatus(PubStatus pubStatus) {
-        this.pubStatus = pubStatus;
+    public void setPubStatus(String pubStatus) {
+        this.pubStatus = PubStatus.valueOf(pubStatus);
     }
 
-    public TitleFormat getTitleFormat() {
-        return titleFormat;
+    public String getTitleFormat() {
+        return titleFormat.name();
     }
 
-    public void setTitleFormat(TitleFormat titleFormat) {
-        this.titleFormat = titleFormat;
+    public void setTitleFormat(String titleFormat) {
+        this.titleFormat = TitleFormat.valueOf(titleFormat);
     }
 
     public List<Genre> getGenres() {

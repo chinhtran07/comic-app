@@ -7,13 +7,9 @@ import java.util.Date;
 
 public class Chapter implements Serializable {
     private String id;
-    @PropertyName("chapter_number")
     private int chapterNumber;
-    @PropertyName("content")
     private String description;
-    @PropertyName("uploaded_date")
     private Date uploadedDate;
-    @PropertyName("title_id")
     private String titleId;
 
     public Chapter() {

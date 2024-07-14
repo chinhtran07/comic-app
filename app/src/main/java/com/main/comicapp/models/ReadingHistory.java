@@ -7,11 +7,8 @@ import java.util.Date;
 
 public class ReadingHistory implements Serializable {
     private String id;
-    @PropertyName("user_id")
     private String userId;
-    @PropertyName("title_id")
     private String titleId;
-    @PropertyName("lastest_read")
     private Date lastTimeReading;
 
     public ReadingHistory() {

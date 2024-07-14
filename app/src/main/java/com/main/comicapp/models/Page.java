@@ -6,11 +6,8 @@ import java.io.Serializable;
 
 public class Page implements Serializable {
     private String id;
-    @PropertyName("page_number")
     private int pageNumber;
-    @PropertyName("image_path")
     private String imagePath;
-    @PropertyName("chapter_id")
     private String chapterId;
 
     public Page() {

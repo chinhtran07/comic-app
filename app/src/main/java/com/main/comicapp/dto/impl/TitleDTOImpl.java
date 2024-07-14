@@ -34,13 +34,12 @@ import java.util.Map;
 public class TitleDTOImpl implements TitleDTO{
 
     private static final String TAG = "com.main.comicapp.dto.impl.TitleDTOImpl";
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
     public void getAllTitleRealtime(FirebaseUtils.DataFetchListener<Title> listener)  {
         List<Title> titles = new ArrayList<>();
 
-        db.collection("titles")
+        FirebaseUtils.getInstance().getDb().collection("titles")
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -55,7 +54,7 @@ public class TitleDTOImpl implements TitleDTO{
                     Map<String, Object> data = document.getData();
                     assert data != null;
                     if (validateTitle(data)) {
-                        title.setName((String)data.get("name"));
+                        title.setTitle((String)data.get("name"));
                         title.setCover((String)data.get("cover"));
                         @SuppressLint("SimpleDateFormat")
                         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
@@ -65,8 +64,8 @@ public class TitleDTOImpl implements TitleDTO{
                         } catch (ParseException e) {
                             Log.e("Error", "onEvent: Parse Exception", e);
                         }
-                        title.setPubStatus(PubStatus.valueOf((String)data.get("pubStatus")));
-                        title.setTitleFormat(TitleFormat.valueOf((String)data.get("titleFormat")));
+                        title.setPubStatus((String)data.get("pubStatus"));
+                        title.setTitleFormat((String)data.get("titleFormat"));
                         List<Genre> genres = new ArrayList<>();
                         //noinspection unchecked
                         List<String> genreIds = (List<String>) data.get("genres");
@@ -74,7 +73,7 @@ public class TitleDTOImpl implements TitleDTO{
                         for (String id : genreIds) {
                             Genre genre = new Genre();
                             genre.setId(id);
-                            db.collection("genres").document(id).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                            FirebaseUtils.getInstance().getDb().collection("genres").document(id).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                 @Override
                                 public void onSuccess(DocumentSnapshot documentSnapshot) {
                                     genre.setName((String)documentSnapshot.get("name"));

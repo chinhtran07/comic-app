@@ -6,17 +6,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.main.comicapp.R;
 import com.main.comicapp.models.Title;
 
 import java.util.List;
 
-public class AllTitlesAdapter extends RecyclerView.Adapter<AllTitlesAdapter.ComicViewHolder> {
+public class TitlesAdapter extends RecyclerView.Adapter<TitlesAdapter.TitleViewHolder> {
+
+    public void setListener(OnTitleClickListener listener) {
+        this.listener = listener;
+    }
+
+    private FirebaseStorage storage = FirebaseStorage.getInstance("gs://comic-app-b344c.appspot.com");
+
 
     public interface OnTitleClickListener {
         void onTitleClick(Title title);
@@ -26,31 +34,27 @@ public class AllTitlesAdapter extends RecyclerView.Adapter<AllTitlesAdapter.Comi
     private final List<Title> titles;
     private OnTitleClickListener listener;
 
-    public AllTitlesAdapter(Context context, List<Title> titles) {
+    public TitlesAdapter(Context context, List<Title> titles) {
         this.context = context;
         this.titles = titles;
-    }
-
-    public AllTitlesAdapter(Context context, List<Title> titles, OnTitleClickListener listener) {
-        this.context = context;
-        this.titles = titles;
-        this.listener = listener;
     }
 
     @NonNull
     @Override
-    public ComicViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public TitleViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_comic, parent, false);
-        return new ComicViewHolder(view);
+        return new TitleViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ComicViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull TitleViewHolder holder, int position) {
         Title title = titles.get(position);
+        StorageReference storageReference = storage.getReference().child(title.getCover());
+
         // Set comic cover image and title
-        holder.tvTitleName.setText(title.getTitle());
+        holder.tvTitleName.setText(title.getName());
         Glide.with(context)
-                .load(title.getCoverUrl())
+                .load("https://firebasestorage.googleapis.com/v0/b/comic-app-b344c.appspot.com/o/page1_image1.png?alt=media&token=9dbd6a76-190a-4ad0-a313-a07dcb8828e3")
                 .into(holder.ivTitleCover);
 
         holder.itemView.setOnClickListener(v -> listener.onTitleClick(title));
@@ -61,16 +65,15 @@ public class AllTitlesAdapter extends RecyclerView.Adapter<AllTitlesAdapter.Comi
         return titles.size();
     }
 
-    public static class ComicViewHolder extends RecyclerView.ViewHolder {
+    public static class TitleViewHolder extends RecyclerView.ViewHolder {
         ImageView ivTitleCover;
         TextView tvTitleName;
 
-        public ComicViewHolder(@NonNull View itemView) {
+        public TitleViewHolder(@NonNull View itemView) {
             super(itemView);
             ivTitleCover = itemView.findViewById(R.id.iv_title_cover);
             tvTitleName = itemView.findViewById(R.id.tv_title_name);
         }
     }
-
 
 }
