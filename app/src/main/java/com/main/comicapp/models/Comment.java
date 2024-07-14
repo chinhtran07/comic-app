@@ -7,13 +7,9 @@ import java.util.Date;
 
 public class Comment implements Serializable {
     private String id;
-    @PropertyName("content")
     private String text;
-    @PropertyName("base_comment_id")
     private String baseCommentId;
-    @PropertyName("user_id")
     private String userId;
-    @PropertyName("title_id")
     private String titleId;
 
     public Comment() {
