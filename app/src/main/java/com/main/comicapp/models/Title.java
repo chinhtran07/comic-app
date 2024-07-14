@@ -56,11 +56,11 @@ public class Title implements Serializable {
         this.uploadedDate = uploadedDate;
     }
 
-    public String getCoverUrl() {
+    public String getCover() {
         return cover;
     }
 
-    public void setCoverUrl(String cover) {
+    public void setCover(String cover) {
         this.cover = cover;
     }
 
