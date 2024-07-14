@@ -4,8 +4,10 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,7 +17,11 @@ import com.main.comicapp.models.Title;
 
 import java.util.List;
 
-public class RecentTitlesAdapter extends RecyclerView.Adapter<RecentTitlesAdapter.TitleViewHolder> {
+public class TitlesAdapter extends RecyclerView.Adapter<TitlesAdapter.TitleViewHolder> {
+
+    public void setListener(OnTitleClickListener listener) {
+        this.listener = listener;
+    }
 
     public interface OnTitleClickListener {
         void onTitleClick(Title title);
@@ -23,17 +29,11 @@ public class RecentTitlesAdapter extends RecyclerView.Adapter<RecentTitlesAdapte
 
     private final Context context;
     private final List<Title> titles;
-    private AllTitlesAdapter.OnTitleClickListener listener;
+    private OnTitleClickListener listener;
 
-    public RecentTitlesAdapter(Context context, List<Title> titles) {
+    public TitlesAdapter(Context context, List<Title> titles) {
         this.context = context;
         this.titles = titles;
-    }
-
-    public RecentTitlesAdapter(Context context, List<Title> titles, AllTitlesAdapter.OnTitleClickListener listener) {
-        this.context = context;
-        this.titles = titles;
-        this.listener = listener;
     }
 
     @NonNull
@@ -46,7 +46,6 @@ public class RecentTitlesAdapter extends RecyclerView.Adapter<RecentTitlesAdapte
     @Override
     public void onBindViewHolder(@NonNull TitleViewHolder holder, int position) {
         Title title = titles.get(position);
-        // Set comic cover image and title
         holder.tvTitleName.setText(title.getTitle());
         Glide.with(context)
                 .load(title.getCoverUrl())
@@ -70,4 +69,5 @@ public class RecentTitlesAdapter extends RecyclerView.Adapter<RecentTitlesAdapte
             tvTitleName = itemView.findViewById(R.id.tv_title_name);
         }
     }
+
 }

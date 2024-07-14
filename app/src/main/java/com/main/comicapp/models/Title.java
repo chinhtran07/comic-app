@@ -6,31 +6,27 @@ import com.main.comicapp.enums.TitleFormat;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 public class Title implements Serializable {
     private String id;
-    @PropertyName("name")
     private String title;
-    @PropertyName("created_date")
-    private Date createdDate;
-    @PropertyName("cover")
-    private String coverUrl;
+    private Date uploadedDate;
+    private String cover;
     private int views;
-    @PropertyName("pub_status")
     private PubStatus pubStatus;
-    @PropertyName("format")
     private TitleFormat titleFormat;
-    private Set<Genre> genres;
+    private List<Genre> genres;
 
     public Title() {
 
     }
 
-    public Title(String title, Date createdDate, String coverUrl, int views, String pubStatus, String titleFormat, Set<Genre> genres) {
+    public Title(String title, Date uploadedDate, String cover, int views, String pubStatus, String titleFormat, List<Genre> genres) {
         this.title = title;
-        this.createdDate = createdDate;
-        this.coverUrl = coverUrl;
+        this.uploadedDate = uploadedDate;
+        this.cover = cover;
         this.views = views;
         this.pubStatus = PubStatus.valueOf(pubStatus);
         this.titleFormat = TitleFormat.valueOf(titleFormat);
@@ -54,19 +50,19 @@ public class Title implements Serializable {
     }
 
     public Date getUploadedDate() {
-        return createdDate;
+        return uploadedDate;
     }
 
-    public void setUploadedDate(Date createdDate) {
-        this.createdDate = createdDate;
+    public void setUploadedDate(Date uploadedDate) {
+        this.uploadedDate = uploadedDate;
     }
 
     public String getCoverUrl() {
-        return coverUrl;
+        return cover;
     }
 
-    public void setCoverUrl(String coverUrl) {
-        this.coverUrl = coverUrl;
+    public void setCoverUrl(String cover) {
+        this.cover = cover;
     }
 
     public int getViews() {
@@ -93,11 +89,11 @@ public class Title implements Serializable {
         this.titleFormat = TitleFormat.valueOf(titleFormat);
     }
 
-    public Set<Genre> getGenres() {
+    public List<Genre> getGenres() {
         return genres;
     }
 
-    public void setGenres(Set<Genre> genres) {
+    public void setGenres(List<Genre> genres) {
         this.genres = genres;
     }
 
