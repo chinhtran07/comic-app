@@ -10,12 +10,17 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.main.comicapp.R;
 import com.main.comicapp.models.Title;
 
 import java.util.List;
 
 public class RecentTitlesAdapter extends RecyclerView.Adapter<RecentTitlesAdapter.TitleViewHolder> {
+
+    private FirebaseStorage storage = FirebaseStorage.getInstance("gs://comic-app-b344c.appspot.com");
+
 
     public interface OnTitleClickListener {
         void onTitleClick(Title title);
@@ -46,10 +51,12 @@ public class RecentTitlesAdapter extends RecyclerView.Adapter<RecentTitlesAdapte
     @Override
     public void onBindViewHolder(@NonNull TitleViewHolder holder, int position) {
         Title title = titles.get(position);
+        StorageReference storageReference = storage.getReference().child(title.getCover());
+
         // Set comic cover image and title
-        holder.tvTitleName.setText(title.getTitle());
+        holder.tvTitleName.setText(title.getName());
         Glide.with(context)
-                .load(title.getCoverUrl())
+                .load("https://firebasestorage.googleapis.com/v0/b/comic-app-b344c.appspot.com/o/page1_image1.png?alt=media&token=9dbd6a76-190a-4ad0-a313-a07dcb8828e3")
                 .into(holder.ivTitleCover);
 
         holder.itemView.setOnClickListener(v -> listener.onTitleClick(title));
