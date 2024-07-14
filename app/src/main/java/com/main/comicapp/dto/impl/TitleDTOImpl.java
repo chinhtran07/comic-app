@@ -54,7 +54,7 @@ public class TitleDTOImpl implements TitleDTO{
                     Map<String, Object> data = document.getData();
                     assert data != null;
                     if (validateTitle(data)) {
-                        title.setTitle((String)data.get("name"));
+                        title.setTitle((String)data.get("title"));
                         title.setCover((String)data.get("cover"));
                         @SuppressLint("SimpleDateFormat")
                         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");

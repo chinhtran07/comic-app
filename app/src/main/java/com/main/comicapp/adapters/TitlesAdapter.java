@@ -52,7 +52,7 @@ public class TitlesAdapter extends RecyclerView.Adapter<TitlesAdapter.TitleViewH
         StorageReference storageReference = storage.getReference().child(title.getCover());
 
         // Set comic cover image and title
-        holder.tvTitleName.setText(title.getName());
+        holder.tvTitleName.setText(title.getTitle());
         Glide.with(context)
                 .load("https://firebasestorage.googleapis.com/v0/b/comic-app-b344c.appspot.com/o/page1_image1.png?alt=media&token=9dbd6a76-190a-4ad0-a313-a07dcb8828e3")
                 .into(holder.ivTitleCover);
