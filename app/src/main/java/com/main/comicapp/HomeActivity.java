@@ -14,7 +14,7 @@ import com.main.comicapp.models.Title;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.main.comicapp.adapters.AllComicsAdapter;
+import com.main.comicapp.adapters.AllTitlesAdapter;
 import com.main.comicapp.utils.FirebaseUtils;
 
 import java.util.ArrayList;
