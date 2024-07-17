@@ -2,6 +2,7 @@ package com.main.comicapp.utils;
 
 import android.annotation.SuppressLint;
 
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class FirebaseUtil {

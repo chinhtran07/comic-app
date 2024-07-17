@@ -18,6 +18,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
+import com.main.comicapp.dtos.TitleDto;
 import com.main.comicapp.models.ReadingHistory;
 import com.main.comicapp.repositories.ReadingHistoryRepository;
 import com.main.comicapp.repositories.TitleRepository;
@@ -104,7 +105,7 @@ public class TitleRepositoryImpl implements TitleRepository {
                 if (task.isSuccessful()) {
                     List<Title> titleList = new ArrayList<>();
                     for (DocumentSnapshot document : task.getResult()) {
-                        Title title = document.toObject(Title.class);
+                        Title title = TitleDto.getInstance().toObject(document.getData(), document.getId());
                         titleList.add(title);
                     }
                     titlesLiveData.setValue(titleList);
@@ -140,7 +141,7 @@ public class TitleRepositoryImpl implements TitleRepository {
                                     if (task.isSuccessful()) {
                                         DocumentSnapshot document = task.getResult();
                                         if (document != null && document.exists()) {
-                                            Title title = document.toObject(Title.class);
+                                            Title title = TitleDto.getInstance().toObject(document.getData(), titleId);
                                             if (title != null) {
                                                 recentTitles.add(title);
                                             }
@@ -163,72 +164,4 @@ public class TitleRepositoryImpl implements TitleRepository {
     private CollectionReference getTitleReference() {
         return FirebaseUtil.getFirestore().collection(collectionName);
     }
-
-//    @Override
-//    public void getAllTitleRealtime(FirebaseUtils.DataFetchListener<Title> listener)  {
-//        List<Title> titles = new ArrayList<>();
-//
-//        FirebaseUtils.getInstance().getDb().collection("titles")
-//                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-//            @Override
-//            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-//                if (error != null) {
-//                    Log.e(TAG, "onEvent: Listen failed", error);
-//                    return;
-//                }
-//                assert value != null;
-//                for (DocumentSnapshot document: value.getDocuments()) {
-//                    Title title = new Title();
-//                    title.setId(document.getId());
-//                    Map<String, Object> data = document.getData();
-//                    assert data != null;
-//                    if (validateTitle(data)) {
-//                        title.setTitle((String)data.get("title"));
-//                        title.setCover((String)data.get("cover"));
-//                        @SuppressLint("SimpleDateFormat")
-//                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-//                        try {
-//                            Date uploadedDate = formatter.parse((String)data.get("uploadedDate"));
-//                            title.setUploadedDate(uploadedDate);
-//                        } catch (ParseException e) {
-//                            Log.e("Error", "onEvent: Parse Exception", e);
-//                        }
-//                        title.setPubStatus((String)data.get("pubStatus"));
-//                        title.setTitleFormat((String)data.get("titleFormat"));
-//                        List<Genre> genres = new ArrayList<>();
-//                        //noinspection unchecked
-//                        List<String> genreIds = (List<String>) data.get("genres");
-//                        assert genreIds != null;
-//                        for (String id : genreIds) {
-//                            Genre genre = new Genre();
-//                            genre.setId(id);
-//                            FirebaseUtils.getInstance().getDb().collection("genres").document(id).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-//                                @Override
-//                                public void onSuccess(DocumentSnapshot documentSnapshot) {
-//                                    genre.setName((String)documentSnapshot.get("name"));
-//                                    genres.add(genre);
-//                                }
-//                            });
-//                        }
-//                        title.setGenres(genres);
-//                        titles.add(title);
-//                    }
-//                }
-//
-//                listener.onDataFetched(titles);
-//            }
-//        });
-//    }
-//
-//    @Override
-//    public Title getTitle(String id) {
-//        return null;
-//    }
-//
-//    private boolean validateTitle(Map<String, Object> data) {
-//        for (Map.Entry<String, Object> entry : data.entrySet()) {
-//            if (entry.getValue() == null) return false;
-//        }
-//        return true;
-//    }
 }

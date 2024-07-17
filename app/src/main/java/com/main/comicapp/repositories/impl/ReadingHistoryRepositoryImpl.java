@@ -19,8 +19,6 @@ import java.util.List;
 
 public class ReadingHistoryRepositoryImpl implements ReadingHistoryRepository {
 
-    private final String collectionName = "reading_histories";
-
     private static ReadingHistoryRepositoryImpl instance;
 
     private ReadingHistoryRepositoryImpl() {
@@ -81,6 +79,7 @@ public class ReadingHistoryRepositoryImpl implements ReadingHistoryRepository {
     }
 
     private CollectionReference getReadingHistoryReference() {
+        String collectionName = "reading_histories";
         return FirebaseUtil.getFirestore().collection(collectionName);
     }
 }
