@@ -15,19 +15,19 @@
         tools:targetApi="31"
         tools:ignore="HardcodedDebugMode">
         <activity
-            android:name=".AllRecentComicActivity"
+            android:name=".activities.AllRecentComicActivity"
             android:exported="true" />
         <activity
-            android:name=".ReadingActivity"
+            android:name=".activities.ReadingActivity"
             android:exported="true" />
         <activity
-            android:name=".CommentActivity"
+            android:name=".activities.CommentActivity"
             android:exported="true" />
         <activity
-            android:name=".TitleDetailActivity"
+            android:name=".activities.TitleDetailActivity"
             android:exported="true" />
         <activity
-            android:name=".HomeActivity"
+            android:name=".activities.HomeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -36,16 +36,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".RegisterActivity"
+            android:name=".activities.RegisterActivity"
             android:exported="true" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".activities.LoginActivity"
             android:exported="true" />
         <activity
-            android:name=".UserProfileActivity"
+            android:name=".activities.UserProfileActivity"
             android:exported="true" />
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.MainActivity"
             android:exported="true">
 
             <!-- <intent-filter> -->

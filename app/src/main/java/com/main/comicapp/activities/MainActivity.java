@@ -1,4 +1,4 @@
-package com.main.comicapp;
+package com.main.comicapp.activities;
 
 import android.os.Bundle;
 
@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import com.main.comicapp.R;
 
 public class MainActivity extends AppCompatActivity {
 

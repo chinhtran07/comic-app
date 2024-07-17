@@ -1,5 +1,6 @@
 package com.main.comicapp.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,42 +20,47 @@ import java.util.List;
 
 public class TitlesAdapter extends RecyclerView.Adapter<TitlesAdapter.TitleViewHolder> {
 
+    private List<Title> titles;
+    private OnTitleClickListener listener;
+    private Context context;
+    private FirebaseStorage storage;
+
     public void setListener(OnTitleClickListener listener) {
         this.listener = listener;
     }
 
-    private FirebaseStorage storage = FirebaseStorage.getInstance("gs://comic-app-b344c.appspot.com");
-
+    @SuppressLint("NotifyDataSetChanged")
+    public void setTitles(List<Title> titles) {
+        this.titles = titles;
+        notifyDataSetChanged();
+    }
 
     public interface OnTitleClickListener {
         void onTitleClick(Title title);
     }
 
-    private final Context context;
-    private final List<Title> titles;
-    private OnTitleClickListener listener;
-
     public TitlesAdapter(Context context, List<Title> titles) {
-        this.context = context;
         this.titles = titles;
+        this.context = context;
+        this.storage = FirebaseStorage.getInstance();
     }
 
     @NonNull
     @Override
     public TitleViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_comic, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_comic, parent, false);
         return new TitleViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull TitleViewHolder holder, int position) {
         Title title = titles.get(position);
-        StorageReference storageReference = storage.getReference().child(title.getCover());
-
         // Set comic cover image and title
         holder.tvTitleName.setText(title.getTitle());
+
+        StorageReference storageRef = storage.getReference().child(title.getCover());
         Glide.with(context)
-                .load("https://firebasestorage.googleapis.com/v0/b/comic-app-b344c.appspot.com/o/page1_image1.png?alt=media&token=9dbd6a76-190a-4ad0-a313-a07dcb8828e3")
+                .load(storageRef)
                 .into(holder.ivTitleCover);
 
         holder.itemView.setOnClickListener(v -> listener.onTitleClick(title));
@@ -62,7 +68,7 @@ public class TitlesAdapter extends RecyclerView.Adapter<TitlesAdapter.TitleViewH
 
     @Override
     public int getItemCount() {
-        return titles.size();
+        return titles != null ? titles.size() : 0;
     }
 
     public static class TitleViewHolder extends RecyclerView.ViewHolder {
@@ -76,4 +82,9 @@ public class TitlesAdapter extends RecyclerView.Adapter<TitlesAdapter.TitleViewH
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
+    public void clearTitles() {
+        titles.clear();
+        notifyDataSetChanged();
+    }
 }
