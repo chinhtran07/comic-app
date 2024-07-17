@@ -1,4 +1,4 @@
-package com.main.comicapp;
+package com.main.comicapp.activities;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
@@ -8,6 +8,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.main.comicapp.R;
+
 import java.util.Calendar;
 
 public class RegisterActivity extends AppCompatActivity {
