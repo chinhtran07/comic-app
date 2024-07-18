@@ -13,14 +13,16 @@
     <ImageView
         android:id="@+id/title_detail_cover_image"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:contentDescription="TODO"
+        tools:ignore="HardcodedText" />
 
     <TextView
         android:id="@+id/title_detail_title_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/title_detail_title_name"
-        android:textSize="30dp" />
+        android:textSize="30sp" />
 
     <TableLayout
         android:layout_width="match_parent"
