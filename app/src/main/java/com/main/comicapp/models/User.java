@@ -1,7 +1,6 @@
 package com.main.comicapp.models;
 
 
-import com.google.firebase.firestore.PropertyName;
 import com.main.comicapp.enums.UserRole;
 
 import java.io.Serializable;

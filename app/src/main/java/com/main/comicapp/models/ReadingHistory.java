@@ -1,7 +1,5 @@
 package com.main.comicapp.models;
 
-import com.google.firebase.firestore.PropertyName;
-
 import java.io.Serializable;
 import java.util.Date;
 

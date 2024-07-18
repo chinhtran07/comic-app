@@ -1,36 +1,23 @@
 package com.main.comicapp.repositories.impl;
 
-import android.annotation.SuppressLint;
-import android.util.Log;
-
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
-import com.main.comicapp.dtos.TitleDto;
 import com.main.comicapp.models.ReadingHistory;
-import com.main.comicapp.repositories.ReadingHistoryRepository;
-import com.main.comicapp.repositories.TitleRepository;
-import com.main.comicapp.models.Genre;
 import com.main.comicapp.models.Title;
-import com.main.comicapp.utils.FirebaseUtil;
+import com.main.comicapp.repositories.TitleRepository;
 import com.main.comicapp.viewmodels.ReadingHistoryViewModel;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -105,7 +92,7 @@ public class TitleRepositoryImpl implements TitleRepository {
                 if (task.isSuccessful()) {
                     List<Title> titleList = new ArrayList<>();
                     for (DocumentSnapshot document : task.getResult()) {
-                        Title title = TitleDto.getInstance().toObject(document.getData(), document.getId());
+                        Title title = Title.toObject(document.getData(), document.getId());
                         titleList.add(title);
                     }
                     titlesLiveData.setValue(titleList);
@@ -133,7 +120,7 @@ public class TitleRepositoryImpl implements TitleRepository {
                 // Now fetch corresponding titles using titleIds
                 List<Title> recentTitles = new ArrayList<>();
                 for (String titleId : titleIds) {
-                    FirebaseUtil.getFirestore().collection(collectionName).document(titleId)
+                    getTitleReference().document(titleId)
                             .get()
                             .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                 @Override
@@ -141,10 +128,8 @@ public class TitleRepositoryImpl implements TitleRepository {
                                     if (task.isSuccessful()) {
                                         DocumentSnapshot document = task.getResult();
                                         if (document != null && document.exists()) {
-                                            Title title = TitleDto.getInstance().toObject(document.getData(), titleId);
-                                            if (title != null) {
-                                                recentTitles.add(title);
-                                            }
+                                            Title title = Title.toObject(document.getData(), titleId);
+                                            recentTitles.add(title);
                                         }
                                     } else {
                                         // Handle error fetching document
@@ -162,6 +147,6 @@ public class TitleRepositoryImpl implements TitleRepository {
     }
 
     private CollectionReference getTitleReference() {
-        return FirebaseUtil.getFirestore().collection(collectionName);
+        return FirebaseFirestore.getInstance().collection(collectionName);
     }
 }

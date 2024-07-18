@@ -12,12 +12,10 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.firestore.Query;
 import com.main.comicapp.R;
 import com.main.comicapp.adapters.TitlesAdapter;
 import com.main.comicapp.models.Title;
 import com.main.comicapp.viewmodels.TitleViewModel;
-
 
 import java.util.HashMap;
 import java.util.List;

@@ -8,11 +8,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.main.comicapp.models.ReadingHistory;
 import com.main.comicapp.repositories.ReadingHistoryRepository;
-import com.main.comicapp.utils.FirebaseUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,6 +80,6 @@ public class ReadingHistoryRepositoryImpl implements ReadingHistoryRepository {
 
     private CollectionReference getReadingHistoryReference() {
         String collectionName = "reading_histories";
-        return FirebaseUtil.getFirestore().collection(collectionName);
+        return FirebaseFirestore.getInstance().collection(collectionName);
     }
 }
