@@ -89,10 +89,13 @@
         android:text="@string/title_detail_chapter_list"
         android:textSize="20dp" />
 
-    <ListView
-        android:layout_width="wrap_content"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/title_detail_chapter_list"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center" />
+        android:gravity="center"
+        android:padding="16dp"
+        tools:listitem="@layout/item_chapter"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -101,7 +104,6 @@
         android:textSize="20dp" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/title_detail_chapter_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center" />
