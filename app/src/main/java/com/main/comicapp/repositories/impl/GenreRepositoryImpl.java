@@ -8,9 +8,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.main.comicapp.models.Genre;
 import com.main.comicapp.repositories.GenreRepository;
-import com.main.comicapp.utils.FirebaseUtil;
 
 public class GenreRepositoryImpl implements GenreRepository {
 
@@ -50,6 +50,6 @@ public class GenreRepositoryImpl implements GenreRepository {
     }
 
     private CollectionReference getGenreReference() {
-        return FirebaseUtil.getFirestore().collection("genres");
+        return FirebaseFirestore.getInstance().collection("genres");
     }
 }
