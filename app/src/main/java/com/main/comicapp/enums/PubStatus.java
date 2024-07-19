@@ -6,7 +6,6 @@ public enum PubStatus {
     ONGOING,
     COMPLETED;
 
-    @NonNull
     @Override
     public String toString() {
         switch (this) {
