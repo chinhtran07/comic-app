@@ -13,8 +13,10 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.main.comicapp.models.ReadingHistory;
-import com.main.comicapp.models.Title;
+
+
 import com.main.comicapp.repositories.TitleRepository;
+import com.main.comicapp.models.Title;
 import com.main.comicapp.viewmodels.ReadingHistoryViewModel;
 
 import java.util.ArrayList;
@@ -28,7 +30,6 @@ public class TitleRepositoryImpl implements TitleRepository {
     private static TitleRepositoryImpl instance;
 
     private TitleRepositoryImpl() {
-
     }
 
     public static synchronized TitleRepositoryImpl getInstance() {
@@ -129,7 +130,9 @@ public class TitleRepositoryImpl implements TitleRepository {
                                         DocumentSnapshot document = task.getResult();
                                         if (document != null && document.exists()) {
                                             Title title = Title.toObject(document.getData(), titleId);
-                                            recentTitles.add(title);
+                                            if (title != null) {
+                                                recentTitles.add(title);
+                                            }
                                         }
                                     } else {
                                         // Handle error fetching document

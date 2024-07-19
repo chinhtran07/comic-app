@@ -3,9 +3,18 @@ package com.main.comicapp.models;
 import android.annotation.SuppressLint;
 import android.util.Log;
 
+
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.main.comicapp.enums.PubStatus;
 import com.main.comicapp.enums.TitleFormat;
-import com.main.comicapp.viewmodels.GenreViewModel;
+import com.main.comicapp.utils.ValidateUtil;
 
 import java.io.Serializable;
 import java.text.ParseException;
@@ -105,11 +114,10 @@ public class Title extends BaseModel implements Serializable {
         this.genres = genres;
     }
 
-    public static Title toObject(Map<String, Object> data, String id) {
-        GenreViewModel genreViewModel = new GenreViewModel();
+    public static Title toObject(Map<String, Object> data, String id) throws ClassCastException {
         Title title = new Title();
         title.setId(id);
-        if (validateObject(data)) {
+        if (ValidateUtil.validateObject(data)) {
             title.setTitle(Objects.requireNonNull(data.get("title")).toString());
             title.setCover(data.get("cover").toString());
             @SuppressLint("SimpleDateFormat")
@@ -120,20 +128,38 @@ public class Title extends BaseModel implements Serializable {
             } catch (ParseException e) {
                 Log.e("Error", "onEvent: Parse Exception", e);
             }
+            title.setViews(((Long) Objects.requireNonNull(data.get("views"))).intValue());
             title.setPubStatus((String)data.get("pubStatus"));
             title.setTitleFormat((String)data.get("titleFormat"));
 
-            List<Genre> genres = new ArrayList<>();
 
             List<String> genreIds = (List<String>) data.get("genres");
             assert genreIds != null;
-            for (String genreId : genreIds) {
-                genres.add(genreViewModel.getGenre(id).getValue());
-            }
 
-            title.setGenres(genres);
+            List<Task<DocumentSnapshot>> tasks = new ArrayList<>();
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            for (String genreId : genreIds) {
+                tasks.add(db.collection("genres").document(genreId).get());
+            }
+            Tasks.whenAllSuccess(tasks).addOnSuccessListener(new OnSuccessListener<List<Object>>() {
+                @Override
+                public void onSuccess(List<Object> objects) {
+                    List<Genre> genres = new ArrayList<>();
+                    for (Object object : objects) {
+                        DocumentSnapshot doc = (DocumentSnapshot) object;
+                        if (doc.exists()) {
+                            Genre genre = doc.toObject(Genre.class);
+                            genre.setId(doc.getId());
+                            genres.add(genre);
+
+                        }
+                    }
+                    title.setGenres(genres);
+                }
+            });
+
+
         }
         return title;
     }
-
 }
