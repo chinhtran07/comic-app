@@ -2,7 +2,7 @@ package com.main.comicapp.models;
 
 import java.io.Serializable;
 
-public class Author extends BaseModel implements Serializable {
+public class Author  implements Serializable {
 
 
     private String id;
