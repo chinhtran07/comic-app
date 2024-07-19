@@ -13,6 +13,8 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.main.comicapp.models.ReadingHistory;
+
+
 import com.main.comicapp.repositories.TitleRepository;
 import com.main.comicapp.models.Title;
 import com.main.comicapp.viewmodels.ReadingHistoryViewModel;
@@ -119,8 +121,7 @@ public class TitleRepositoryImpl implements TitleRepository {
                 // Now fetch corresponding titles using titleIds
                 List<Title> recentTitles = new ArrayList<>();
                 for (String titleId : titleIds) {
-
-                    FirebaseFirestore.getInstance().collection(collectionName).document(titleId)
+                    getTitleReference().document(titleId)
                             .get()
                             .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                 @Override

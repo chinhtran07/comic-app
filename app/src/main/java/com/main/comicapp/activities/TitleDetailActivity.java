@@ -1,7 +1,9 @@
 package com.main.comicapp.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,8 +23,11 @@ import com.main.comicapp.viewmodels.ChapterViewModel;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import java.text.SimpleDateFormat;
+
 public class TitleDetailActivity extends AppCompatActivity {
 
+    private ImageView imageView;
     private TextView txtTitleName;
     private TextView txtGenres;
     private TextView txtViews;

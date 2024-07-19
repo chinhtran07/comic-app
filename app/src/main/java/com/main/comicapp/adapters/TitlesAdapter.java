@@ -22,8 +22,8 @@ public class TitlesAdapter extends RecyclerView.Adapter<TitlesAdapter.TitleViewH
 
     private List<Title> titles;
     private OnTitleClickListener listener;
-    private Context context;
-    private FirebaseStorage storage;
+    private final Context context;
+    private final FirebaseStorage storage;
 
     public void setListener(OnTitleClickListener listener) {
         this.listener = listener;

@@ -3,6 +3,7 @@ package com.main.comicapp.models;
 import android.annotation.SuppressLint;
 import android.util.Log;
 
+
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -25,7 +26,7 @@ import java.util.Map;
 import java.util.Objects;
 
 
-public class Title implements Serializable {
+public class Title extends BaseModel implements Serializable {
     private String id;
     private String title;
     private Date uploadedDate;
@@ -161,7 +162,4 @@ public class Title implements Serializable {
         }
         return title;
     }
-
-
-
 }

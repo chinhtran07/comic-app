@@ -1,9 +1,6 @@
 package com.main.comicapp.models;
 
-import com.google.firebase.firestore.PropertyName;
-
 import java.io.Serializable;
-import java.util.Date;
 
 public class Comment implements Serializable {
     private String id;

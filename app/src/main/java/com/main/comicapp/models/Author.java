@@ -2,7 +2,7 @@ package com.main.comicapp.models;
 
 import java.io.Serializable;
 
-public class Author implements Serializable {
+public class Author extends BaseModel implements Serializable {
 
 
     private String id;
@@ -31,4 +31,6 @@ public class Author implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
+
+
 }
