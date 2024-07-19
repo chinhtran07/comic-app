@@ -2,7 +2,7 @@
     <string name="app_name">Comic App</string>
 
     <string name="title_detail_title_name">Tên truyện</string>
-    <string name="title_detail_title_category">Thể loại:</string>
+    <string name="title_detail_title_category">Danh mục:</string>
     <string name="title_detail_view_count">View:</string>
     <string name="title_detail_publish_status">Tình trạng:</string>
     <string name="title_detail_created_date">Ngày tạo:</string>
