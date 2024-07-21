@@ -9,6 +9,7 @@ pluginManagement {
         }
         mavenCentral()
         gradlePluginPortal()
+        //Thêm url cho vẽ biểu đồ
         maven { url = uri("https://jitpack.io") }
     }
 }

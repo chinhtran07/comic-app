@@ -45,6 +45,6 @@ dependencies {
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 
-    // Thêm MPAndroidChart
+    //Thêm thư viện vẽ biểu đồ
     implementation("com.github.PhilJay:MPAndroidChart:v3.0.2")
 }

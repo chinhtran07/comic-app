@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:text="Number of Readers: 0"
         android:textSize="18sp"
-        android:layout_marginBottom="8dp" />
+        android:layout_marginBottom="9dp" />
 
     <TextView
         android:id="@+id/adminCountTextView"
@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:text="Number of Admins: 0"
         android:textSize="18sp"
-        android:layout_marginBottom="8dp" />
+        android:layout_marginBottom="9dp" />
 
     <com.github.mikephil.charting.charts.PieChart
         android:id="@+id/userPieChart"
