@@ -5,4 +5,5 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 public interface UserRepository {
     Task<QuerySnapshot> getReaderCount();
+    Task<QuerySnapshot> getAdminCount();
 }

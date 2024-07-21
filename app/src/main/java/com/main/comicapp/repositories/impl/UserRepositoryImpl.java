@@ -14,4 +14,11 @@ public class UserRepositoryImpl implements UserRepository {
                 .whereEqualTo("userRole", "READER")
                 .get();
     }
+
+    @Override
+    public Task<QuerySnapshot> getAdminCount() {
+        return db.collection("users")
+                .whereEqualTo("userRole", "ADMIN")
+                .get();
+    }
 }
