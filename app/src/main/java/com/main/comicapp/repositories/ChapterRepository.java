@@ -12,4 +12,5 @@ public interface ChapterRepository {
     void updateChapter(String id, Chapter chapter);
     void deleteChapter(String id);
     LiveData<List<Chapter>> getChapters(String titleId);
+    List<Chapter> getOriginChapters(String titleId);
 }

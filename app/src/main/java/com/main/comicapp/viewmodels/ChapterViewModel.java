@@ -36,4 +36,8 @@ public class ChapterViewModel extends ViewModel {
     public LiveData<List<Chapter>> getChapters(String titleId) {
         return chapterRepository.getChapters(titleId);
     }
+
+    public List<Chapter> getOriginChapter(String titleId) {
+        return chapterRepository.getOriginChapters(titleId);
+    }
 }

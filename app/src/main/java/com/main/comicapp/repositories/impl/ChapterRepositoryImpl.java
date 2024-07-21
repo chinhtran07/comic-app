@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -70,5 +71,25 @@ public class ChapterRepositoryImpl implements ChapterRepository {
             }
         });
         return chaptersLiveData;
+    }
+
+    @Override
+    public List<Chapter> getOriginChapters(String titleId) {
+        List<Chapter> chapters = new ArrayList<>();
+        getChapterReference().whereEqualTo("titleId", titleId).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                for (DocumentSnapshot documentSnapshot: queryDocumentSnapshots) {
+                    Map<String, Object> data = documentSnapshot.getData();
+                    Chapter chapter = Chapter.toObject(data, documentSnapshot.getId());
+                    chapters.add(chapter);
+                }
+            }
+        });
+        return chapters;
+    }
+
+    private CollectionReference getChapterReference() {
+        return FirebaseFirestore.getInstance().collection("chapters");
     }
 }

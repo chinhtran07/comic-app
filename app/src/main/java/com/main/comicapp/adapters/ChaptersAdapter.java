@@ -29,6 +29,9 @@ public class ChaptersAdapter extends RecyclerView.Adapter<ChaptersAdapter.Chapte
         notifyDataSetChanged();
     }
 
+    public List<Chapter> getChapters() {
+        return chapters;
+    }
 
     public interface OnChapterClickListener {
         void onChapterClick(Chapter chapter);
