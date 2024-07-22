@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData;
 import com.main.comicapp.models.Chapter;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public interface ChapterRepository {
     LiveData<Chapter> getChapter(String id);
@@ -12,5 +13,5 @@ public interface ChapterRepository {
     void updateChapter(String id, Chapter chapter);
     void deleteChapter(String id);
     LiveData<List<Chapter>> getChapters(String titleId);
-    List<Chapter> getOriginChapters(String titleId);
+    CompletableFuture<List<String>> getChapterDocumentIds(String titleId);
 }

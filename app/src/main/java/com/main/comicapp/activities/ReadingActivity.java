@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,6 +35,8 @@ public class ReadingActivity extends AppCompatActivity {
     private ChapterViewModel chapterViewModel;
     private ChaptersAdapter chaptersAdapter;
     private Chapter currentChapter;
+    private int currentChapterIndex;
+    private List<String> chapterDocumentIds;
 
 
     @Override
@@ -64,13 +67,15 @@ public class ReadingActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent != null) {
             currentChapter = (Chapter) intent.getSerializableExtra("chapter");
-            String titleId = (String) intent.getSerializableExtra("titleId");
             if (currentChapter != null) {
                 loadChapterData(currentChapter);
                 loadPages();
             }
+            String titleId = (String) intent.getSerializableExtra("titleId");
+            if (chapterDocumentIds == null) {
+                loadChapterDocumentIds(titleId);
+            }
         }
-
 
     }
 
@@ -99,13 +104,54 @@ public class ReadingActivity extends AppCompatActivity {
     }
 
     private void loadNextChapter() {
-        // Logic to load the next chapter
-        // Update `currentChapter` and call `loadChapterData(currentChapter)` and `loadPages()`
+        if (chapterDocumentIds != null && !chapterDocumentIds.isEmpty()) {
+            int nextIndex = currentChapterIndex + 1;
+            if (nextIndex < chapterDocumentIds.size()) {
+                String nextChapterId = chapterDocumentIds.get(nextIndex);
+                loadChapterById(nextChapterId, nextIndex);
+            } else {
+                Toast.makeText(this, "No next chapter available", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     private void loadPreviousChapter() {
-        // Logic to load the previous chapter
-        // Update `currentChapter` and call `loadChapterData(currentChapter)` and `loadPages()`
+        if (chapterDocumentIds != null && !chapterDocumentIds.isEmpty()) {
+            int prevIndex = currentChapterIndex - 1;
+            if (prevIndex >= 0) {
+                String prevChapterId = chapterDocumentIds.get(prevIndex);
+                loadChapterById(prevChapterId, prevIndex);
+            } else {
+                Toast.makeText(this, "No previous chapter available", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void loadChapterById(String chapterId, int chapterIndex) {
+        // Giả sử bạn có một phương thức để lấy Chapter từ Firestore theo ID
+        chapterViewModel.getChapter(chapterId).observe(this, new Observer<Chapter>() {
+            @Override
+            public void onChanged(Chapter chapter) {
+                if (chapter != null) {
+                    currentChapter = chapter;
+                    currentChapterIndex = chapterIndex;
+                    loadChapterData(currentChapter);
+                    loadPages();
+                }
+            }
+        });
+    }
+
+    private void loadChapterDocumentIds(String titleId) {
+        chapterViewModel.getChapterDocumentIds(titleId)
+                .thenAccept(documentIds ->{
+                    chapterDocumentIds = documentIds;
+                    currentChapterIndex = chapterDocumentIds.indexOf(currentChapter.getId());
+                }).exceptionally(ex -> {
+                    ex.printStackTrace();
+                    Toast.makeText(this, "Error loading chapter list", Toast.LENGTH_SHORT).show();
+                    return null;
+                });
     }
 
     @Override
