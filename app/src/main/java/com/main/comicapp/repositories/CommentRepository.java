@@ -11,6 +11,6 @@ public interface CommentRepository {
     void addComment(Comment comment);
     void updateComment(String id, Comment comment);
     void deleteComment(String id);
-    LiveData<List<Comment>> getCommentsByChapter(String chapterId);
+    LiveData<List<Comment>> getCommentsByTitle(String titleId);
     LiveData<List<Comment>> getCommentsByUser(String userId);
 }

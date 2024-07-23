@@ -19,7 +19,6 @@ public class ChaptersAdapter extends RecyclerView.Adapter<ChaptersAdapter.Chapte
 
     private List<Chapter> chapters;
     private OnChapterClickListener listener;
-    private Context context;
 
     public void setListener(OnChapterClickListener listener) { this.listener = listener; }
 
@@ -37,9 +36,8 @@ public class ChaptersAdapter extends RecyclerView.Adapter<ChaptersAdapter.Chapte
         void onChapterClick(Chapter chapter);
     }
 
-    public ChaptersAdapter(Context context, List<Chapter> chapters) {
+    public ChaptersAdapter(List<Chapter> chapters) {
         this.chapters = chapters;
-        this.context = context;
     }
 
     @NonNull
