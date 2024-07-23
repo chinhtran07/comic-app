@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    //Thêm màu
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="purple_200">#BB86FC</color>
+    <color name="teal_200">#03DAC5</color>
+    <color name="red_200">#FF5252</color>
+    <color name="blue_200">#448AFF</color>
+    <color name="green_200">#4CAF50</color>
 </resources>

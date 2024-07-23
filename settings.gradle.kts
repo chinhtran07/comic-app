@@ -9,6 +9,8 @@ pluginManagement {
         }
         mavenCentral()
         gradlePluginPortal()
+        //Thêm url cho vẽ biểu đồ
+        maven { url = uri("https://jitpack.io") }
     }
 }
 dependencyResolutionManagement {
@@ -16,9 +18,9 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven { url = uri("https://jitpack.io") }
     }
 }
 
 rootProject.name = "Comic App"
 include(":app")
- 

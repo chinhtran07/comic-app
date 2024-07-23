@@ -1,6 +1,5 @@
 package com.main.comicapp.models;
 
-
 import com.main.comicapp.enums.UserRole;
 
 import java.io.Serializable;
@@ -11,18 +10,32 @@ public class User implements Serializable {
     private String password;
     private String email;
     private UserRole userRole;
+    private String firstName;
+    private String lastName;
+    private String gender;
+    private String birthDate;
 
     public User() {
-
     }
 
-    public User(String username, String password, String email, String userRole) {
+    public User(String username, String password, String email, String userRole, String firstName, String lastName, String gender, String birthDate) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.userRole = UserRole.valueOf(userRole);
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.gender = gender;
+        this.birthDate = birthDate;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getUsername() {
         return username;
@@ -54,5 +67,37 @@ public class User implements Serializable {
 
     public void setUserRole(String userRole) {
         this.userRole = UserRole.valueOf(userRole);
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(String birthDate) {
+        this.birthDate = birthDate;
     }
 }

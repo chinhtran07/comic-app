@@ -1,6 +1,5 @@
 plugins {
     alias(libs.plugins.android.application)
-
     id("com.google.gms.google-services")
 }
 
@@ -19,7 +18,7 @@ android {
     }
 
     buildTypes {
-        release {
+        getByName("release") {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -34,7 +33,6 @@ android {
 }
 
 dependencies {
-
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
@@ -46,4 +44,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
+    //Thêm thư viện vẽ biểu đồ
+    implementation("com.github.PhilJay:MPAndroidChart:v3.0.2")
 }
