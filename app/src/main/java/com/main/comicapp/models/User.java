@@ -1,8 +1,10 @@
 package com.main.comicapp.models;
 
 import com.main.comicapp.enums.UserRole;
+import com.main.comicapp.utils.ValidateUtil;
 
 import java.io.Serializable;
+import java.util.Map;
 
 public class User implements Serializable {
     private String id;
@@ -99,5 +101,16 @@ public class User implements Serializable {
 
     public void setBirthDate(String birthDate) {
         this.birthDate = birthDate;
+    }
+
+    public static User toObject(Map<String, Object> data, String id) {
+        User user = new User();
+        user.setId(id);
+        if (ValidateUtil.validateObject(data)) {
+            user.setUsername((String)data.get("username"));
+            user.setEmail((String)data.get("email"));
+            user.setUserRole((String)data.get("userRole"));
+        }
+        return user;
     }
 }
