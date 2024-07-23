@@ -8,7 +8,6 @@ import com.main.comicapp.repositories.ChapterRepository;
 import com.main.comicapp.repositories.impl.ChapterRepositoryImpl;
 
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 public class ChapterViewModel extends ViewModel {
     private final ChapterRepository chapterRepository;
@@ -38,7 +37,7 @@ public class ChapterViewModel extends ViewModel {
         return chapterRepository.getChapters(titleId);
     }
 
-    public CompletableFuture<List<String>> getChapterDocumentIds(String titleId) {
+    public LiveData<List<String>> getChapterDocumentIds(String titleId) {
         return chapterRepository.getChapterDocumentIds(titleId);
     }
 }

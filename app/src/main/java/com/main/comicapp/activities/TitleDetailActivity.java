@@ -22,7 +22,6 @@ import com.main.comicapp.viewmodels.ChapterViewModel;
 import com.main.comicapp.viewmodels.GenreViewModel;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class TitleDetailActivity extends AppCompatActivity {
@@ -74,7 +73,7 @@ public class TitleDetailActivity extends AppCompatActivity {
             chaptersAdapter.setListener(new ChaptersAdapter.OnChapterClickListener() {
                 @Override
                 public void onChapterClick(Chapter chapter) {
-                    intentToReading(chapter, title.getId());
+                    intentToReading(chapter, title);
                 }
             });
             chapterViewModel.getChapters(title.getId()).observeForever(new Observer<List<Chapter>>() {
@@ -103,9 +102,10 @@ public class TitleDetailActivity extends AppCompatActivity {
         txtPublishStatus.setText(PubStatus.valueOf(title.getPubStatus()).toString());
     }
 
-    private void intentToReading(Chapter chapter, String titleId) {
+    private void intentToReading(Chapter chapter, Title title) {
         Intent intent = new Intent(getApplicationContext(), ReadingActivity.class);
-        intent.putExtra("titleId", titleId);
+        intent.putExtra("titleId", title.getId());
+        intent.putExtra("titleFormat", title.getTitleFormat());
         intent.putExtra("chapter", chapter);
         startActivity(intent);
     }
