@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,8 +20,10 @@ import com.main.comicapp.models.Chapter;
 import com.main.comicapp.models.Genre;
 import com.main.comicapp.models.Title;
 import com.main.comicapp.viewmodels.ChapterViewModel;
+import com.main.comicapp.viewmodels.GenreViewModel;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import java.text.SimpleDateFormat;
@@ -36,6 +39,7 @@ public class TitleDetailActivity extends AppCompatActivity {
     private RecyclerView rvChapters;
     private ChaptersAdapter chaptersAdapter;
     private ChapterViewModel chapterViewModel;
+    private GenreViewModel genreViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +70,7 @@ public class TitleDetailActivity extends AppCompatActivity {
         });
         rvChapters.setAdapter(chaptersAdapter);
         chapterViewModel = new ViewModelProvider(this).get(ChapterViewModel.class);
+        genreViewModel = new ViewModelProvider(this).get(GenreViewModel.class);
     }
 
     @Override
@@ -89,7 +94,13 @@ public class TitleDetailActivity extends AppCompatActivity {
     // Get title data from other activities
     private void loadTitleData(Title title) {
         txtTitleName.setText(title.getTitle());
-        txtGenres.setText(title.getGenres().stream().map(Genre::getName).collect(Collectors.joining(",")));
+        LiveData<List<Genre>> genres = genreViewModel.getGenres(title.getGenreIds());
+        genres.observe(this, new Observer<List<Genre>>() {
+            @Override
+            public void onChanged(List<Genre> genres) {
+                txtGenres.setText(genres.stream().map(Genre::getName).collect(Collectors.joining(", ")));
+            }
+        });
         txtViews.setText(String.valueOf(title.getViews()));
         txtCreatedDate.setText(title.getUploadedDate().toString());
         txtPublishStatus.setText(PubStatus.valueOf(title.getPubStatus()).toString());

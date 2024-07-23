@@ -130,9 +130,7 @@ public class TitleRepositoryImpl implements TitleRepository {
                                         DocumentSnapshot document = task.getResult();
                                         if (document != null && document.exists()) {
                                             Title title = Title.toObject(document.getData(), titleId);
-                                            if (title != null) {
-                                                recentTitles.add(title);
-                                            }
+                                            recentTitles.add(title);
                                         }
                                     } else {
                                         // Handle error fetching document
