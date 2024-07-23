@@ -5,12 +5,18 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.main.comicapp.models.Genre;
 import com.main.comicapp.repositories.GenreRepository;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class GenreRepositoryImpl implements GenreRepository {
 
@@ -47,6 +53,30 @@ public class GenreRepositoryImpl implements GenreRepository {
                     }
                 });
         return genreLiveData;
+    }
+
+    @Override
+    public LiveData<List<Genre>> getGenres(List<String> genreIds) {
+        MutableLiveData<List<Genre>> genresLiveData = new MutableLiveData<>();
+        List<Task<DocumentSnapshot>> tasks = new ArrayList<>();
+        for (String genreId : genreIds) {
+            tasks.add(getGenreReference().document(genreId).get());
+        }
+        Tasks.whenAllSuccess(tasks).addOnSuccessListener(new OnSuccessListener<List<Object>>() {
+            @Override
+            public void onSuccess(List<Object> objects) {
+                List<Genre> genres = new ArrayList<>();
+                for (Object object : objects) {
+                    DocumentSnapshot document = (DocumentSnapshot) object;
+                    if (document.exists()) {
+                        Genre genre = Genre.toObject(document.getData(), document.getId());
+                        genres.add(genre);
+                    }
+                }
+                genresLiveData.setValue(genres);
+            }
+        });
+        return genresLiveData;
     }
 
     private CollectionReference getGenreReference() {
