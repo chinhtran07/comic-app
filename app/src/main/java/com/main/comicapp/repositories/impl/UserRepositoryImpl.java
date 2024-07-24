@@ -12,7 +12,7 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public Task<QuerySnapshot> getReaderCount() {
         return db.collection("users")
-                .whereEqualTo("userRole", "READER")
+                .whereEqualTo("userRole", "USER")
                 .get();
     }
 

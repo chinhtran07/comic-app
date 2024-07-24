@@ -30,20 +30,20 @@ public class Title implements Serializable {
     private int views;
     private PubStatus pubStatus;
     private TitleFormat titleFormat;
-    private List<Genre> genres;
+    private List<String> genreIds;
 
     public Title() {
 
     }
 
-    public Title(String title, Date uploadedDate, String cover, int views, String pubStatus, String titleFormat, List<Genre> genres) {
+    public Title(String title, Date uploadedDate, String cover, int views, String pubStatus, String titleFormat, List<String> genreIds) {
         this.title = title;
         this.uploadedDate = uploadedDate;
         this.cover = cover;
         this.views = views;
         this.pubStatus = PubStatus.valueOf(pubStatus);
         this.titleFormat = TitleFormat.valueOf(titleFormat);
-        this.genres = genres;
+        this.genreIds = genreIds;
     }
 
     public String getId() {
@@ -102,12 +102,12 @@ public class Title implements Serializable {
         this.titleFormat = TitleFormat.valueOf(titleFormat);
     }
 
-    public List<Genre> getGenres() {
-        return genres;
+    public List<String> getGenreIds() {
+        return genreIds;
     }
 
-    public void setGenres(List<Genre> genres) {
-        this.genres = genres;
+    public void setGenreIds(List<String> genres) {
+        this.genreIds = genres;
     }
 
     public static Title toObject(Map<String, Object> data, String id) throws ClassCastException {
@@ -132,29 +132,7 @@ public class Title implements Serializable {
             List<String> genreIds = (List<String>) data.get("genres");
             assert genreIds != null;
 
-            List<Task<DocumentSnapshot>> tasks = new ArrayList<>();
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
-            for (String genreId : genreIds) {
-                tasks.add(db.collection("genres").document(genreId).get());
-            }
-            Tasks.whenAllSuccess(tasks).addOnSuccessListener(new OnSuccessListener<List<Object>>() {
-                @Override
-                public void onSuccess(List<Object> objects) {
-                    List<Genre> genres = new ArrayList<>();
-                    for (Object object : objects) {
-                        DocumentSnapshot doc = (DocumentSnapshot) object;
-                        if (doc.exists()) {
-                            Genre genre = doc.toObject(Genre.class);
-                            genre.setId(doc.getId());
-                            genres.add(genre);
-
-                        }
-                    }
-                    title.setGenres(genres);
-                }
-            });
-
-
+            title.setGenreIds(genreIds);
         }
         return title;
     }

@@ -7,6 +7,8 @@ import com.main.comicapp.models.Genre;
 import com.main.comicapp.repositories.GenreRepository;
 import com.main.comicapp.repositories.impl.GenreRepositoryImpl;
 
+import java.util.List;
+
 public class GenreViewModel extends ViewModel {
     private final GenreRepository genreRepository;
 
@@ -17,4 +19,9 @@ public class GenreViewModel extends ViewModel {
     public LiveData<Genre> getGenre(String id) {
         return genreRepository.getGenre(id);
     }
+
+    public LiveData<List<Genre>> getGenres(List<String> genreIds) {
+        return genreRepository.getGenres(genreIds);
+    }
+
 }

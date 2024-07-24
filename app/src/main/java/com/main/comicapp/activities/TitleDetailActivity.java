@@ -2,28 +2,47 @@ package com.main.comicapp.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.main.comicapp.R;
 import com.main.comicapp.adapters.ChaptersAdapter;
+import com.main.comicapp.adapters.CommentsAdapter;
 import com.main.comicapp.enums.PubStatus;
 import com.main.comicapp.models.Chapter;
+import com.main.comicapp.models.Comment;
 import com.main.comicapp.models.Genre;
 import com.main.comicapp.models.Title;
+import com.main.comicapp.models.User;
 import com.main.comicapp.viewmodels.ChapterViewModel;
+import com.main.comicapp.viewmodels.CommentViewModel;
+import com.main.comicapp.viewmodels.GenreViewModel;
+import com.main.comicapp.viewmodels.UserViewModel;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class TitleDetailActivity extends AppCompatActivity {
 
+    private static final String TAG = "com.main.comicapp.activities.TitleDetailActivity";
     private ImageView imageView;
     private TextView txtTitleName;
     private TextView txtGenres;
@@ -31,8 +50,14 @@ public class TitleDetailActivity extends AppCompatActivity {
     private TextView txtCreatedDate;
     private TextView txtPublishStatus;
     private RecyclerView rvChapters;
+    private RecyclerView rvComments;
     private ChaptersAdapter chaptersAdapter;
+    private CommentsAdapter commentsAdapter;
     private ChapterViewModel chapterViewModel;
+    private GenreViewModel genreViewModel;
+    private CommentViewModel commentViewModel;
+    private UserViewModel userViewModel;
+    private List<User> userList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +71,7 @@ public class TitleDetailActivity extends AppCompatActivity {
         txtCreatedDate = findViewById(R.id.title_detail_created_date);
         txtPublishStatus = findViewById(R.id.title_detail_publishing_status);
         rvChapters = findViewById(R.id.title_detail_chapter_list);
-
+        rvComments = findViewById(R.id.title_detail_comments_list);
         // Initialize RecyclerView
         initRv();
 
@@ -54,9 +79,16 @@ public class TitleDetailActivity extends AppCompatActivity {
 
     private void initRv() {
         rvChapters.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        chaptersAdapter = new ChaptersAdapter(this, null);
+        rvComments.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        chaptersAdapter = new ChaptersAdapter(null);
+        commentsAdapter = new CommentsAdapter(null, null);
         rvChapters.setAdapter(chaptersAdapter);
+        rvComments.setAdapter(commentsAdapter);
         chapterViewModel = new ViewModelProvider(this).get(ChapterViewModel.class);
+        genreViewModel = new ViewModelProvider(this).get(GenreViewModel.class);
+        commentViewModel = new ViewModelProvider(this).get(CommentViewModel.class);
+        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+        userList = new ArrayList<>();
     }
 
     @Override
@@ -65,7 +97,9 @@ public class TitleDetailActivity extends AppCompatActivity {
         Intent intent = this.getIntent();
         Title title = (Title) intent.getSerializableExtra("title");
         if (title != null) {
+
             loadTitleData(title);
+            // Loading title's chapters section
             chaptersAdapter.setListener(new ChaptersAdapter.OnChapterClickListener() {
                 @Override
                 public void onChapterClick(Chapter chapter) {
@@ -76,17 +110,66 @@ public class TitleDetailActivity extends AppCompatActivity {
                 @Override
                 public void onChanged(List<Chapter> chapters) {
                     if (chapters != null) {
-                        chaptersAdapter.setChapters(chapters.stream().sorted((p,l) -> p.getUploadedDate().compareTo(l.getUploadedDate())).collect(Collectors.toList()));
+                        chaptersAdapter.setChapters(chapters.stream().sorted(Comparator.comparing(Chapter::getUploadedDate)).collect(Collectors.toList()));
+                    }
+                }
+            });
+            // Loading title's comments section
+            commentsAdapter.setListener(new CommentsAdapter.OnCommentClickListener() {
+                @Override
+                public void onCommentClick(Comment comment) {
+                    // TODO (Cuong): Open reply section
+                }
+            });
+            commentViewModel.getCommentsByTitle(title.getId()).observeForever(new Observer<List<Comment>>() {
+                @Override
+                public void onChanged(List<Comment> comments) {
+                    if (comments != null) {
+                        // TODO (Cuong): Sort comments by uploaded date (Add another field in Comment model)
+                        commentsAdapter.setComments(comments);
+                        List<String> userIds = comments.stream().map(Comment::getUserId).collect(Collectors.toList());
+                        List<Task<DocumentSnapshot>> tasks = new ArrayList<>();
+                        for (String userId : userIds) {
+                            tasks.add(FirebaseFirestore.getInstance().collection("users").document(userId).get());
+                        }
+                        Tasks.whenAllSuccess(tasks).addOnSuccessListener(new OnSuccessListener<List<Object>>() {
+                            @Override
+                            public void onSuccess(List<Object> objects) {
+                                for (Object object : objects) {
+                                    DocumentSnapshot documentSnapshot = (DocumentSnapshot) object;
+                                    if (documentSnapshot.exists()) {
+                                        Map<String, Object> data = documentSnapshot.getData();
+                                        User user = User.toObject(data, documentSnapshot.getId());
+                                        userList.add(user);
+                                    } else {
+                                        Log.e(TAG, "onSuccess: Document does not exist.");
+                                    }
+                                }
+                                commentsAdapter.setUsers(userList);
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.e(TAG, "onFailure: ", e.getCause());
+                            }
+                        });
                     }
                 }
             });
         }
+
     }
 
     // Get title data from other activities
     private void loadTitleData(Title title) {
         txtTitleName.setText(title.getTitle());
-        txtGenres.setText(title.getGenres().stream().map(Genre::getName).collect(Collectors.joining(",")));
+        LiveData<List<Genre>> genres = genreViewModel.getGenres(title.getGenreIds());
+        genres.observe(this, new Observer<List<Genre>>() {
+            @Override
+            public void onChanged(List<Genre> genres) {
+                txtGenres.setText(genres.stream().map(Genre::getName).collect(Collectors.joining(", ")));
+            }
+        });
         txtViews.setText(String.valueOf(title.getViews()));
         txtCreatedDate.setText(title.getUploadedDate().toString());
         txtPublishStatus.setText(PubStatus.valueOf(title.getPubStatus()).toString());
@@ -97,5 +180,15 @@ public class TitleDetailActivity extends AppCompatActivity {
         intent.putExtra("titleId", titleId);
         intent.putExtra("chapter", chapter);
         startActivity(intent);
+    }
+
+    private void loadCommentData(Title title) {
+        LiveData<List<Comment>> comments = commentViewModel.getCommentsByTitle(title.getId());
+        comments.observe(this, new Observer<List<Comment>>() {
+            @Override
+            public void onChanged(List<Comment> comments) {
+
+            }
+        });
     }
 }

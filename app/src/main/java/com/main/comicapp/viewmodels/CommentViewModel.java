@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModel;
 import com.main.comicapp.models.Comment;
 import com.main.comicapp.repositories.CommentRepository;
 import com.main.comicapp.repositories.impl.CommentRepositoryImpl;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,6 +50,27 @@ public class CommentViewModel extends ViewModel {
                 commentsLiveData.setValue(null);
             }
         });
+    }
+
+    public LiveData<List<Comment>> getCommentsByTitle(String titleId) {
+        MutableLiveData<List<Comment>> commentsByTitleLiveData = new MutableLiveData<>();
+        commentRepository.getComments().addOnCompleteListener(task -> {
+            if (task.isSuccessful() && task.getResult() != null) {
+                List<Comment> comments = task.getResult().toObjects(Comment.class);
+                List<Comment> filteredComments = new ArrayList<>();
+                for (Comment comment : comments) {
+                    if (comment.getTitleId().equals(titleId)) {
+                        filteredComments.add(comment);
+                        fetchUserName(comment.getUserId());
+                        fetchTitleName(comment.getTitleId());
+                    }
+                }
+                commentsByTitleLiveData.setValue(filteredComments);
+            } else {
+                commentsByTitleLiveData.setValue(null);
+            }
+        });
+        return commentsByTitleLiveData;
     }
 
     private void fetchUserName(String userId) {

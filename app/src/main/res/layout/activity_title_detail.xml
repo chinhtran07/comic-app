@@ -106,6 +106,7 @@
         android:textSize="20dp" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/title_detail_comments_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center" />
