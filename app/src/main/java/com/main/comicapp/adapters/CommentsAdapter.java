@@ -1,6 +1,5 @@
 package com.main.comicapp.adapters;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,11 +11,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.main.comicapp.R;
 import com.main.comicapp.models.Comment;
 import com.main.comicapp.models.User;
-import com.main.comicapp.viewmodels.UserViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.CommentViewHolder> {
     private List<Comment> comments;
