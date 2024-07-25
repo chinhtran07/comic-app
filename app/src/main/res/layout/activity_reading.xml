@@ -52,14 +52,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/top_bar"
-        android:layout_above="@id/bottom_bar">
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_img"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="vertical"
-            tools:listitem="@layout/item_page"/>
-    </FrameLayout>
+        android:layout_above="@id/bottom_bar"/>
 
     <!-- Bottom Bar -->
     <LinearLayout

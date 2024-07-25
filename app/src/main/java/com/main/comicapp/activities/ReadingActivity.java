@@ -1,42 +1,46 @@
 package com.main.comicapp.activities;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.main.comicapp.R;
-import com.main.comicapp.adapters.ChaptersAdapter;
-import com.main.comicapp.adapters.PagesAdapter;
+import com.main.comicapp.enums.TitleFormat;
+import com.main.comicapp.fragments.ComicFragment;
+import com.main.comicapp.fragments.NovelFragment;
 import com.main.comicapp.models.Chapter;
-import com.main.comicapp.models.Page;
 import com.main.comicapp.viewmodels.ChapterViewModel;
-import com.main.comicapp.viewmodels.PageViewModel;
+import com.main.comicapp.viewmodels.ReadingPositionViewModel;
 
-import java.util.HashMap;
 import java.util.List;
 
 public class ReadingActivity extends AppCompatActivity {
 
     private ImageButton btnPrevChapter, btnNextChapter, btnBack, btnOption;
     private TextView tvTitle;
-    private RecyclerView recyclerView;
-    private PagesAdapter pagesAdapter;
-    private PageViewModel pageViewModel;
     private ChapterViewModel chapterViewModel;
-    private ChaptersAdapter chaptersAdapter;
     private Chapter currentChapter;
     private int currentChapterIndex;
     private List<String> chapterDocumentIds;
+    private TitleFormat titleFormat;
+    String titleId;
+
+    private ReadingPositionViewModel readingPositionViewModel;
+    private SharedPreferences sharedPreferences;
 
 
     @Override
@@ -46,6 +50,7 @@ public class ReadingActivity extends AppCompatActivity {
 
         init();
         setupListeners();
+        loadInitialData();
     }
 
     private void init() {
@@ -54,28 +59,11 @@ public class ReadingActivity extends AppCompatActivity {
         btnNextChapter = findViewById(R.id.btn_next_chapter);
         btnPrevChapter = findViewById(R.id.btn_prev_chapter);
         tvTitle = findViewById(R.id.tv_title);
-        recyclerView = findViewById(R.id.recycler_img);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-
-        pagesAdapter = new PagesAdapter(this, null);
-        recyclerView.setAdapter(pagesAdapter);
-        pageViewModel = new ViewModelProvider(this).get(PageViewModel.class);
         chapterViewModel = new ViewModelProvider(this).get(ChapterViewModel.class);
+        readingPositionViewModel = new ViewModelProvider(this).get(ReadingPositionViewModel.class);
 
-
-        Intent intent = getIntent();
-        if (intent != null) {
-            currentChapter = (Chapter) intent.getSerializableExtra("chapter");
-            if (currentChapter != null) {
-                loadChapterData(currentChapter);
-                loadPages();
-            }
-            String titleId = (String) intent.getSerializableExtra("titleId");
-            if (chapterDocumentIds == null) {
-                loadChapterDocumentIds(titleId);
-            }
-        }
+        sharedPreferences = getSharedPreferences("ReadingPositions", Context.MODE_PRIVATE);
 
     }
 
@@ -85,22 +73,52 @@ public class ReadingActivity extends AppCompatActivity {
         btnBack.setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
     }
 
-    @SuppressLint("DefaultLocale")
-    private void loadChapterData(Chapter chapter) {
-        tvTitle.setText(String.format("Chapter %d", chapter.getChapterNumber()));
+    private void loadInitialData() {
+        Intent intent = getIntent();
+        if (intent != null) {
+            titleId = intent.getStringExtra("titleId");
+            String format = intent.getStringExtra("titleFormat");
+            if (format != null) {
+                titleFormat = TitleFormat.valueOf(format);
+            }
+
+            if (titleId != null) {
+                loadReadingPosition(titleId);
+                if (chapterDocumentIds == null) {
+                    loadChapterDocumentIds();
+                }
+            }
+        }
     }
 
-    private void loadPages() {
-        if (currentChapter != null) {
-            pageViewModel.getPages(new HashMap<>(), currentChapter.getId()).observe(this, new Observer<List<Page>>() {
+    private void loadReadingPosition(String titleId) {
+        // Load from SharedPreferences
+        String chapterId = sharedPreferences.getString(titleId + "_chapterId", null);
+        String pageId = sharedPreferences.getString(titleId + "_pageId", null);
+
+        if (chapterId != null) {
+            // If data exists in SharedPreferences, load chapter and pages
+            loadChapterById(chapterId, -1);
+        } else {
+            // Else, load from Firestore
+            readingPositionViewModel.getReadingPosition(titleId, new OnSuccessListener<DocumentSnapshot>() {
                 @Override
-                public void onChanged(@Nullable List<Page> pages) {
-                    if (pages != null) {
-                        pagesAdapter.setPages(pages);
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    if (documentSnapshot.exists()) {
+                        String chapterId = documentSnapshot.getString("chapterId");
+                        String pageId = documentSnapshot.getString("pageId");
+                        if (chapterId != null) {
+                            loadChapterById(chapterId, -1);
+                        }
                     }
                 }
             });
         }
+    }
+
+    @SuppressLint("DefaultLocale")
+    private void loadChapterData(Chapter chapter) {
+        tvTitle.setText(String.format("Chapter %d", chapter.getChapterNumber()));
     }
 
     private void loadNextChapter() {
@@ -128,7 +146,6 @@ public class ReadingActivity extends AppCompatActivity {
     }
 
     private void loadChapterById(String chapterId, int chapterIndex) {
-        // Giả sử bạn có một phương thức để lấy Chapter từ Firestore theo ID
         chapterViewModel.getChapter(chapterId).observe(this, new Observer<Chapter>() {
             @Override
             public void onChanged(Chapter chapter) {
@@ -136,27 +153,76 @@ public class ReadingActivity extends AppCompatActivity {
                     currentChapter = chapter;
                     currentChapterIndex = chapterIndex;
                     loadChapterData(currentChapter);
-                    loadPages();
+                    loadFragment();
+                    saveReadingPosition();
                 }
             }
         });
     }
 
-    private void loadChapterDocumentIds(String titleId) {
-        chapterViewModel.getChapterDocumentIds(titleId)
-                .thenAccept(documentIds ->{
-                    chapterDocumentIds = documentIds;
+    private void loadChapterDocumentIds() {
+        chapterViewModel.getChapterDocumentIds(titleId).observe(this, new Observer<List<String>>() {
+            @Override
+            public void onChanged(List<String> strings) {
+                if (strings != null) {
+                    chapterDocumentIds = strings;
                     currentChapterIndex = chapterDocumentIds.indexOf(currentChapter.getId());
-                }).exceptionally(ex -> {
-                    ex.printStackTrace();
-                    Toast.makeText(this, "Error loading chapter list", Toast.LENGTH_SHORT).show();
-                    return null;
-                });
+                }
+            }
+        });
+    }
+
+    private void loadFragment() {
+        Fragment fragment;
+        if (titleFormat == TitleFormat.COMIC) {
+            fragment = new ComicFragment();
+        } else {
+            fragment = new NovelFragment();
+        }
+
+        Bundle bundle = new Bundle();
+        bundle.putString("chapterId", currentChapter.getId());
+        bundle.putSerializable("chapter", currentChapter);
+        fragment.setArguments(bundle);
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.content_frame, fragment);
+        fragmentTransaction.commit();
+    }
+
+    private void saveReadingPosition() {
+        if (currentChapter != null && titleId != null) {
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString(titleId + "_chapterId", currentChapter.getId());
+            editor.apply();
+
+            readingPositionViewModel.saveReadingPosition(titleId, currentChapter.getId(), null);
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        saveReadingPosition();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        saveReadingPosition();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        saveReadingPosition();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        saveReadingPosition();
         // Cleanup or release resources if necessary
     }
 }

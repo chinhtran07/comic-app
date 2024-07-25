@@ -19,7 +19,6 @@ import com.main.comicapp.repositories.ChapterRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 
 public class ChapterRepositoryImpl implements ChapterRepository {
 
@@ -72,7 +71,7 @@ public class ChapterRepositoryImpl implements ChapterRepository {
     @Override
     public LiveData<List<Chapter>> getChapters(String titleId) {
         MutableLiveData<List<Chapter>> chaptersLiveData = new MutableLiveData<>();
-        Query query = FirebaseFirestore.getInstance().collection("chapters").whereEqualTo("titleId", titleId);
+        Query query = getChapterReference().whereEqualTo("titleId", titleId);
         query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -94,28 +93,25 @@ public class ChapterRepositoryImpl implements ChapterRepository {
     }
 
     @Override
-    public CompletableFuture<List<String>> getChapterDocumentIds(String titleId) {
-        CompletableFuture<List<String>> future = new CompletableFuture<>();
-
-        getChapterReference().whereEqualTo("titleId", titleId)
-                .get().addOnCompleteListener(task -> {
-                    if (task.isComplete()) {
-                        QuerySnapshot querySnapshot = task.getResult();
-                        if (querySnapshot != null) {
-                            List<String> documentIds = new ArrayList<>();
-                            for (DocumentSnapshot document : querySnapshot.getDocuments()) {
-                                documentIds.add(document.getId());
-                            }
-                            future.complete(documentIds);
-                        } else {
-                            future.completeExceptionally(new Exception("No documents found"));
-
+    public LiveData<List<String>> getChapterDocumentIds(String titleId) {
+        MutableLiveData<List<String>> result = new MutableLiveData<>();
+        getChapterReference().whereEqualTo("titleId", titleId).get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        List<String> documentIds = new ArrayList<>();
+                        for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
+                            documentIds.add(document.getId());
                         }
-                    } else {
-                        future.completeExceptionally(task.getException());
+                        result.setValue(documentIds);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        result.setValue(null);
                     }
                 });
-        return future;
+        return result;
     }
 
     private CollectionReference getChapterReference() {
