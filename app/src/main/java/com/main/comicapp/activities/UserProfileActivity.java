@@ -32,7 +32,7 @@ public class UserProfileActivity extends AppCompatActivity {
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
 
         // Fetch user with ID 1
-        String userId = "36eb48a4-55d5-4858-9b70-09114e2c9913";
+        String userId = "f0a7a273-bdf6-4aea-803d-581f4eaeda39";
         userViewModel.fetchUserById(userId);
 
         userViewModel.getUserLiveData().observe(this, user -> {

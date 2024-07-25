@@ -46,6 +46,8 @@
             android:exported="true" />
         <activity android:name=".activities.StatisticsActivity"
             android:exported="true"/>
+        <activity android:name=".activities.ManageCommentActivity"
+            android:exported="true"/>
         <activity
             android:name=".activities.MainActivity"
             android:exported="true">

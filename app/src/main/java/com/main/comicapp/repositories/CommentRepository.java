@@ -1,16 +1,12 @@
 package com.main.comicapp.repositories;
 
-import androidx.lifecycle.LiveData;
-
-import com.main.comicapp.models.Comment;
-
-import java.util.List;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public interface CommentRepository {
-    LiveData<Comment> getComment(String id);
-    void addComment(Comment comment);
-    void updateComment(String id, Comment comment);
-    void deleteComment(String id);
-    LiveData<List<Comment>> getCommentsByChapter(String chapterId);
-    LiveData<List<Comment>> getCommentsByUser(String userId);
+    Task<QuerySnapshot> getComments();
+    Task<DocumentSnapshot> getUserById(String userId);
+    Task<DocumentSnapshot> getTitleById(String titleId);
+    Task<Void> deleteComment(String commentId);
 }

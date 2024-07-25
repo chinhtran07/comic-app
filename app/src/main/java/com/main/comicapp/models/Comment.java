@@ -1,6 +1,9 @@
 package com.main.comicapp.models;
 
+import com.main.comicapp.utils.ValidateUtil;
+
 import java.io.Serializable;
+import java.util.Map;
 
 public class Comment implements Serializable {
     private String id;
@@ -58,5 +61,18 @@ public class Comment implements Serializable {
 
     public void setTitleId(String titleId) {
         this.titleId = titleId;
+    }
+
+    public static Comment toObject(Map<String, Object> data, String id) {
+        Comment comment = new Comment();
+        comment.setId(id);
+        comment.setBaseCommentId((String)data.get("baseCommentId"));
+        data.remove("baseCommentId");
+        if (ValidateUtil.validateObject(data)) {
+            comment.setText((String)data.get("text"));
+            comment.setUserId((String)data.get("userId"));
+            comment.setTitleId((String)data.get("titleId"));
+        }
+        return comment;
     }
 }
