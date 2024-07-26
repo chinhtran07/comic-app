@@ -14,6 +14,7 @@ public class UserViewModel extends ViewModel {
     private final MutableLiveData<Integer> readerCountLiveData = new MutableLiveData<>();
     private final MutableLiveData<Integer> adminCountLiveData = new MutableLiveData<>();
     private final MutableLiveData<User> userLiveData = new MutableLiveData<>();
+    private final MutableLiveData<User> currentUserLiveData = new MutableLiveData<>();
 
     public UserViewModel() {
         userRepository = new UserRepositoryImpl();
@@ -30,6 +31,8 @@ public class UserViewModel extends ViewModel {
     public LiveData<User> getUserLiveData() {
         return userLiveData;
     }
+
+    public LiveData<User> getCurrentUserLiveData() {return currentUserLiveData;}
 
     public void fetchReaderCount() {
         userRepository.getReaderCount().addOnCompleteListener(task -> {
@@ -61,6 +64,21 @@ public class UserViewModel extends ViewModel {
                 userLiveData.setValue(user);
             } else {
                 userLiveData.setValue(null);
+            }
+        });
+    }
+
+    public void fetchUserByEmail(String email) {
+        userRepository.getUserByEmail(email).addOnCompleteListener(task -> {
+            if (task.isSuccessful() && task.getResult() != null) {
+                QuerySnapshot querySnapshot = task.getResult();
+                if (!querySnapshot.isEmpty()) {
+                    DocumentSnapshot document = querySnapshot.getDocuments().get(0);
+                    User user = User.toObject(document.getData(), document.getId());
+                    currentUserLiveData.setValue(user);
+                } else {
+                    currentUserLiveData.setValue(null);
+                }
             }
         });
     }
