@@ -1,5 +1,7 @@
 package com.main.comicapp.models;
 
+import com.main.comicapp.utils.ValidateUtil;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -47,6 +49,16 @@ public class UserSession {
         data.put("userId", userSession.getUserId());
         data.put("lastLoginTime", userSession.getLastLoginTime());
         return data;
+    }
+
+    public static UserSession toObject(Map<String, Object> data, String id) {
+        UserSession userSession = new UserSession();
+        userSession.setId(id);
+        if (ValidateUtil.validateObject(data)) {
+            userSession.setUserId((String)data.get("userId"));
+            userSession.setLastLoginTime((long)data.get("lastLoginTime"));
+        }
+        return userSession;
     }
 
 }

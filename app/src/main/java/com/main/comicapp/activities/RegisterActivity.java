@@ -14,7 +14,7 @@ import com.main.comicapp.R;
 
 import java.util.Calendar;
 
-public class RegisterActivity extends BaseActivity {
+public class RegisterActivity extends AppCompatActivity {
     private TextView tvBirthDate;
     private Button btnPickDate, btnRegister, btnSelectImage;
     private Spinner spinnerGender;

@@ -16,6 +16,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.main.comicapp.R;
+import com.main.comicapp.models.UserSession;
 import com.main.comicapp.utils.ValidateUtil;
 import com.main.comicapp.viewmodels.UserSessionViewModel;
 
@@ -25,6 +26,7 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         userSessionViewModel = new ViewModelProvider(this).get(UserSessionViewModel.class);
+        validateSession();
         super.onCreate(savedInstanceState);
     }
 
@@ -37,12 +39,9 @@ public class BaseActivity extends AppCompatActivity {
                 if ((System.currentTimeMillis() - userSession.getLastLoginTime()) > ValidateUtil.SESSION_LENGTH) {
                     Log.d(TAG, "validateSession: Session expired");
                     userSessionViewModel.deleteUserSession(currentSessionId);
+                    forceLogout();
                 }
-            } else {
-                Log.d(TAG, "validateSession: User session not found");
-                forceLogout();
             }
-
         });
     }
 
