@@ -23,7 +23,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends AppCompatActivity {
     private EditText etEmail, etPassword;
     private Button btnLogin;
     private TextView tvRegister;

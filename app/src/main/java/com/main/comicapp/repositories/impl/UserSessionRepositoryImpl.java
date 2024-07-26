@@ -1,6 +1,7 @@
 package com.main.comicapp.repositories.impl;
 
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.main.comicapp.models.UserSession;
@@ -10,8 +11,8 @@ public class UserSessionRepositoryImpl implements UserSessionRepository {
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
-    public Task<QuerySnapshot> getUserSession(String id) {
-        return db.collection("user_sessions").whereEqualTo("userId", id).get();
+    public Task<DocumentSnapshot> getUserSession(String id) {
+        return db.collection("user_sessions").document(id).get();
     }
 
     @Override
