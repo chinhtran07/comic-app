@@ -32,6 +32,12 @@ public class BaseActivity extends AppCompatActivity {
 
     protected void validateSession() {
         SharedPreferences prefs = getSharedPreferences("user_session", MODE_PRIVATE);
+        if (!prefs.contains("session_id")) {
+            // Force to login
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
         String currentSessionId = prefs.getString("session_id", null);
         userSessionViewModel.fetchUserSession(currentSessionId);
         userSessionViewModel.getCurrentUserSession().observe(this, userSession -> {
