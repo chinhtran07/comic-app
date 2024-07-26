@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AllRecentComicActivity extends AppCompatActivity {
+public class AllRecentComicActivity extends BaseActivity {
 
     private RecyclerView rvAllComics;
     private TitlesAdapter adapter;

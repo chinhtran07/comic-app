@@ -1,8 +1,14 @@
 package com.main.comicapp.viewmodels;
 
+import android.util.Log;
+
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.main.comicapp.models.Comment;
 import com.main.comicapp.repositories.CommentRepository;
 import com.main.comicapp.repositories.impl.CommentRepositoryImpl;
@@ -13,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 public class CommentViewModel extends ViewModel {
+    private static final String TAG = "com.main.comicapp.viewmodels.CommentViewModel";
     private final CommentRepository commentRepository;
     private final MutableLiveData<List<Comment>> commentsLiveData;
     private final MutableLiveData<Map<String, String>> userNamesLiveData;
@@ -98,6 +105,20 @@ public class CommentViewModel extends ViewModel {
     public void deleteComment(String commentId) {
         commentRepository.deleteComment(commentId).addOnCompleteListener(task -> {
             fetchComments();
+        });
+    }
+
+    public void createComment(Comment comment) {
+        commentRepository.createComment(comment).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Log.d(TAG, "Create comment - success : Comment created successfully");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.e(TAG, "Create comment - failed: Comment created unsuccessfully");
+            }
         });
     }
 }

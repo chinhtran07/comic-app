@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends BaseActivity {
 
     private RecyclerView rvRecentComics;
     private TitlesAdapter adapter;
