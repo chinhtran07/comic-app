@@ -1,10 +1,10 @@
 package com.main.comicapp.adapters;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,7 +20,9 @@ public class ChaptersAdapter extends RecyclerView.Adapter<ChaptersAdapter.Chapte
     private List<Chapter> chapters;
     private OnChapterClickListener listener;
 
-    public void setListener(OnChapterClickListener listener) { this.listener = listener; }
+    public void setListener(OnChapterClickListener listener) {
+        this.listener = listener;
+    }
 
     @SuppressLint("NotifyDataSetChanged")
     public void setChapters(List<Chapter> chapters) {
@@ -34,6 +36,8 @@ public class ChaptersAdapter extends RecyclerView.Adapter<ChaptersAdapter.Chapte
 
     public interface OnChapterClickListener {
         void onChapterClick(Chapter chapter);
+        void onUpdateClick(Chapter chapter);
+        void onDeleteClick(Chapter chapter);
     }
 
     public ChaptersAdapter(List<Chapter> chapters) {
@@ -43,7 +47,7 @@ public class ChaptersAdapter extends RecyclerView.Adapter<ChaptersAdapter.Chapte
     @NonNull
     @Override
     public ChapterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_chapter, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_item_chapter, parent, false);
         return new ChapterViewHolder(view);
     }
 
@@ -52,8 +56,11 @@ public class ChaptersAdapter extends RecyclerView.Adapter<ChaptersAdapter.Chapte
         Chapter chapter = chapters.get(position);
         String chapterName = "Chương " + chapter.getChapterNumber();
         holder.txtChapterName.setText(chapterName);
+        holder.txtDescription.setText(chapter.getDescription());
         holder.txtUploadDate.setText(chapter.getUploadedDate().toString());
         holder.itemView.setOnClickListener(v -> listener.onChapterClick(chapter));
+        holder.btnUpdate.setOnClickListener(v -> listener.onUpdateClick(chapter));
+        holder.btnDelete.setOnClickListener(v -> listener.onDeleteClick(chapter));
     }
 
     @Override
@@ -63,12 +70,18 @@ public class ChaptersAdapter extends RecyclerView.Adapter<ChaptersAdapter.Chapte
 
     public static class ChapterViewHolder extends RecyclerView.ViewHolder {
         TextView txtChapterName;
+        TextView txtDescription;
         TextView txtUploadDate;
+        Button btnUpdate;
+        Button btnDelete;
 
         public ChapterViewHolder(@NonNull View itemView) {
             super(itemView);
-            txtChapterName = itemView.findViewById(R.id.title_detail_chapter_list_title);
-            txtUploadDate = itemView.findViewById(R.id.title_detail_chapter_list_upload);
+            txtChapterName = itemView.findViewById(R.id.text_view_chapter_number);
+            txtDescription = itemView.findViewById(R.id.text_view_chapter_description);
+            txtUploadDate = itemView.findViewById(R.id.text_view_uploaded_date);
+            btnUpdate = itemView.findViewById(R.id.button_update_chapter);
+            btnDelete = itemView.findViewById(R.id.button_delete_chapter);
         }
     }
 

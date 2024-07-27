@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -42,7 +43,7 @@ import java.util.stream.Collectors;
 
 public class TitleDetailActivity extends BaseActivity {
 
-    private static final String TAG = "com.main.comicapp.activities.TitleDetailActivity";
+    private static final String TAG = "TitleDetailActivity";
     private ImageView imageView;
     private TextView txtTitleName;
     private TextView txtGenres;
@@ -72,9 +73,9 @@ public class TitleDetailActivity extends BaseActivity {
         txtPublishStatus = findViewById(R.id.title_detail_publishing_status);
         rvChapters = findViewById(R.id.title_detail_chapter_list);
         rvComments = findViewById(R.id.title_detail_comments_list);
+
         // Initialize RecyclerView
         initRv();
-
     }
 
     private void initRv() {
@@ -97,13 +98,25 @@ public class TitleDetailActivity extends BaseActivity {
         Intent intent = this.getIntent();
         Title title = (Title) intent.getSerializableExtra("title");
         if (title != null) {
-
             loadTitleData(title);
             // Loading title's chapters section
             chaptersAdapter.setListener(new ChaptersAdapter.OnChapterClickListener() {
                 @Override
                 public void onChapterClick(Chapter chapter) {
                     intentToReading(chapter, title);
+                }
+
+                @Override
+                public void onUpdateClick(Chapter chapter) {
+                    Intent updateIntent = new Intent(TitleDetailActivity.this, UpdateChapterActivity.class);
+                    updateIntent.putExtra("chapter_id", chapter.getId());
+                    startActivity(updateIntent);
+                }
+
+                @Override
+                public void onDeleteClick(Chapter chapter) {
+                    chapterViewModel.deleteChapter(chapter.getId());
+                    Toast.makeText(TitleDetailActivity.this, "Chapter deleted", Toast.LENGTH_SHORT).show();
                 }
             });
             chapterViewModel.getChapters(title.getId()).observeForever(new Observer<List<Chapter>>() {
@@ -118,14 +131,14 @@ public class TitleDetailActivity extends BaseActivity {
             commentsAdapter.setListener(new CommentsAdapter.OnCommentClickListener() {
                 @Override
                 public void onCommentClick(Comment comment) {
-                    // TODO (Cuong): Open reply section
+                    // TODO: Open reply section
                 }
             });
             commentViewModel.getCommentsByTitle(title.getId()).observeForever(new Observer<List<Comment>>() {
                 @Override
                 public void onChanged(List<Comment> comments) {
                     if (comments != null) {
-                        // TODO (Cuong): Sort comments by uploaded date (Add another field in Comment model)
+                        // TODO: Sort comments by uploaded date (Add another field in Comment model)
                         commentsAdapter.setComments(comments);
                         List<String> userIds = comments.stream().map(Comment::getUserId).collect(Collectors.toList());
                         List<Task<DocumentSnapshot>> tasks = new ArrayList<>();
@@ -157,7 +170,6 @@ public class TitleDetailActivity extends BaseActivity {
                 }
             });
         }
-
     }
 
     // Get title data from other activities
@@ -181,15 +193,5 @@ public class TitleDetailActivity extends BaseActivity {
         intent.putExtra("titleFormat", title.getTitleFormat());
         intent.putExtra("chapter", chapter);
         startActivity(intent);
-    }
-
-    private void loadCommentData(Title title) {
-        LiveData<List<Comment>> comments = commentViewModel.getCommentsByTitle(title.getId());
-        comments.observe(this, new Observer<List<Comment>>() {
-            @Override
-            public void onChanged(List<Comment> comments) {
-
-            }
-        });
     }
 }

@@ -49,6 +49,8 @@
             android:exported="true"/>
         <activity android:name=".activities.ManageCommentActivity"
             android:exported="true"/>
+        <activity android:name=".activities.ManageChapterActivity"
+            android:exported="true"/>
         <activity
             android:name=".activities.BaseActivity"
             android:exported="true">
