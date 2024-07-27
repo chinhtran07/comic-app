@@ -6,47 +6,46 @@
     android:padding="8dp">
 
     <TextView
-        android:id="@+id/tv_chapter_title"
-        android:layout_width="match_parent"
+        android:id="@+id/text_view_chapter_number"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Chapter Title"
+        android:text="Chapter Number"
         android:textSize="16sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="4dp" />
+        android:textStyle="bold"/>
 
     <TextView
-        android:id="@+id/tv_chapter_description"
-        android:layout_width="match_parent"
+        android:id="@+id/text_view_chapter_description"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Description"
-        android:textSize="14sp"
-        android:layout_marginBottom="2dp" />
+        android:textSize="14sp"/>
 
     <TextView
-        android:id="@+id/tv_chapter_uploaded_date"
-        android:layout_width="match_parent"
+        android:id="@+id/text_view_uploaded_date"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Uploaded Date"
-        android:textSize="14sp"
-        android:layout_marginBottom="8dp" />
+        android:textSize="14sp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:gravity="end"
+        android:paddingTop="8dp">
 
         <Button
-            android:id="@+id/btn_edit_chapter"
-            android:layout_width="0dp"
+            android:id="@+id/button_update_chapter"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Edit" />
+            android:text="Update"/>
 
         <Button
-            android:id="@+id/btn_delete_chapter"
-            android:layout_width="0dp"
+            android:id="@+id/button_delete_chapter"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Delete" />
+            android:text="Delete"
+            android:layout_marginStart="8dp"/>
     </LinearLayout>
+
 </LinearLayout>

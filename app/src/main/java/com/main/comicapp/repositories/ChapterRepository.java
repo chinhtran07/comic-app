@@ -11,4 +11,5 @@ public interface ChapterRepository {
     void deleteChapter(String id);
     LiveData<List<Chapter>> getChapters(String titleId);
     LiveData<List<String>> getChapterDocumentIds(String titleId);
+    LiveData<List<Chapter>> getAllChapters();
 }

@@ -39,4 +39,9 @@ public class ChapterViewModel extends ViewModel {
     public LiveData<List<String>> getChapterDocumentIds(String titleId) {
         return chapterRepository.getChapterDocumentIds(titleId);
     }
+
+    // Phương thức mới để lấy tất cả các chương
+    public LiveData<List<Chapter>> getAllChapters() {
+        return chapterRepository.getAllChapters();
+    }
 }
