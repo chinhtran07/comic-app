@@ -53,5 +53,5 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
 
     //Thêm thư viện vẽ biểu đồ
-    implementation("com.github.PhilJay:MPAndroidChart:v3.0.2")
+    implementation(libs.mpandroidchart)
 }

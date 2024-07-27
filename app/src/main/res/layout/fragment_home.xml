@@ -24,28 +24,55 @@
 
     </HorizontalScrollView>
 
-
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@id/stats_horizontal_scroll"
-        android:orientation="vertical">
-        <!-- Reports Section -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Reports"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_margin="16dp" />
+        android:scrollbars="none">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_reports"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:clipToPadding="false"
-            tools:listitem="@layout/item_report" />
-    </LinearLayout>
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!--Total Comics-->
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/pie_chart_total_comics"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginBottom="16dp"/>
+
+            <!--Total Users-->
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/bar_chart_total_users"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginBottom="16dp"/>
+
+            <!--New Comics-->
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/line_chart_new_comics"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginBottom="16dp"/>
+
+            <!--User Activities-->
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/bar_chart_user_activities"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginBottom="16dp"/>
+
+            <!--Reading Trends-->
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/line_chart_reading_trend"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginBottom="16dp"/>
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </RelativeLayout>
