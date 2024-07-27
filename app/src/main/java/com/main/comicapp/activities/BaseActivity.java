@@ -22,6 +22,7 @@ import com.main.comicapp.viewmodels.UserSessionViewModel;
 
 public class BaseActivity extends AppCompatActivity {
     private UserSessionViewModel userSessionViewModel;
+    protected UserSession currentUserSession;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +39,7 @@ public class BaseActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
+
         String currentSessionId = prefs.getString("session_id", null);
         userSessionViewModel.fetchUserSession(currentSessionId);
         userSessionViewModel.getCurrentUserSession().observe(this, userSession -> {
@@ -46,6 +48,9 @@ public class BaseActivity extends AppCompatActivity {
                     Log.d(TAG, "validateSession: Session expired");
                     userSessionViewModel.deleteUserSession(currentSessionId);
                     forceLogout();
+                }
+                else {
+                   currentUserSession = userSession;
                 }
             }
         });

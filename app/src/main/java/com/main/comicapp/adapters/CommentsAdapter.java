@@ -1,5 +1,6 @@
 package com.main.comicapp.adapters;
 
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,6 +66,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
         }
         holder.txtContent.setText(comment.getText());
         holder.itemView.setOnClickListener(v -> listener.onCommentClick(comment));
+        holder.txtUploadedDate.setText(DateFormat.format("dd/MM/yyyy", comment.getUploadedDate()));
     }
 
     @Override
@@ -75,11 +77,13 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
     public static class CommentViewHolder extends RecyclerView.ViewHolder {
         TextView txtContent;
         TextView txtUsername;
+        TextView txtUploadedDate;
 
         public CommentViewHolder(@NonNull View itemView) {
             super(itemView);
             txtContent = itemView.findViewById(R.id.title_detail_comments_list_content);
             txtUsername = itemView.findViewById(R.id.title_detail_comments_list_username);
+            txtUploadedDate = itemView.findViewById(R.id.title_detail_comments_list_uploaded_date);
         }
 
 

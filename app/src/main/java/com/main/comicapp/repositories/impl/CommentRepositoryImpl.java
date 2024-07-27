@@ -34,7 +34,7 @@ public class CommentRepositoryImpl implements CommentRepository {
 
     @Override
     public Task<Void> createComment(Comment comment) {
-        Map<String, String> data = Comment.toMap(comment);
+        Map<String, Object> data = Comment.toMap(comment);
         return db.collection("comments").document(comment.getId()).set(data);
     }
 }
