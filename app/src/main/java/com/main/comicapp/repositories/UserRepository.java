@@ -11,4 +11,5 @@ public interface UserRepository {
     Task<QuerySnapshot> getReaderCount();
     Task<QuerySnapshot> getAdminCount();
     Task<DocumentSnapshot> getUserById(String userId);
+    Task<QuerySnapshot> getUserByEmail(String userEmail);
 }

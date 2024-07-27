@@ -16,7 +16,6 @@ public class ChapterViewModel extends ViewModel {
         this.chapterRepository = ChapterRepositoryImpl.getInstance();
     }
 
-
     public LiveData<Chapter> getChapter(String id) {
         return chapterRepository.getChapter(id);
     }

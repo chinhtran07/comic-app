@@ -1,6 +1,7 @@
 package com.main.comicapp.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends BaseActivity {
 
     private RecyclerView rvRecentComics;
     private TitlesAdapter adapter;
@@ -46,6 +47,7 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+
     }
 
     private void initViews() {

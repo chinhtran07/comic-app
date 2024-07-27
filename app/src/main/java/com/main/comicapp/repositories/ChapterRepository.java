@@ -1,9 +1,7 @@
 package com.main.comicapp.repositories;
 
 import androidx.lifecycle.LiveData;
-
 import com.main.comicapp.models.Chapter;
-
 import java.util.List;
 
 public interface ChapterRepository {

@@ -6,13 +6,13 @@
     android:padding="8dp">
 
     <TextView
-        android:id="@+id/tv_chapter_number"
+        android:id="@+id/tv_chapter_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Chapter Number"
+        android:text="Chapter Title"
         android:textSize="16sp"
         android:textStyle="bold"
-        android:layout_marginBottom="4dp"/>
+        android:layout_marginBottom="4dp" />
 
     <TextView
         android:id="@+id/tv_chapter_description"
@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:text="Description"
         android:textSize="14sp"
-        android:layout_marginBottom="2dp"/>
+        android:layout_marginBottom="2dp" />
 
     <TextView
         android:id="@+id/tv_chapter_uploaded_date"
@@ -28,15 +28,7 @@
         android:layout_height="wrap_content"
         android:text="Uploaded Date"
         android:textSize="14sp"
-        android:layout_marginBottom="8dp"/>
-
-    <TextView
-        android:id="@+id/tv_chapter_title_id"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Title ID"
-        android:textSize="14sp"
-        android:layout_marginBottom="8dp"/>
+        android:layout_marginBottom="8dp" />
 
     <LinearLayout
         android:layout_width="match_parent"

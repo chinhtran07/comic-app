@@ -45,6 +45,8 @@ dependencies {
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 
-    //Thêm thư viện vẽ biểu đồ
+    // Add library for drawing graphs
     implementation("com.github.PhilJay:MPAndroidChart:v3.0.2")
+    // Password hashing library
+    implementation("org.mindrot:jbcrypt:0.4")
 }

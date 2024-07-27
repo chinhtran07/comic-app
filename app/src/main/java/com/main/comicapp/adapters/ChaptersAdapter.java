@@ -1,26 +1,26 @@
 package com.main.comicapp.adapters;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.main.comicapp.R;
 import com.main.comicapp.models.Chapter;
-
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 public class ChaptersAdapter extends RecyclerView.Adapter<ChaptersAdapter.ChapterViewHolder> {
 
     private List<Chapter> chapters;
     private OnChapterClickListener listener;
 
-    public void setListener(OnChapterClickListener listener) { this.listener = listener; }
+    public void setListener(OnChapterClickListener listener) {
+        this.listener = listener;
+    }
 
     @SuppressLint("NotifyDataSetChanged")
     public void setChapters(List<Chapter> chapters) {
@@ -52,8 +52,16 @@ public class ChaptersAdapter extends RecyclerView.Adapter<ChaptersAdapter.Chapte
         Chapter chapter = chapters.get(position);
         String chapterName = "Chương " + chapter.getChapterNumber();
         holder.txtChapterName.setText(chapterName);
-        holder.txtUploadDate.setText(chapter.getUploadedDate().toString());
-        holder.itemView.setOnClickListener(v -> listener.onChapterClick(chapter));
+
+        @SuppressLint("SimpleDateFormat")
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        holder.txtUploadDate.setText(dateFormat.format(chapter.getUploadedDate()));
+
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onChapterClick(chapter);
+            }
+        });
     }
 
     @Override
@@ -73,7 +81,9 @@ public class ChaptersAdapter extends RecyclerView.Adapter<ChaptersAdapter.Chapte
     }
 
     public void clearChapters() {
-        chapters.clear();
-        notifyDataSetChanged();
+        if (chapters != null) {
+            chapters.clear();
+            notifyDataSetChanged();
+        }
     }
 }

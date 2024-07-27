@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.main.comicapp.R;
 
-public class CommentActivity extends AppCompatActivity {
+public class CommentActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

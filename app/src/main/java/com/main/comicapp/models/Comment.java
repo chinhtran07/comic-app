@@ -3,6 +3,7 @@ package com.main.comicapp.models;
 import com.main.comicapp.utils.ValidateUtil;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Map;
 
 public class Comment implements Serializable {
@@ -74,5 +75,14 @@ public class Comment implements Serializable {
             comment.setTitleId((String)data.get("titleId"));
         }
         return comment;
+    }
+
+    public static Map<String, String> toMap(Comment comment) {
+        Map<String, String> data = new HashMap<>();
+        data.put("text", comment.getText());
+        data.put("baseCommentId", comment.getBaseCommentId());
+        data.put("userId", comment.getUserId());
+        data.put("titleId", comment.getTitleId());
+        return data;
     }
 }

@@ -40,7 +40,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class TitleDetailActivity extends AppCompatActivity {
+public class TitleDetailActivity extends BaseActivity {
 
     private static final String TAG = "com.main.comicapp.activities.TitleDetailActivity";
     private ImageView imageView;
