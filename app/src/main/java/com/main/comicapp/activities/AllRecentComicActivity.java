@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.main.comicapp.R;
-import com.main.comicapp.adapters.TitlesAdapter;
+import com.main.comicapp.adapters.TitleAdapter;
 import com.main.comicapp.models.Title;
 import com.main.comicapp.viewmodels.TitleViewModel;
 
@@ -24,7 +24,7 @@ import java.util.Map;
 public class AllRecentComicActivity extends AppCompatActivity {
 
     private RecyclerView rvAllComics;
-    private TitlesAdapter adapter;
+    private TitleAdapter adapter;
     private TitleViewModel titleViewModel;
     private TextView tvClearHistory;
 
@@ -45,8 +45,8 @@ public class AllRecentComicActivity extends AppCompatActivity {
         tvClearHistory = findViewById(R.id.clear_history);
         rvAllComics = findViewById(R.id.rv_all_comics);
         rvAllComics.setLayoutManager(new GridLayoutManager(this, 3));
-        adapter = new TitlesAdapter(this, null);
-        adapter.setListener(new TitlesAdapter.OnTitleClickListener() {
+        adapter = new TitleAdapter(this, null);
+        adapter.setListener(new TitleAdapter.OnTitleClickListener() {
             @Override
             public void onTitleClick(Title title) {
                 openTitleDetail(title);

@@ -7,19 +7,19 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.main.comicapp.activities.ui.home.HomeFragment"
+        android:name="com.main.comicapp.fragments.home.HomeFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/nav_gallery"
-        android:name="com.main.comicapp.activities.ui.usermanaging.UserManagingFragment"
+        android:name="com.main.comicapp.fragments.user.UserManagementFragment"
         android:label="@string/menu_user_managing"
-        tools:layout="@layout/fragment_user_managing" />
+        tools:layout="@layout/fragment_user_management" />
 
     <fragment
         android:id="@+id/nav_slideshow"
-        android:name="com.main.comicapp.activities.ui.slideshow.GenreManagingFragment"
+        android:name="com.main.comicapp.activities.ui.genre.GenreManagingFragment"
         android:label="@string/menu_genre_managing"
-        tools:layout="@layout/fragment_genre_managing" />
+        tools:layout="@layout/fragment_genre_management" />
 </navigation>

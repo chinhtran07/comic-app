@@ -1,4 +1,4 @@
-package com.main.comicapp.activities.ui.slideshow;
+package com.main.comicapp.activities.ui.genre;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,18 +10,18 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.main.comicapp.databinding.FragmentGenreManagingBinding;
+import com.main.comicapp.databinding.FragmentGenreManagementBinding;
 
 public class GenreManagingFragment extends Fragment {
 
-    private FragmentGenreManagingBinding binding;
+    private FragmentGenreManagementBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         GenreManagingViewModel genreManagingViewModel =
                 new ViewModelProvider(this).get(GenreManagingViewModel.class);
 
-        binding = FragmentGenreManagingBinding.inflate(inflater, container, false);
+        binding = FragmentGenreManagementBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         final TextView textView = binding.textSlideshow;

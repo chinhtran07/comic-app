@@ -1,4 +1,4 @@
-package com.main.comicapp.activities.ui.home;
+package com.main.comicapp.fragments.home;
 
 import android.graphics.Color;
 import android.os.Bundle;

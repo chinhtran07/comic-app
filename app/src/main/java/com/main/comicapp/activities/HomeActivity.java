@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.main.comicapp.R;
-import com.main.comicapp.adapters.TitlesAdapter;
+import com.main.comicapp.adapters.TitleAdapter;
 import com.main.comicapp.models.Title;
 import com.main.comicapp.viewmodels.TitleViewModel;
 
@@ -22,7 +22,7 @@ import java.util.Map;
 public class HomeActivity extends AppCompatActivity {
 
     private RecyclerView rvRecentComics;
-    private TitlesAdapter adapter;
+    private TitleAdapter adapter;
     private TitleViewModel titleViewModel;
 
     @Override
@@ -51,8 +51,8 @@ public class HomeActivity extends AppCompatActivity {
     private void initViews() {
         rvRecentComics = findViewById(R.id.rv_recent_comics);
         rvRecentComics.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        adapter = new TitlesAdapter(this, null);
-        adapter.setListener(new TitlesAdapter.OnTitleClickListener() {
+        adapter = new TitleAdapter(this, null);
+        adapter.setListener(new TitleAdapter.OnTitleClickListener() {
             @Override
             public void onTitleClick(Title title) {
                 openTitleDetailActivity(title);
