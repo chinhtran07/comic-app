@@ -1,7 +1,6 @@
 package com.main.comicapp.activities;
 
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,7 +11,7 @@ import com.main.comicapp.viewmodels.CommentViewModel;
 
 import java.util.HashMap;
 
-public class ManageCommentActivity extends AppCompatActivity implements CommentAdapter.OnCommentClickListener {
+public class ManageCommentActivity extends BaseActivity implements CommentAdapter.OnCommentClickListener {
 
     private CommentViewModel commentViewModel;
     private RecyclerView rvComments;

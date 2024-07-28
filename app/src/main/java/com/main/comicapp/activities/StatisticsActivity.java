@@ -15,7 +15,7 @@ import com.main.comicapp.viewmodels.UserViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StatisticsActivity extends AppCompatActivity {
+public class StatisticsActivity extends BaseActivity {
     private UserViewModel userViewModel;
     private TextView readerCountTextView;
     private TextView adminCountTextView;

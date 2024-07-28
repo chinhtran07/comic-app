@@ -107,6 +107,7 @@ public class User implements Serializable {
         User user = new User();
         user.setId(id);
         if (ValidateUtil.validateObject(data)) {
+            user.setPassword((String)data.get("password"));
             user.setUsername((String)data.get("username"));
             user.setEmail((String)data.get("email"));
             user.setUserRole((String)data.get("userRole"));
