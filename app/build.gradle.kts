@@ -45,8 +45,12 @@ dependencies {
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 
-    // Add library for drawing graphs
+    // Thêm thư viện vẽ đồ thị
     implementation("com.github.PhilJay:MPAndroidChart:v3.0.2")
-    // Password hashing library
+    // Thư viện mã hóa mật khẩu
     implementation("org.mindrot:jbcrypt:0.4")
+    // Cloudinary for upload images
+    implementation("com.cloudinary:cloudinary-android:1.29.0")
 }
+
+apply(plugin = "com.google.gms.google-services")
