@@ -9,17 +9,62 @@
         android:id="@+id/nav_home"
         android:name="com.main.comicapp.fragments.home.HomeFragment"
         android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home">
+    </fragment>
 
     <fragment
         android:id="@+id/nav_gallery"
         android:name="com.main.comicapp.fragments.user.UserManagementFragment"
         android:label="@string/menu_user_managing"
-        tools:layout="@layout/fragment_user_management" />
+        tools:layout="@layout/fragment_user_management">
+        <action
+            android:id="@+id/action_to_add_user"
+            app:destination="@id/addUserFragment"/>
+
+        <action
+            android:id="@+id/action_to_detail_user"
+            app:destination="@id/detailUserFragment"/>
+    </fragment>
 
     <fragment
         android:id="@+id/nav_slideshow"
         android:name="com.main.comicapp.activities.ui.genre.GenreManagingFragment"
         android:label="@string/menu_genre_managing"
         tools:layout="@layout/fragment_genre_management" />
+
+    <fragment
+        android:id="@+id/addUserFragment"
+        android:name="com.main.comicapp.fragments.user.AddUserFragment"
+        android:label="Thêm người dùng"
+        tools:layout="@layout/fragment_add_user">
+
+        <action
+            android:id="@+id/action_add_user_to_user_management"
+            app:destination="@id/nav_gallery" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/detailUserFragment"
+        android:name="com.main.comicapp.fragments.user.UserDetailFragment"
+        android:label="Chi tiết người dùng"
+        tools:layout="@layout/fragment_detail_user">
+
+        <action
+            android:id="@+id/action_detail_user_to_user_management"
+            app:destination="@id/nav_gallery" />
+        <action
+            android:id="@+id/action_detail_user_to_edit_user"
+            app:destination="@id/editUserFragment"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/editUserFragment"
+        android:name="com.main.comicapp.fragments.user.EditUserFragment"
+        android:label="Chỉnh sửa thông tin"
+        tools:layout="@layout/fragment_edit_user">
+
+        <action
+            android:id="@+id/action_edit_user_to_user_management"
+            app:destination="@id/nav_gallery" />
+    </fragment>
 </navigation>
