@@ -54,4 +54,5 @@ dependencies {
 
     //Thêm thư viện vẽ biểu đồ
     implementation(libs.mpandroidchart)
+    implementation(libs.jbcrypt)
 }
