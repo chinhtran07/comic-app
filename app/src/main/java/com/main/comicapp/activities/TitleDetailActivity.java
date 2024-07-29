@@ -24,7 +24,7 @@ import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.main.comicapp.R;
-import com.main.comicapp.adapters.ChaptersAdapter;
+import com.main.comicapp.adapters.ChapterAdapter;
 import com.main.comicapp.adapters.CommentsAdapter;
 import com.main.comicapp.enums.PubStatus;
 import com.main.comicapp.models.Chapter;
@@ -55,7 +55,7 @@ public class TitleDetailActivity extends BaseActivity {
     private TextView txtPublishStatus;
     private RecyclerView rvChapters;
     private RecyclerView rvComments;
-    private ChaptersAdapter chaptersAdapter;
+    private ChapterAdapter chapterAdapter;
     private CommentsAdapter commentsAdapter;
     private ChapterViewModel chapterViewModel;
     private GenreViewModel genreViewModel;
@@ -85,9 +85,9 @@ public class TitleDetailActivity extends BaseActivity {
     private void initRv() {
         rvChapters.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         rvComments.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        chaptersAdapter = new ChaptersAdapter(null);
+        chapterAdapter = new ChapterAdapter(null);
         commentsAdapter = new CommentsAdapter(null, null);
-        rvChapters.setAdapter(chaptersAdapter);
+        rvChapters.setAdapter(chapterAdapter);
         rvComments.setAdapter(commentsAdapter);
         chapterViewModel = new ViewModelProvider(this).get(ChapterViewModel.class);
         genreViewModel = new ViewModelProvider(this).get(GenreViewModel.class);
@@ -104,7 +104,7 @@ public class TitleDetailActivity extends BaseActivity {
         if (title != null) {
             loadTitleData(title);
             // Loading title's chapters section
-            chaptersAdapter.setListener(new ChaptersAdapter.OnChapterClickListener() {
+            chapterAdapter.setListener(new ChapterAdapter.OnChapterClickListener() {
                 @Override
                 public void onChapterClick(Chapter chapter) {
                     intentToReading(chapter, title);
@@ -127,7 +127,7 @@ public class TitleDetailActivity extends BaseActivity {
                 @Override
                 public void onChanged(List<Chapter> chapters) {
                     if (chapters != null) {
-                        chaptersAdapter.setChapters(chapters.stream().sorted(Comparator.comparing(Chapter::getUploadedDate)).collect(Collectors.toList()));
+                        chapterAdapter.setChapters(chapters.stream().sorted(Comparator.comparing(Chapter::getUploadedDate)).collect(Collectors.toList()));
                     }
                 }
             });

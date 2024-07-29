@@ -15,7 +15,7 @@ import com.main.comicapp.models.Chapter;
 
 import java.util.List;
 
-public class ChaptersAdapter extends RecyclerView.Adapter<ChaptersAdapter.ChapterViewHolder> {
+public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterViewHolder> {
 
     private List<Chapter> chapters;
     private OnChapterClickListener listener;
@@ -40,7 +40,7 @@ public class ChaptersAdapter extends RecyclerView.Adapter<ChaptersAdapter.Chapte
         void onDeleteClick(Chapter chapter);
     }
 
-    public ChaptersAdapter(List<Chapter> chapters) {
+    public ChapterAdapter(List<Chapter> chapters) {
         this.chapters = chapters;
     }
 
