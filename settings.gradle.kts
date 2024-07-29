@@ -9,16 +9,18 @@ pluginManagement {
         }
         mavenCentral()
         gradlePluginPortal()
-        //Thêm url cho vẽ biểu đồ
         maven { url = uri("https://jitpack.io") }
+        jcenter() // Thêm kho lưu trữ JCenter
     }
 }
+
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         google()
         mavenCentral()
         maven { url = uri("https://jitpack.io") }
+        jcenter() // Thêm kho lưu trữ JCenter
     }
 }
 

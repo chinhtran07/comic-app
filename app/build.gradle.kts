@@ -43,6 +43,7 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.storage)
     implementation(libs.firebase.firestore)
+    implementation(libs.firebase.auth)
     implementation(libs.glide)
     implementation(libs.lifecycle.livedata.ktx)
     implementation(libs.lifecycle.viewmodel.ktx)
@@ -52,7 +53,13 @@ dependencies {
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 
-    //Thêm thư viện vẽ biểu đồ
+    // Thêm thư viện vẽ biểu đồ
     implementation(libs.mpandroidchart)
+    // Thư viện mã hóa mật khẩu
     implementation(libs.jbcrypt)
+    // Cloudinary for upload images
+    implementation(libs.cloudinary.android)
+    implementation(kotlin("script-runtime"))
 }
+
+apply(plugin = "com.google.gms.google-services")
