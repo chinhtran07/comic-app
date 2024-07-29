@@ -18,13 +18,13 @@ import com.main.comicapp.models.Page;
 import java.util.List;
 
 
-public class PagesAdapter extends RecyclerView.Adapter<PagesAdapter.PageViewHolder>{
+public class PageAdapter extends RecyclerView.Adapter<PageAdapter.PageViewHolder>{
 
     private List<Page> pages;
     private Context context;
     private final FirebaseStorage storage;
 
-    public PagesAdapter(Context context, List<Page> pages) {
+    public PageAdapter(Context context, List<Page> pages) {
         this.pages = pages;
         this.context = context;
         this.storage = FirebaseStorage.getInstance();

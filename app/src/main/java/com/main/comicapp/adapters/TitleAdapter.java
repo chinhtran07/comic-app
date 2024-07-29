@@ -18,7 +18,7 @@ import com.main.comicapp.models.Title;
 
 import java.util.List;
 
-public class TitlesAdapter extends RecyclerView.Adapter<TitlesAdapter.TitleViewHolder> {
+public class TitleAdapter extends RecyclerView.Adapter<TitleAdapter.TitleViewHolder> {
 
     private List<Title> titles;
     private OnTitleClickListener listener;
@@ -39,7 +39,7 @@ public class TitlesAdapter extends RecyclerView.Adapter<TitlesAdapter.TitleViewH
         void onTitleClick(Title title);
     }
 
-    public TitlesAdapter(Context context, List<Title> titles) {
+    public TitleAdapter(Context context, List<Title> titles) {
         this.titles = titles;
         this.context = context;
         this.storage = FirebaseStorage.getInstance();
