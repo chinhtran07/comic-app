@@ -15,6 +15,7 @@ public class UserViewModel extends ViewModel {
     private final MutableLiveData<Integer> adminCountLiveData = new MutableLiveData<>();
     private final MutableLiveData<User> userLiveData = new MutableLiveData<>();
     private final MutableLiveData<User> currentUserLiveData = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> usernameOrEmailTakenLiveData = new MutableLiveData<>();
 
     public UserViewModel() {
         userRepository = new UserRepositoryImpl();
@@ -32,7 +33,13 @@ public class UserViewModel extends ViewModel {
         return userLiveData;
     }
 
-    public LiveData<User> getCurrentUserLiveData() {return currentUserLiveData;}
+    public LiveData<User> getCurrentUserLiveData() {
+        return currentUserLiveData;
+    }
+
+    public LiveData<Boolean> getUsernameOrEmailTakenLiveData() {
+        return usernameOrEmailTakenLiveData;
+    }
 
     public void fetchReaderCount() {
         userRepository.getReaderCount().addOnCompleteListener(task -> {
@@ -79,6 +86,37 @@ public class UserViewModel extends ViewModel {
                 } else {
                     currentUserLiveData.setValue(null);
                 }
+            }
+        });
+    }
+
+    public void fetchUserByUsername(String username) {
+        userRepository.fetchUserByUsername(username).addOnCompleteListener(task -> {
+            if (task.isSuccessful() && task.getResult() != null) {
+                QuerySnapshot querySnapshot = task.getResult();
+                if (!querySnapshot.isEmpty()) {
+                    DocumentSnapshot document = querySnapshot.getDocuments().get(0);
+                    User user = User.toObject(document.getData(), document.getId());
+                    currentUserLiveData.setValue(user);
+                } else {
+                    currentUserLiveData.setValue(null);
+                }
+            }
+        });
+    }
+
+    public void checkIfUsernameOrEmailTaken(String username, String email) {
+        userRepository.fetchUserByUsername(username).addOnCompleteListener(usernameTask -> {
+            if (usernameTask.isSuccessful() && !usernameTask.getResult().isEmpty()) {
+                usernameOrEmailTakenLiveData.setValue(true);
+            } else {
+                userRepository.getUserByEmail(email).addOnCompleteListener(emailTask -> {
+                    if (emailTask.isSuccessful() && !emailTask.getResult().isEmpty()) {
+                        usernameOrEmailTakenLiveData.setValue(true);
+                    } else {
+                        usernameOrEmailTakenLiveData.setValue(false);
+                    }
+                });
             }
         });
     }

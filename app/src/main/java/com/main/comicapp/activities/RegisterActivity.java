@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.cloudinary.android.MediaManager;
 import com.cloudinary.android.callback.ErrorInfo;
@@ -26,6 +27,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.main.comicapp.R;
 import com.main.comicapp.config.CloudinaryConfig;
+import com.main.comicapp.viewmodels.UserViewModel;
 
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -44,6 +46,7 @@ public class RegisterActivity extends AppCompatActivity {
     private Button btnPickDate, btnRegister, btnChooseImage;
     private Spinner spinnerGender;
     private ImageView ivImagePreview;
+    private UserViewModel userViewModel;
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
@@ -55,6 +58,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
+        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
 
         tvBirthDate = findViewById(R.id.tv_birth_date);
         etUsername = findViewById(R.id.et_username);
@@ -199,17 +203,24 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, task -> {
-                    if (task.isSuccessful()) {
-                        FirebaseUser user = mAuth.getCurrentUser();
-                        if (user != null) {
-                            saveUserToFirestore(user, username, firstName, lastName, gender, birthDate, password);
-                        }
-                    } else {
-                        Toast.makeText(RegisterActivity.this, "Authentication failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+        userViewModel.checkIfUsernameOrEmailTaken(username, email);
+        userViewModel.getUsernameOrEmailTakenLiveData().observe(this, isTaken -> {
+            if (Boolean.TRUE.equals(isTaken)) {
+                Toast.makeText(RegisterActivity.this, "Username or email already taken", Toast.LENGTH_SHORT).show();
+            } else {
+                mAuth.createUserWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(this, task -> {
+                            if (task.isSuccessful()) {
+                                FirebaseUser user = mAuth.getCurrentUser();
+                                if (user != null) {
+                                    saveUserToFirestore(user, username, firstName, lastName, gender, birthDate, password);
+                                }
+                            } else {
+                                Toast.makeText(RegisterActivity.this, "Authentication failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+            }
+        });
     }
 
     private void saveUserToFirestore(FirebaseUser firebaseUser, String username, String firstName, String lastName, String gender, String birthDate, String password) {
