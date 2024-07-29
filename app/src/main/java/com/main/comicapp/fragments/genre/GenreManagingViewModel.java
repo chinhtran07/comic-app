@@ -1,4 +1,4 @@
-package com.main.comicapp.activities.ui.genre;
+package com.main.comicapp.fragments.genre;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

@@ -1,4 +1,4 @@
-package com.main.comicapp.activities.ui.genre;
+package com.main.comicapp.fragments.genre;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

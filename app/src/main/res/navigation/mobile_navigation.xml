@@ -28,9 +28,53 @@
 
     <fragment
         android:id="@+id/nav_slideshow"
-        android:name="com.main.comicapp.activities.ui.genre.GenreManagingFragment"
+        android:name="com.main.comicapp.fragments.genre.GenreManagingFragment"
         android:label="@string/menu_genre_managing"
-        tools:layout="@layout/fragment_genre_management" />
+        tools:layout="@layout/fragment_genre_management" >
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_title_management"
+        android:name="com.main.comicapp.fragments.title.TitleFragment"
+        android:label="Quản lý truyện"
+        tools:layout="@layout/fragment_title_management">
+        <action
+            android:id="@+id/action_to_add_title"
+            app:destination="@id/nav_add_comic"/>
+        <action
+            android:id="@+id/action_to_detail_title"
+            app:destination="@id/nav_comic_detail"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_add_comic"
+        android:name="com.main.comicapp.fragments.title.AddEditTitleFragment"
+        android:label="Add Comic"
+        tools:layout="@layout/fragment_add_edit_title">
+        <action
+            android:id="@+id/action_add_title_to_title_management"
+            app:destination="@id/nav_title_management"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_comic_detail"
+        android:name="com.main.comicapp.fragments.title.TitleDetailFragment"
+        android:label="Comic Detail"
+        tools:layout="@layout/fragment_title_detail">
+        <action
+            android:id="@+id/action_to_edit_title"
+            app:destination="@id/nav_edit_comic"/>
+        <action
+            android:id="@+id/action_detail_title_to_title_management"
+            app:destination="@id/nav_title_management"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_edit_comic"
+        android:name="com.main.comicapp.fragments.title.AddEditTitleFragment"
+        android:label="Edit Comic"
+        tools:layout="@layout/fragment_add_edit_title" >
+    </fragment>
 
     <fragment
         android:id="@+id/addUserFragment"
