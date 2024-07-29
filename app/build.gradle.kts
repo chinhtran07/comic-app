@@ -40,6 +40,7 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.storage)
     implementation(libs.firebase.firestore)
+    implementation(libs.firebase.auth)
     implementation(libs.glide)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
@@ -51,6 +52,7 @@ dependencies {
     implementation("org.mindrot:jbcrypt:0.4")
     // Cloudinary for upload images
     implementation("com.cloudinary:cloudinary-android:1.29.0")
+    implementation(kotlin("script-runtime"))
 }
 
 apply(plugin = "com.google.gms.google-services")
