@@ -4,10 +4,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.SearchView;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.navigation.NavController;
@@ -15,9 +16,8 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.main.comicapp.R;
-import com.main.comicapp.adapters.TitleAdapter;
+import com.main.comicapp.adapters.admin.TitleAdminAdapter;
 import com.main.comicapp.databinding.FragmentTitleManagementBinding;
 import com.main.comicapp.models.Title;
 import com.main.comicapp.viewmodels.TitleViewModel;
@@ -28,9 +28,12 @@ import java.util.List;
 
 public class TitleFragment extends Fragment{
 
+    private List<Title> titles;
     private RecyclerView recyclerView;
-    private TitleAdapter titleAdapter;
-    private TitleViewModel titleViewModel;
+    private TitleAdminAdapter adapter;
+    private Button btnAddComic;
+    private SearchView searchView;
+    private TitleViewModel viewModel;
     private FragmentTitleManagementBinding binding;
     private NavController navController;
 
@@ -47,37 +50,51 @@ public class TitleFragment extends Fragment{
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        titleViewModel = new TitleViewModel();
+        viewModel = new TitleViewModel();
         navController = Navigation.findNavController(view);
 
         recyclerView = binding.recyclerComics;
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        titleAdapter = new TitleAdapter(getContext(), new ArrayList<>());
-
-        titleViewModel.getTitles(new HashMap<>()).observe(getViewLifecycleOwner(), new Observer<List<Title>>() {
+        adapter = new TitleAdminAdapter(new ArrayList<>(), new TitleAdminAdapter.OnItemClickListener() {
             @Override
-            public void onChanged(List<Title> titles) {
-                if (titles != null) {
-                    titleAdapter.setTitles(titles);
-                }
-            }
-        });
-
-        titleAdapter.setListener(new TitleAdapter.OnTitleClickListener() {
-            @Override
-            public void onTitleClick(Title title) {
+            public void onEditClick(Title title) {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("title", title);
-                NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_admin);
+                navController.navigate(R.id.nav_edit_comic, bundle);
+            }
+
+            @Override
+            public void onDeleteClick(Title title) {
+
+            }
+
+            @Override
+            public void onViewChaptersClick(Title title) {
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("title", title);
                 navController.navigate(R.id.nav_comic_detail, bundle);
             }
         });
 
-        recyclerView.setAdapter(titleAdapter);
+        recyclerView.setAdapter(adapter);
 
+        viewModel.getTitles(new HashMap<>()).observe(getViewLifecycleOwner(), new Observer<List<Title>>() {
+            @Override
+            public void onChanged(List<Title> titles) {
+                if (titles != null) {
+                    adapter.setTitles(titles);
+                }
+            }
+        });
 
-        SearchView searchView = binding.searchComic;
+        btnAddComic = binding.btnAddComic;
+
+        btnAddComic.setOnClickListener(v -> {
+            navController.navigate(R.id.nav_add_comic);
+        });
+
+        SearchView searchView = binding.searchView;
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -92,9 +109,5 @@ public class TitleFragment extends Fragment{
             }
         });
 
-        FloatingActionButton fabAddComic = binding.fabAddComic;
-        fabAddComic.setOnClickListener(v -> {
-            navController.navigate(R.id.nav_add_comic);
-        });
     }
 }
