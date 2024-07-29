@@ -28,7 +28,7 @@
 
     <fragment
         android:id="@+id/nav_slideshow"
-        android:name="com.main.comicapp.activities.ui.genre.GenreManagingFragment"
+        android:name="com.main.comicapp.fragments.genre.GenreManagingFragment"
         android:label="@string/menu_genre_managing"
         tools:layout="@layout/fragment_genre_management" >
     </fragment>
