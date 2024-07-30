@@ -40,6 +40,7 @@ public class RegisterActivity extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 1;
     private static final int CAMERA_REQUEST_CODE = 2;
     private Uri filePath;
+    private String avatarUrl;
 
     private TextView tvBirthDate;
     private EditText etUsername, etEmail, etPassword, etConfirmPassword, etFirstName, etLastName;
@@ -158,15 +159,13 @@ public class RegisterActivity extends AppCompatActivity {
                         public void onStart(String requestId) {
                             Toast.makeText(RegisterActivity.this, "Upload started", Toast.LENGTH_SHORT).show();
                         }
-
                         @Override
                         public void onProgress(String requestId, long bytes, long totalBytes) {
-                            // Hiển thị tiến độ upload
                         }
 
                         @Override
                         public void onSuccess(String requestId, Map resultData) {
-                            Toast.makeText(RegisterActivity.this, "Upload successful", Toast.LENGTH_SHORT).show();
+                            avatarUrl = resultData.get("secure_url").toString(); // Lưu URL của ảnh
                         }
 
                         @Override
@@ -208,6 +207,10 @@ public class RegisterActivity extends AppCompatActivity {
             if (Boolean.TRUE.equals(isTaken)) {
                 Toast.makeText(RegisterActivity.this, "Username or email already taken", Toast.LENGTH_SHORT).show();
             } else {
+                if (avatarUrl == null) {
+                    Toast.makeText(RegisterActivity.this, "Please upload an image first", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 mAuth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener(this, task -> {
                             if (task.isSuccessful()) {
@@ -236,6 +239,7 @@ public class RegisterActivity extends AppCompatActivity {
         user.put("gender", gender);
         user.put("birthDate", birthDate);
         user.put("password", hashedPassword); // Lưu mật khẩu đã được băm
+        user.put("avatar", avatarUrl); // Lưu đường dẫn ảnh
 
         db.collection("users").document(userId)
                 .set(user)
