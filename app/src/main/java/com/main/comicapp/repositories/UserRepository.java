@@ -9,5 +9,5 @@ public interface UserRepository {
     Task<QuerySnapshot> getAdminCount();
     Task<DocumentSnapshot> getUserById(String userId);
     Task<QuerySnapshot> getUserByEmail(String userEmail);
-    Task<QuerySnapshot> fetchUserByUsername(String username); // Thêm phương thức này
+    Task<QuerySnapshot> fetchUserByUsername(String username);
 }

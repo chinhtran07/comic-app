@@ -42,7 +42,7 @@ public class RegisterActivity extends AppCompatActivity {
     private Uri filePath;
     private String avatarUrl;
 
-    private TextView tvBirthDate;
+    private TextView tvBirthDate, tvUsernameError, tvEmailError;
     private EditText etUsername, etEmail, etPassword, etConfirmPassword, etFirstName, etLastName;
     private Button btnPickDate, btnRegister, btnChooseImage;
     private Spinner spinnerGender;
@@ -62,6 +62,8 @@ public class RegisterActivity extends AppCompatActivity {
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
 
         tvBirthDate = findViewById(R.id.tv_birth_date);
+        tvUsernameError = findViewById(R.id.tv_username_error);
+        tvEmailError = findViewById(R.id.tv_email_error);
         etUsername = findViewById(R.id.et_username);
         etFirstName = findViewById(R.id.et_first_name);
         etLastName = findViewById(R.id.et_last_name);
@@ -205,12 +207,28 @@ public class RegisterActivity extends AppCompatActivity {
         userViewModel.checkIfUsernameOrEmailTaken(username, email);
         userViewModel.getUsernameOrEmailTakenLiveData().observe(this, isTaken -> {
             if (Boolean.TRUE.equals(isTaken)) {
-                Toast.makeText(RegisterActivity.this, "Username or email already taken", Toast.LENGTH_SHORT).show();
+                if (userViewModel.isUsernameTaken()) {
+                    tvUsernameError.setVisibility(View.VISIBLE);
+                    tvUsernameError.setText("Username is already taken");
+                } else {
+                    tvUsernameError.setVisibility(View.GONE);
+                }
+
+                if (userViewModel.isEmailTaken()) {
+                    tvEmailError.setVisibility(View.VISIBLE);
+                    tvEmailError.setText("Email is already taken");
+                } else {
+                    tvEmailError.setVisibility(View.GONE);
+                }
             } else {
+                tvUsernameError.setVisibility(View.GONE);
+                tvEmailError.setVisibility(View.GONE);
+
                 if (avatarUrl == null) {
                     Toast.makeText(RegisterActivity.this, "Please upload an image first", Toast.LENGTH_SHORT).show();
                     return;
                 }
+
                 mAuth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener(this, task -> {
                             if (task.isSuccessful()) {
