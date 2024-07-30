@@ -16,11 +16,12 @@ public class User implements Serializable {
     private String lastName;
     private String gender;
     private String birthDate;
+    private String avatar; // Thêm trường avatar
 
     public User() {
     }
 
-    public User(String username, String password, String email, String userRole, String firstName, String lastName, String gender, String birthDate) {
+    public User(String username, String password, String email, String userRole, String firstName, String lastName, String gender, String birthDate, String avatar) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -29,6 +30,7 @@ public class User implements Serializable {
         this.lastName = lastName;
         this.gender = gender;
         this.birthDate = birthDate;
+        this.avatar = avatar; // Khởi tạo trường avatar
     }
 
     public String getId() {
@@ -103,6 +105,14 @@ public class User implements Serializable {
         this.birthDate = birthDate;
     }
 
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
     public static User toObject(Map<String, Object> data, String id) {
         User user = new User();
         user.setId(id);
@@ -111,6 +121,7 @@ public class User implements Serializable {
             user.setUsername((String)data.get("username"));
             user.setEmail((String)data.get("email"));
             user.setUserRole((String)data.get("userRole"));
+            user.setAvatar((String)data.get("avatar"));
         }
         return user;
     }
