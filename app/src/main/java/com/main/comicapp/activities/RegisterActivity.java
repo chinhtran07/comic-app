@@ -76,7 +76,6 @@ public class RegisterActivity extends AppCompatActivity {
         btnRegister = findViewById(R.id.btn_register);
         ivImagePreview = findViewById(R.id.iv_image_preview);
 
-        // Khởi tạo Cloudinary
         CloudinaryConfig.initCloudinary(this);
 
         btnPickDate.setOnClickListener(v -> showDatePickerDialog());
@@ -148,40 +147,15 @@ public class RegisterActivity extends AppCompatActivity {
                 Bitmap imageBitmap = (Bitmap) extras.get("data");
                 ivImagePreview.setImageBitmap(imageBitmap);
                 ivImagePreview.setVisibility(View.VISIBLE);
+                // Convert bitmap to Uri
+                filePath = getImageUri(imageBitmap);
             }
-            uploadImage();
         }
     }
 
-    private void uploadImage() {
-        if (filePath != null) {
-            MediaManager.get().upload(filePath)
-                    .callback(new UploadCallback() {
-                        @Override
-                        public void onStart(String requestId) {
-                            Toast.makeText(RegisterActivity.this, "Upload started", Toast.LENGTH_SHORT).show();
-                        }
-                        @Override
-                        public void onProgress(String requestId, long bytes, long totalBytes) {
-                        }
-
-                        @Override
-                        public void onSuccess(String requestId, Map resultData) {
-                            avatarUrl = resultData.get("secure_url").toString(); // Lưu URL của ảnh
-                        }
-
-                        @Override
-                        public void onError(String requestId, ErrorInfo error) {
-                            Toast.makeText(RegisterActivity.this, "Upload error: " + error.getDescription(), Toast.LENGTH_SHORT).show();
-                        }
-
-                        @Override
-                        public void onReschedule(String requestId, ErrorInfo error) {
-                            // Xử lý khi upload bị hoãn lại
-                        }
-                    })
-                    .dispatch();
-        }
+    private Uri getImageUri(Bitmap bitmap) {
+        String path = MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, "Title", null);
+        return Uri.parse(path);
     }
 
     private void registerUser() {
@@ -224,24 +198,57 @@ public class RegisterActivity extends AppCompatActivity {
                 tvUsernameError.setVisibility(View.GONE);
                 tvEmailError.setVisibility(View.GONE);
 
-                if (avatarUrl == null) {
+                if (filePath == null) {
                     Toast.makeText(RegisterActivity.this, "Please upload an image first", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                mAuth.createUserWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(this, task -> {
-                            if (task.isSuccessful()) {
-                                FirebaseUser user = mAuth.getCurrentUser();
-                                if (user != null) {
-                                    saveUserToFirestore(user, username, firstName, lastName, gender, birthDate, password);
-                                }
-                            } else {
-                                Toast.makeText(RegisterActivity.this, "Authentication failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                uploadImageAndRegister(email, password, username, firstName, lastName, gender, birthDate);
             }
         });
+    }
+
+    private void uploadImageAndRegister(String email, String password, String username, String firstName, String lastName, String gender, String birthDate) {
+        MediaManager.get().upload(filePath)
+                .callback(new UploadCallback() {
+                    @Override
+                    public void onStart(String requestId) {
+                        Toast.makeText(RegisterActivity.this, "Upload started", Toast.LENGTH_SHORT).show();
+                    }
+                    @Override
+                    public void onProgress(String requestId, long bytes, long totalBytes) {
+                    }
+
+                    @Override
+                    public void onSuccess(String requestId, Map resultData) {
+                        avatarUrl = resultData.get("secure_url").toString(); // Lưu URL của ảnh
+                        registerUserInFirebase(email, password, username, firstName, lastName, gender, birthDate);
+                    }
+
+                    @Override
+                    public void onError(String requestId, ErrorInfo error) {
+                        Toast.makeText(RegisterActivity.this, "Upload error: " + error.getDescription(), Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onReschedule(String requestId, ErrorInfo error) {
+                    }
+                })
+                .dispatch();
+    }
+
+    private void registerUserInFirebase(String email, String password, String username, String firstName, String lastName, String gender, String birthDate) {
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        if (user != null) {
+                            saveUserToFirestore(user, username, firstName, lastName, gender, birthDate, password);
+                        }
+                    } else {
+                        Toast.makeText(RegisterActivity.this, "Authentication failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     private void saveUserToFirestore(FirebaseUser firebaseUser, String username, String firstName, String lastName, String gender, String birthDate, String password) {
@@ -251,13 +258,14 @@ public class RegisterActivity extends AppCompatActivity {
         user.put("userId", userId);
         user.put("username", username);
         user.put("email", firebaseUser.getEmail());
-        user.put("userRole", "USER"); // Mặc định role là USER
+        user.put("userRole", "USER");
         user.put("firstName", firstName);
         user.put("lastName", lastName);
         user.put("gender", gender);
         user.put("birthDate", birthDate);
-        user.put("password", hashedPassword); // Lưu mật khẩu đã được băm
-        user.put("avatar", avatarUrl); // Lưu đường dẫn ảnh
+        user.put("password", hashedPassword);
+        user.put("avatar", avatarUrl);
+        user.put("isActive", false);
 
         db.collection("users").document(userId)
                 .set(user)
