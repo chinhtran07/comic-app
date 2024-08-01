@@ -28,7 +28,7 @@ import com.main.comicapp.viewmodels.ReadingPositionViewModel;
 
 import java.util.List;
 
-public class ReadingActivity extends BaseActivity {
+public class ReadingActivity extends AppCompatActivity {
 
     private ImageButton btnPrevChapter, btnNextChapter, btnBack, btnOption;
     private TextView tvTitle;

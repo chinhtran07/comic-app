@@ -8,6 +8,7 @@
 
     <style name="Theme.ComicApp" parent="Base.Theme.ComicApp" />
 
+
     <style name="Base.Theme.ComicApp.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
