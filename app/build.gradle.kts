@@ -30,6 +30,9 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -40,13 +43,23 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.storage)
     implementation(libs.firebase.firestore)
+    implementation(libs.firebase.auth)
     implementation(libs.glide)
+    implementation(libs.lifecycle.livedata.ktx)
+    implementation(libs.lifecycle.viewmodel.ktx)
+    implementation(libs.navigation.fragment)
+    implementation(libs.navigation.ui)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 
-    // Add library for drawing graphs
-    implementation("com.github.PhilJay:MPAndroidChart:v3.0.2")
-    // Password hashing library
-    implementation("org.mindrot:jbcrypt:0.4")
+    // Thêm thư viện vẽ biểu đồ
+    implementation(libs.mpandroidchart)
+    // Thư viện mã hóa mật khẩu
+    implementation(libs.jbcrypt)
+    // Cloudinary for upload images
+    implementation(libs.cloudinary.android)
+    implementation(kotlin("script-runtime"))
 }
+
+apply(plugin = "com.google.gms.google-services")

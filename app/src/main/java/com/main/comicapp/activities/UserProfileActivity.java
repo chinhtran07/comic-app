@@ -3,13 +3,15 @@ package com.main.comicapp.activities;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.bumptech.glide.Glide;
 import com.main.comicapp.R;
 import com.main.comicapp.viewmodels.UserViewModel;
 
-public class UserProfileActivity extends BaseActivity {
+public class UserProfileActivity extends AppCompatActivity {
     private UserViewModel userViewModel;
 
     private ImageView ivProfilePicture;
@@ -31,8 +33,8 @@ public class UserProfileActivity extends BaseActivity {
 
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
 
-        // Fetch user with ID 1
-        String userId = "f0a7a273-bdf6-4aea-803d-581f4eaeda39";
+        // Fetch user with ID LbyAXv1u6PVIRjfzR86Vst2XlU82
+        String userId = "LbyAXv1u6PVIRjfzR86Vst2XlU82";
         userViewModel.fetchUserById(userId);
 
         userViewModel.getUserLiveData().observe(this, user -> {
@@ -44,8 +46,8 @@ public class UserProfileActivity extends BaseActivity {
                 tvBirthDate.setText(user.getBirthDate());
                 tvEmail.setText(user.getEmail());
                 tvUserRole.setText(user.getUserRole());
-                // Bạn có thể tải ảnh từ URL nếu cần thiết
-                // Glide.with(this).load(user.getProfilePictureUrl()).into(ivProfilePicture);
+                // Tải ảnh từ URL nếu cần thiết
+                Glide.with(this).load(user.getAvatar()).into(ivProfilePicture);
             }
         });
     }

@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.main.comicapp.R;
-import com.main.comicapp.adapters.PagesAdapter;
+import com.main.comicapp.adapters.PageAdapter;
 import com.main.comicapp.models.Page;
 import com.main.comicapp.viewmodels.PageViewModel;
 
@@ -23,7 +23,7 @@ import java.util.List;
 public class ComicFragment extends Fragment {
 
     private RecyclerView recyclerView;
-    private PagesAdapter pagesAdapter;
+    private PageAdapter pageAdapter;
     private PageViewModel pageViewModel;
     private String chapterId;
 
@@ -39,8 +39,8 @@ public class ComicFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recycler_img);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
 
-        pagesAdapter = new PagesAdapter(getContext(), null);
-        recyclerView.setAdapter(pagesAdapter);
+        pageAdapter = new PageAdapter(getContext(), null);
+        recyclerView.setAdapter(pageAdapter);
 
         pageViewModel = new ViewModelProvider(this).get(PageViewModel.class);
 
@@ -59,7 +59,7 @@ public class ComicFragment extends Fragment {
                 @Override
                 public void onChanged(@Nullable List<Page> pages) {
                     if (pages != null) {
-                        pagesAdapter.setPages(pages);
+                        pageAdapter.setPages(pages);
                     }
                 }
             });

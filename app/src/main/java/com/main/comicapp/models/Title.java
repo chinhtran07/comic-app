@@ -3,11 +3,6 @@ package com.main.comicapp.models;
 import android.annotation.SuppressLint;
 import android.util.Log;
 
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.gms.tasks.Tasks;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.main.comicapp.enums.PubStatus;
 import com.main.comicapp.enums.TitleFormat;
 import com.main.comicapp.utils.ValidateUtil;

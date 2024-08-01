@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.main.comicapp.R;
-import com.main.comicapp.adapters.ChaptersAdapter;
+import com.main.comicapp.adapters.ChapterAdapter;
 import com.main.comicapp.models.Chapter;
 import com.main.comicapp.viewmodels.ChapterViewModel;
 
@@ -23,7 +23,7 @@ public class ManageChapterActivity extends AppCompatActivity {
 
     private ChapterViewModel chapterViewModel;
     private RecyclerView recyclerView;
-    private ChaptersAdapter adapter;
+    private ChapterAdapter adapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,7 +34,7 @@ public class ManageChapterActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
 
-        adapter = new ChaptersAdapter(null);
+        adapter = new ChapterAdapter(null);
         recyclerView.setAdapter(adapter);
 
         chapterViewModel = new ViewModelProvider(this).get(ChapterViewModel.class);
@@ -54,7 +54,7 @@ public class ManageChapterActivity extends AppCompatActivity {
             }
         });
 
-        adapter.setListener(new ChaptersAdapter.OnChapterClickListener() {
+        adapter.setListener(new ChapterAdapter.OnChapterClickListener() {
             @Override
             public void onChapterClick(Chapter chapter) {
                 // Xử lý khi click vào chương (có thể mở chi tiết chương)

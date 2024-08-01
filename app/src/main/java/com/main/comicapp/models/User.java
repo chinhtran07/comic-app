@@ -16,11 +16,13 @@ public class User implements Serializable {
     private String lastName;
     private String gender;
     private String birthDate;
+    private String avatar; // Thêm trường avatar
+    private boolean isActive; // Thêm trường isActive
 
     public User() {
     }
 
-    public User(String username, String password, String email, String userRole, String firstName, String lastName, String gender, String birthDate) {
+    public User(String username, String password, String email, String userRole, String firstName, String lastName, String gender, String birthDate, String avatar, boolean isActive) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -29,6 +31,8 @@ public class User implements Serializable {
         this.lastName = lastName;
         this.gender = gender;
         this.birthDate = birthDate;
+        this.avatar = avatar; // Khởi tạo trường avatar
+        this.isActive = isActive; // Khởi tạo trường isActive
     }
 
     public String getId() {
@@ -103,14 +107,32 @@ public class User implements Serializable {
         this.birthDate = birthDate;
     }
 
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean isActive) {
+        this.isActive = isActive;
+    }
+
     public static User toObject(Map<String, Object> data, String id) {
         User user = new User();
         user.setId(id);
         if (ValidateUtil.validateObject(data)) {
-            user.setPassword((String)data.get("password"));
-            user.setUsername((String)data.get("username"));
-            user.setEmail((String)data.get("email"));
-            user.setUserRole((String)data.get("userRole"));
+            user.setPassword((String) data.get("password"));
+            user.setUsername((String) data.get("username"));
+            user.setEmail((String) data.get("email"));
+            user.setUserRole((String) data.get("userRole"));
+            user.setAvatar((String) data.get("avatar"));
+            user.setActive((Boolean) data.get("is_active"));
         }
         return user;
     }

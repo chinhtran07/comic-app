@@ -3,6 +3,7 @@ package com.main.comicapp.viewmodels;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.main.comicapp.models.User;
@@ -15,6 +16,9 @@ public class UserViewModel extends ViewModel {
     private final MutableLiveData<Integer> adminCountLiveData = new MutableLiveData<>();
     private final MutableLiveData<User> userLiveData = new MutableLiveData<>();
     private final MutableLiveData<User> currentUserLiveData = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> usernameOrEmailTakenLiveData = new MutableLiveData<>();
+    private boolean isUsernameTaken = false;
+    private boolean isEmailTaken = false;
 
     public UserViewModel() {
         userRepository = new UserRepositoryImpl();
@@ -32,7 +36,21 @@ public class UserViewModel extends ViewModel {
         return userLiveData;
     }
 
-    public LiveData<User> getCurrentUserLiveData() {return currentUserLiveData;}
+    public LiveData<User> getCurrentUserLiveData() {
+        return currentUserLiveData;
+    }
+
+    public LiveData<Boolean> getUsernameOrEmailTakenLiveData() {
+        return usernameOrEmailTakenLiveData;
+    }
+
+    public boolean isUsernameTaken() {
+        return isUsernameTaken;
+    }
+
+    public boolean isEmailTaken() {
+        return isEmailTaken;
+    }
 
     public void fetchReaderCount() {
         userRepository.getReaderCount().addOnCompleteListener(task -> {
@@ -79,6 +97,41 @@ public class UserViewModel extends ViewModel {
                 } else {
                     currentUserLiveData.setValue(null);
                 }
+            }
+        });
+    }
+
+    public void fetchUserByUsername(String username) {
+        userRepository.fetchUserByUsername(username).addOnCompleteListener(task -> {
+            if (task.isSuccessful() && task.getResult() != null) {
+                QuerySnapshot querySnapshot = task.getResult();
+                if (!querySnapshot.isEmpty()) {
+                    DocumentSnapshot document = querySnapshot.getDocuments().get(0);
+                    User user = User.toObject(document.getData(), document.getId());
+                    currentUserLiveData.setValue(user);
+                } else {
+                    currentUserLiveData.setValue(null);
+                }
+            }
+        });
+    }
+
+    public void checkIfUsernameOrEmailTaken(String username, String email) {
+        userRepository.fetchUserByUsername(username).addOnCompleteListener(usernameTask -> {
+            if (usernameTask.isSuccessful() && !usernameTask.getResult().isEmpty()) {
+                isUsernameTaken = true;
+                usernameOrEmailTakenLiveData.setValue(true);
+            } else {
+                isUsernameTaken = false;
+                userRepository.getUserByEmail(email).addOnCompleteListener(emailTask -> {
+                    if (emailTask.isSuccessful() && !emailTask.getResult().isEmpty()) {
+                        isEmailTaken = true;
+                        usernameOrEmailTakenLiveData.setValue(true);
+                    } else {
+                        isEmailTaken = false;
+                        usernameOrEmailTakenLiveData.setValue(false);
+                    }
+                });
             }
         });
     }

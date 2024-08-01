@@ -1,11 +1,8 @@
 package com.main.comicapp.repositories.impl;
 
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.main.comicapp.repositories.UserRepository;
 
@@ -35,6 +32,13 @@ public class UserRepositoryImpl implements UserRepository {
     public Task<QuerySnapshot> getUserByEmail(String userEmail) {
         return db.collection("users")
                 .whereEqualTo("email", userEmail)
+                .get();
+    }
+
+    @Override
+    public Task<QuerySnapshot> fetchUserByUsername(String username) {
+        return db.collection("users")
+                .whereEqualTo("username", username)
                 .get();
     }
 }
