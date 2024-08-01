@@ -24,4 +24,8 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_detail_write_comment_button">Viết Bình Luận</string>
+    <string name="action_history">History</string>
+    <string name="action_home">Home</string>
+    <string name="action_user_profile">Profile</string>
+    <string name="action_all_titles">Title</string>
 </resources>
