@@ -40,6 +40,20 @@
     <string name="menu_home">Trang chủ</string>
     <string name="menu_user_managing">Quản lý người dùng</string>
     <string name="menu_genre_managing">Quản lý thể loại</string>
-    <string name="title_detail_write_comment_button">Comment</string>
     <string name="title_management">Quản lý truyện</string>
+    <string name="user_avatar">Ảnh đại diện người dùng</string>
+    <string name="admin_tile_user">Quản lý người dùng</string>
+    <string name="profile_button_text">Thông tin</string>
+    <string name="button_lock">Khóa</string>
+    <string name="button_unlock">Mở Khóa</string>
+
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="username">Username</string>
+    <string name="email">Email</string>
+    <string name="user_role">User Role</string>
+    <string name="gender">Gender</string>
+    <string name="birth_date">Birth Date</string>
+
+    <string name="action_button_text">Action</string>
 </resources>

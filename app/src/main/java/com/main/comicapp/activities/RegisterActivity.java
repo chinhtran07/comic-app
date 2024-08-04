@@ -24,7 +24,6 @@ import com.cloudinary.android.callback.ErrorInfo;
 import com.cloudinary.android.callback.UploadCallback;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.main.comicapp.R;
 import com.main.comicapp.config.CloudinaryConfig;
 import com.main.comicapp.viewmodels.UserViewModel;
@@ -50,7 +49,6 @@ public class RegisterActivity extends AppCompatActivity {
     private UserViewModel userViewModel;
 
     private FirebaseAuth mAuth;
-    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +56,6 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         mAuth = FirebaseAuth.getInstance();
-        db = FirebaseFirestore.getInstance();
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
 
         tvBirthDate = findViewById(R.id.tv_birth_date);
@@ -215,6 +212,7 @@ public class RegisterActivity extends AppCompatActivity {
                     public void onStart(String requestId) {
                         Toast.makeText(RegisterActivity.this, "Upload started", Toast.LENGTH_SHORT).show();
                     }
+
                     @Override
                     public void onProgress(String requestId, long bytes, long totalBytes) {
                     }
@@ -267,13 +265,10 @@ public class RegisterActivity extends AppCompatActivity {
         user.put("avatar", avatarUrl);
         user.put("isActive", false);
 
-        db.collection("users").document(userId)
-                .set(user)
-                .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(RegisterActivity.this, "Registration successful", Toast.LENGTH_SHORT).show();
-                    navigateToLogin();
-                })
-                .addOnFailureListener(e -> Toast.makeText(RegisterActivity.this, "Error saving user: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+        userViewModel.saveUser(userId, user).addOnSuccessListener(aVoid -> {
+            Toast.makeText(RegisterActivity.this, "Registration successful", Toast.LENGTH_SHORT).show();
+            navigateToLogin();
+        }).addOnFailureListener(e -> Toast.makeText(RegisterActivity.this, "Error saving user: " + e.getMessage(), Toast.LENGTH_SHORT).show());
     }
 
     private void navigateToLogin() {
