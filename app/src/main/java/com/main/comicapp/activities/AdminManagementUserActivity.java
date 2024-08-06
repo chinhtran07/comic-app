@@ -13,7 +13,6 @@ import com.main.comicapp.adapters.admin.UserAdminAdapter;
 import com.main.comicapp.models.User;
 import com.main.comicapp.viewmodels.UserViewModel;
 
-
 public class AdminManagementUserActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
@@ -28,7 +27,8 @@ public class AdminManagementUserActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycler_view_user_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        adapter = new UserAdminAdapter();
+        // Initialize adapter with listener implementations
+        adapter = new UserAdminAdapter(this::navigateToUserProfile, this::toggleUserActiveStatus);
         recyclerView.setAdapter(adapter);
 
         userViewModel = new UserViewModel();
@@ -37,16 +37,27 @@ public class AdminManagementUserActivity extends AppCompatActivity {
         }).addOnFailureListener(e -> {
             Toast.makeText(AdminManagementUserActivity.this, "Failed to load users: " + e.getMessage(), Toast.LENGTH_LONG).show();
         });
+    }
 
-        adapter.setOnUserClickListener(userId -> {
-            Intent intent = new Intent(AdminManagementUserActivity.this, UserProfileActivity.class);
-            if (userId != null) {
-                intent.putExtra("USER_ID", userId);
-                startActivity(intent);
+    private void navigateToUserProfile(String userId) {
+        Intent intent = new Intent(AdminManagementUserActivity.this, UserProfileActivity.class);
+        if (userId != null) {
+            intent.putExtra("USER_ID", userId);
+            startActivity(intent);
+        } else {
+            Toast.makeText(this, "Error: User ID is missing.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void toggleUserActiveStatus(User user, int position) {
+        userViewModel.updateUserStatus(user.getId()).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                // Toggle the state in the adapter's data set
+                user.setisActive(!user.getisActive());
+                adapter.notifyItemChanged(position);
             } else {
-                Toast.makeText(this, "Error: User ID is missing.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Failed to update user status.", Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 }

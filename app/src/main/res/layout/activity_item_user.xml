@@ -33,8 +33,8 @@
             android:layout_height="wrap_content"/>
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/tv_user_status"
+    <Button
+        android:id="@+id/btn_user_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="14sp"/>

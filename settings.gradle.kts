@@ -10,7 +10,7 @@ pluginManagement {
         mavenCentral()
         gradlePluginPortal()
         maven { url = uri("https://jitpack.io") }
-        jcenter() // Thêm kho lưu trữ JCenter
+        jcenter()
     }
 }
 
@@ -20,7 +20,7 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         maven { url = uri("https://jitpack.io") }
-        jcenter() // Thêm kho lưu trữ JCenter
+        jcenter()
     }
 }
 

@@ -254,10 +254,10 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void saveUserToFirestore(FirebaseUser firebaseUser, String username, String firstName, String lastName, String gender, String birthDate, String password) {
-        String userId = firebaseUser.getUid();
+        String id = firebaseUser.getUid();
         String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
         Map<String, Object> user = new HashMap<>();
-        user.put("userId", userId);
+        user.put("id", id);
         user.put("username", username);
         user.put("email", firebaseUser.getEmail());
         user.put("userRole", "USER");
@@ -269,7 +269,7 @@ public class RegisterActivity extends AppCompatActivity {
         user.put("avatar", avatarUrl);
         user.put("isActive", false);
 
-        db.collection("users").document(userId)
+        db.collection("users").document(id)
                 .set(user)
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(RegisterActivity.this, "Registration successful", Toast.LENGTH_SHORT).show();
