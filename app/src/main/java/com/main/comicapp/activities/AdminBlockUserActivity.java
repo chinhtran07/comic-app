@@ -1,5 +1,4 @@
 package com.main.comicapp.activities;
-
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,7 +12,7 @@ import com.main.comicapp.R;
 import com.main.comicapp.models.User;
 import com.main.comicapp.viewmodels.UserViewModel;
 
-public class UserProfileActivity extends AppCompatActivity {
+public class AdminBlockUserActivity extends AppCompatActivity {
     private UserViewModel userViewModel;
 
     private ImageView ivProfilePicture;
