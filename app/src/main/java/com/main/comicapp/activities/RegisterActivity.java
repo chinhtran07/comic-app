@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -228,6 +229,7 @@ public class RegisterActivity extends AppCompatActivity {
                     @Override
                     public void onError(String requestId, ErrorInfo error) {
                         Toast.makeText(RegisterActivity.this, "Upload error: " + error.getDescription(), Toast.LENGTH_SHORT).show();
+                        Log.d("Lỗi:", error.getDescription());
                     }
 
                     @Override
