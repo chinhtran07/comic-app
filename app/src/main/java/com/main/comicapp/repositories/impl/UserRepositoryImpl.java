@@ -7,14 +7,20 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.main.comicapp.models.User;
 import com.main.comicapp.repositories.UserRepository;
-import com.main.comicapp.utils.EmailSenderUtils;
+import com.main.comicapp.repositories.SendMailRepository;
 
-import javax.mail.MessagingException;
+import android.util.Log;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import javax.mail.MessagingException;
 
 public class UserRepositoryImpl implements UserRepository {
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private final ExecutorService emailExecutor = Executors.newSingleThreadExecutor();
+    private final SendMailRepository sendMailRepository = new SendMailRepositoryImpl();
 
     @Override
     public Task<QuerySnapshot> getAllUser() {
@@ -65,19 +71,16 @@ public class UserRepositoryImpl implements UserRepository {
                     if (isActive != null) {
                         Map<String, Object> updates = new HashMap<>();
                         updates.put("isActive", !isActive);
-                        userDocRef.update(updates).addOnCompleteListener(updateTask -> {
+                        return userDocRef.update(updates).addOnCompleteListener(updateTask -> {
                             if (updateTask.isSuccessful()) {
-                                try {
-                                    User user = document.toObject(User.class);
-                                    if (user != null) {
-                                        sendStatusChangeEmail(user, !isActive);
-                                    }
-                                } catch (MessagingException e) {
-                                    e.printStackTrace();
+                                User user = document.toObject(User.class);
+                                if (user != null) {
+                                    sendEmailAsync(user, !isActive);
                                 }
+                            } else {
+                                Log.e("UpdateStatus", "Failed to update user status", updateTask.getException());
                             }
                         });
-                        return null;
                     } else {
                         throw new RuntimeException("Field 'isActive' is missing or null.");
                     }
@@ -90,24 +93,19 @@ public class UserRepositoryImpl implements UserRepository {
         });
     }
 
-    private void sendStatusChangeEmail(User user, boolean newStatus) throws MessagingException {
-        String subject;
-        String messageBody;
+    private void sendEmailAsync(User user, boolean newStatus) {
+        emailExecutor.submit(() -> {
+            try {
+                sendMailRepository.sendStatusChangeEmail(user, newStatus);
+            } catch (MessagingException e) {
+                Log.e("EmailSender", "Failed to send status change email", e);
+            }
+        });
+    }
 
-        if (newStatus) {
-            subject = "Tài Khoản Đã Được Kích Hoạt";
-            messageBody = "Thân chào " + user.getLastName() + " " + user.getFirstName() + ",\n\n"
-                    + "Tài khoản của bạn đã được kích hoạt thành công. Bạn giờ đây có thể truy cập vào dịch vụ của chúng tôi.\n\n"
-                    + "Trân trọng,\n"
-                    + "Đội ngũ hỗ trợ";
-        } else {
-            subject = "Thông Báo Về Tình Trạng Tài Khoản";
-            messageBody = "Thân chào " + user.getLastName() + " " + user.getFirstName() + ",\n\n"
-                    + "Tài khoản của bạn đã bị khóa. Vui lòng liên hệ với quản trị viên để được hỗ trợ và biết thêm thông tin chi tiết.\n\n"
-                    + "Trân trọng,\n"
-                    + "Đội ngũ hỗ trợ";
-        }
-
-        EmailSenderUtils.sendEmail(user.getEmail(), subject, messageBody);
+    @Override
+    protected void finalize() throws Throwable {
+        super.finalize();
+        emailExecutor.shutdown();
     }
 }
