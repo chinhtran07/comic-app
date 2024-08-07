@@ -16,8 +16,8 @@ public class User implements Serializable {
     private String lastName;
     private String gender;
     private String birthDate;
-    private String avatar; // Thêm trường avatar
-    private boolean isActive; // Thêm trường isActive
+    private String avatar;
+    private boolean isActive;
 
     public User() {
     }
@@ -31,8 +31,8 @@ public class User implements Serializable {
         this.lastName = lastName;
         this.gender = gender;
         this.birthDate = birthDate;
-        this.avatar = avatar; // Khởi tạo trường avatar
-        this.isActive = isActive; // Khởi tạo trường isActive
+        this.avatar = avatar;
+        this.isActive = isActive;
     }
 
     public String getId() {
@@ -115,11 +115,11 @@ public class User implements Serializable {
         this.avatar = avatar;
     }
 
-    public boolean isActive() {
+    public boolean getisActive() {
         return isActive;
     }
 
-    public void setActive(boolean isActive) {
+    public void setisActive(boolean isActive) {
         this.isActive = isActive;
     }
 
@@ -132,7 +132,7 @@ public class User implements Serializable {
             user.setEmail((String) data.get("email"));
             user.setUserRole((String) data.get("userRole"));
             user.setAvatar((String) data.get("avatar"));
-            user.setActive((Boolean) data.get("isActive"));
+            user.setisActive((Boolean) data.get("isActive"));
         }
         return user;
     }

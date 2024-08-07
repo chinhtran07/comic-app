@@ -69,6 +69,12 @@
         <activity
             android:name=".activities.BaseActivity"
             android:exported="true" />
+        <activity
+            android:name=".activities.AdminManagementUserActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activities.AdminBlockUserActivity"
+            android:exported="true" />
     </application>
 
 </manifest>

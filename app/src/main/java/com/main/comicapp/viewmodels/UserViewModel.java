@@ -4,11 +4,14 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.main.comicapp.models.User;
 import com.main.comicapp.repositories.UserRepository;
 import com.main.comicapp.repositories.impl.UserRepositoryImpl;
+
+import java.util.Map;
 
 public class UserViewModel extends ViewModel {
     private final UserRepository userRepository;
@@ -53,7 +56,7 @@ public class UserViewModel extends ViewModel {
     }
 
     public void fetchReaderCount() {
-        userRepository.getReaderCount().addOnCompleteListener(task -> {
+        userRepository.getAllUser().addOnCompleteListener(task -> {
             if (task.isSuccessful() && task.getResult() != null) {
                 int count = task.getResult().size();
                 readerCountLiveData.setValue(count);
@@ -64,7 +67,7 @@ public class UserViewModel extends ViewModel {
     }
 
     public void fetchAdminCount() {
-        userRepository.getAdminCount().addOnCompleteListener(task -> {
+        userRepository.getAllAdmin().addOnCompleteListener(task -> {
             if (task.isSuccessful() && task.getResult() != null) {
                 int count = task.getResult().size();
                 adminCountLiveData.setValue(count);
@@ -134,5 +137,17 @@ public class UserViewModel extends ViewModel {
                 });
             }
         });
+    }
+
+    public Task<Void> saveUser(String userId, Map<String, Object> userData) {
+        return userRepository.save(userData, userId);
+    }
+
+    public Task<Void> updateUserStatus( String userId){
+        return userRepository.updateUserStatus(userId);
+    }
+
+    public Task<QuerySnapshot> getAllUser(){
+        return userRepository.getAllUser();
     }
 }

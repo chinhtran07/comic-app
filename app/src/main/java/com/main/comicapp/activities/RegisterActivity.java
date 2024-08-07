@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -228,6 +229,7 @@ public class RegisterActivity extends AppCompatActivity {
                     @Override
                     public void onError(String requestId, ErrorInfo error) {
                         Toast.makeText(RegisterActivity.this, "Upload error: " + error.getDescription(), Toast.LENGTH_SHORT).show();
+                        Log.d("Lỗi:", error.getDescription());
                     }
 
                     @Override
@@ -252,10 +254,10 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void saveUserToFirestore(FirebaseUser firebaseUser, String username, String firstName, String lastName, String gender, String birthDate, String password) {
-        String userId = firebaseUser.getUid();
+        String id = firebaseUser.getUid();
         String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
         Map<String, Object> user = new HashMap<>();
-        user.put("userId", userId);
+        user.put("id", id);
         user.put("username", username);
         user.put("email", firebaseUser.getEmail());
         user.put("userRole", "USER");
@@ -267,7 +269,7 @@ public class RegisterActivity extends AppCompatActivity {
         user.put("avatar", avatarUrl);
         user.put("isActive", false);
 
-        db.collection("users").document(userId)
+        db.collection("users").document(id)
                 .set(user)
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(RegisterActivity.this, "Registration successful", Toast.LENGTH_SHORT).show();
