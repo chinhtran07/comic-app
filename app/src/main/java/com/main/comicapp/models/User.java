@@ -132,7 +132,7 @@ public class User implements Serializable {
             user.setEmail((String) data.get("email"));
             user.setUserRole((String) data.get("userRole"));
             user.setAvatar((String) data.get("avatar"));
-            user.setisActive((Boolean) data.get("is_active"));
+            user.setisActive((Boolean) data.get("isActive"));
         }
         return user;
     }

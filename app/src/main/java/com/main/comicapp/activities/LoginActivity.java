@@ -20,6 +20,7 @@ import com.main.comicapp.viewmodels.UserViewModel;
 
 import org.mindrot.jbcrypt.BCrypt;
 
+import java.util.Objects;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
@@ -54,10 +55,23 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
                     if (login(email, password)) {
                         createUserSession(currentUser.getId());
-                        Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                        startActivity(intent);
-                        finish();
+                        Intent intent = new Intent();
+                        if (currentUser.getisActive()){
+                            if(Objects.equals(currentUser.getUserRole(), "ADMIN")){
+                                intent.setClass(LoginActivity.this, AdminActivity.class);
+                                Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
+                            }
+                            else {
+                                intent.setClass(LoginActivity.this, HomeActivity.class);
+                                Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
+                            }
+                            startActivity(intent);
+                            finish();
+                        }
+                        else {
+                            Toast.makeText(LoginActivity.this,"Your account is not active", Toast.LENGTH_SHORT).show();
+                            currentUser = null;
+                        }
                     }
                 }
             }
@@ -78,7 +92,6 @@ public class LoginActivity extends AppCompatActivity {
             currentUser = userViewModel.getCurrentUserLiveData().getValue();
             if (currentUser != null) {
                 if (BCrypt.checkpw(password, currentUser.getPassword())) {
-                    // Login successful
                     return true;
                 } else {
                     etPassword.setError("Incorrect password");
@@ -102,7 +115,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void createUserSession(String userId) {
-        // Create a new UserSession object
         UserSession userSession = new UserSession();
         userSession.setId(UUID.randomUUID().toString());
         userSession.setUserId(userId);
