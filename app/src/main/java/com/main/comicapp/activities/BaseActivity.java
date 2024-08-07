@@ -22,20 +22,28 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.main.comicapp.R;
+import com.main.comicapp.enums.UserRole;
+import com.main.comicapp.models.User;
 import com.main.comicapp.models.UserSession;
 import com.main.comicapp.utils.ValidateUtil;
 import com.main.comicapp.viewmodels.UserSessionViewModel;
+import com.main.comicapp.viewmodels.UserViewModel;
 
 abstract class BaseActivity extends AppCompatActivity {
     private UserSessionViewModel userSessionViewModel;
+    private UserViewModel userViewModel;
     protected UserSession currentUserSession;
+    BottomNavigationView bottomNavigationView;
+    private User currentUser;
     private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         context = this;
+        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
         userSessionViewModel = new ViewModelProvider(this).get(UserSessionViewModel.class);
         validateSession();
+
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
@@ -65,6 +73,7 @@ abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+
         setupBottomNavView();
     }
 
@@ -72,8 +81,7 @@ abstract class BaseActivity extends AppCompatActivity {
         SharedPreferences actionPrefs = getSharedPreferences("action_history", MODE_PRIVATE);
         int currentAction = actionPrefs.getInt("current_action", R.id.action_home);
 
-
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav_view);
+        bottomNavigationView = findViewById(R.id.bottom_nav_view);
         bottomNavigationView.setSelectedItemId(currentAction);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
@@ -100,11 +108,21 @@ abstract class BaseActivity extends AppCompatActivity {
                  finish();
                  return true;
              }
-             else if (itemId == R.id.action_all_titles) {
+             else if (itemId == R.id.action_logout) {
+                 logout();
+                 return true;
+             }
+             else if (itemId == R.id.action_admin) {
+                 Intent intent = new Intent(this, AdminActivity.class);
+                 startActivity(intent);
+                 finish();
                  return true;
              }
              else return false;
         });
+        bottomNavigationView.getMenu().findItem(R.id.action_admin).setVisible(false);
+        invalidateOptionsMenu();
+
      }
 
     protected void validateSession() {
@@ -117,19 +135,32 @@ abstract class BaseActivity extends AppCompatActivity {
         }
 
         String currentSessionId = prefs.getString("session_id", null);
-        userSessionViewModel.fetchUserSession(currentSessionId);
-        userSessionViewModel.getCurrentUserSession().observe(this, userSession -> {
-            if (userSession != null) {
-                if ((System.currentTimeMillis() - userSession.getLastLoginTime()) > ValidateUtil.SESSION_LENGTH) {
-                    Log.d(TAG, "validateSession: Session expired");
-                    userSessionViewModel.deleteUserSession(currentSessionId);
-                    forceLogout();
+        if (currentSessionId != null) {
+            userSessionViewModel.fetchUserSession(currentSessionId);
+            userSessionViewModel.getCurrentUserSession().observe(this, userSession -> {
+                if (userSession != null) {
+                    if ((System.currentTimeMillis() - userSession.getLastLoginTime()) > ValidateUtil.SESSION_LENGTH) {
+                        Log.d(TAG, "validateSession: Session expired");
+                        forceLogout();
+                    } else {
+                        currentUserSession = userSession;
+                        userViewModel.fetchUserById(userSession.getUserId());
+                        userViewModel.getUserLiveData().observe(this, user -> {
+                            if (user != null) {
+                                if (user.getUserRole().equals(UserRole.ADMIN.name())) {
+                                    bottomNavigationView.getMenu().findItem(R.id.action_profile).setVisible(false);
+                                    bottomNavigationView.getMenu().findItem(R.id.action_admin).setVisible(true);
+                                    invalidateOptionsMenu();
+                                }
+                            }
+                        });
+
+                    }
                 }
-                else {
-                   currentUserSession = userSession;
-                }
-            }
-        });
+            });
+
+
+        }
     }
 
     protected void forceLogout() {
@@ -137,12 +168,39 @@ abstract class BaseActivity extends AppCompatActivity {
         builder.setTitle("Logout")
                 .setMessage("Your session has expired. Forcing logout")
                 .setPositiveButton("OK", (dialog, which) -> {
+                    clearSession();
                     Intent intent = new Intent(this, LoginActivity.class);
                     startActivity(intent);
                     finish();
                 });
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    protected void logout() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Logout")
+                .setMessage("Do you want to end your session ?")
+                .setPositiveButton("OK", (dialog, which) -> {
+                    clearSession();
+                    Intent intent = new Intent(this, LoginActivity.class);
+                    startActivity(intent);
+                    finish();
+                }).setNegativeButton("Cancel", (dialog, which) -> {
+                    dialog.dismiss();
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+    }
+
+    protected void clearSession() {
+        SharedPreferences prefs = getSharedPreferences("user_session", MODE_PRIVATE);
+        String currentSessionId = prefs.getString("session_id", null);
+        userSessionViewModel.deleteUserSession(currentSessionId);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.remove("session_id");
+        editor.apply();
     }
 
 
