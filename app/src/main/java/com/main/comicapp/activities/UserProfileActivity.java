@@ -11,7 +11,7 @@ import com.bumptech.glide.Glide;
 import com.main.comicapp.R;
 import com.main.comicapp.viewmodels.UserViewModel;
 
-public class UserProfileActivity extends AppCompatActivity {
+public class UserProfileActivity extends BaseActivity {
     private UserViewModel userViewModel;
 
     private ImageView ivProfilePicture;

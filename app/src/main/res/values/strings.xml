@@ -40,6 +40,7 @@
     <string name="menu_home">Trang chủ</string>
     <string name="menu_user_managing">Quản lý người dùng</string>
     <string name="menu_genre_managing">Quản lý thể loại</string>
-    <string name="title_detail_write_comment_button">Comment</string>
     <string name="title_management">Quản lý truyện</string>
+    <string name="action_logout">Logout</string>
+    <string name="action_admin">Admin</string>
 </resources>
