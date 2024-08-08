@@ -9,17 +9,20 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.main.comicapp.R;
 import com.main.comicapp.adapters.UserAdapter;
 import com.main.comicapp.databinding.FragmentUserManagementBinding;
 import com.main.comicapp.models.User;
+import com.main.comicapp.viewmodels.UserViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,12 +38,12 @@ public class UserManagementFragment extends Fragment {
     private List<User> userList; // Assuming User is a model class
     private List<User> filteredUserList;
     private NavController navController;
+    private UserViewModel viewModel;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        UserManagementViewModel userManagementViewModel =
-                new ViewModelProvider(this).get(UserManagementViewModel.class);
+        viewModel = new UserViewModel();
 
         binding = FragmentUserManagementBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -81,13 +84,17 @@ public class UserManagementFragment extends Fragment {
     }
 
     private void loadUsers() {
-        // Load users from a ViewModel or data source and update the adapter
-        // Example:
-        // userViewModel.getUsers().observe(getViewLifecycleOwner(), users -> {
-        //     userList = users;
-        //     filteredUserList = new ArrayList<>(users);
-        //     userAdapter.update(users);
-        // });
+        viewModel.getAllUser().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                userList = new ArrayList<>();
+                for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
+                    User user = User.toObject(document.getData(), document.getId());
+                    userList.add(user);
+                }
+                userAdapter.update(userList);
+            }
+        });
     }
 
     private void filterUsers(String query) {

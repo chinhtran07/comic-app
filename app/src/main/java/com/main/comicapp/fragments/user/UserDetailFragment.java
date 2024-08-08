@@ -17,6 +17,7 @@ import androidx.navigation.Navigation;
 import com.main.comicapp.R;
 import com.main.comicapp.databinding.FragmentDetailUserBinding;
 import com.main.comicapp.models.User;
+import com.main.comicapp.viewmodels.UserViewModel;
 
 public class UserDetailFragment extends Fragment {
 
@@ -25,12 +26,14 @@ public class UserDetailFragment extends Fragment {
     private User user; // Assuming User is a model class
     private FragmentDetailUserBinding binding;
     private NavController navController;
+    private UserViewModel viewModel;
 
     @Override
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentDetailUserBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+        viewModel = new UserViewModel();
 
         return root;
     }

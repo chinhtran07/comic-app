@@ -53,15 +53,17 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
 
     static class UserViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView tvUsername;
+        private TextView tvUsername, tvEmail;
 
         public UserViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvUsername = itemView.findViewById(R.id.tv_username);
+            tvUsername = itemView.findViewById(R.id.tv_user_name);
+            tvEmail = itemView.findViewById(R.id.tv_user_email);
         }
 
         public void bind(User user, OnUserClickListener onUserClickListener) {
             tvUsername.setText(user.getUsername());
+            tvEmail.setText(user.getEmail());
             itemView.setOnClickListener(v -> onUserClickListener.onUserClick(user));
         }
     }
