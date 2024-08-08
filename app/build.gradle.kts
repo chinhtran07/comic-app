@@ -1,3 +1,7 @@
+@file:Suppress("UNUSED_EXPRESSION")
+
+import com.android.build.api.dsl.Packaging
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -38,11 +42,15 @@ android {
         viewBinding = true
     }
 
-    packagingOptions {
-        resources {
-            excludes += "META-INF/NOTICE.md"
-            excludes += "META-INF/LICENSE.md"
-            excludes += "META-INF/DEPENDENCIES"
+    android {
+        packaging {
+            resources {
+                resources {
+                    excludes += "META-INF/NOTICE.md"
+                    excludes += "META-INF/LICENSE.md"
+                    excludes += "META-INF/DEPENDENCIES"
+                }
+            }
         }
     }
 }
@@ -68,8 +76,8 @@ dependencies {
     implementation(libs.mpandroidchart)
     implementation(libs.jbcrypt)
     implementation(libs.cloudinary.android)
-    implementation("com.sun.mail:android-mail:1.6.7")
-    implementation("com.sun.mail:android-activation:1.6.7")
+    implementation(libs.android.mail)
+    implementation(libs.android.activation)
     implementation(kotlin("script-runtime"))
 }
 
