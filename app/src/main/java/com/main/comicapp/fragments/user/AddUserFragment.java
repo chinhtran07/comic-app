@@ -12,8 +12,10 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.main.comicapp.databinding.FragmentAddUserBinding;
-import com.main.comicapp.models.User;
 import com.main.comicapp.viewmodels.UserViewModel;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class AddUserFragment extends Fragment {
 
@@ -27,6 +29,8 @@ public class AddUserFragment extends Fragment {
             @NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentAddUserBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+        viewModel = new UserViewModel();
 
         etUsername = binding.etUsername;
         etEmail = binding.etEmail;
@@ -44,14 +48,14 @@ public class AddUserFragment extends Fragment {
         if (validation()) {
             Toast.makeText(getContext(),"Enter the information", Toast.LENGTH_SHORT).show();
         } else {
-            User newUser = new User();
-            newUser.setUsername(etUsername.getText().toString());
-            newUser.setEmail(etEmail.getText().toString());
-            newUser.setFirstName(firstName.getText().toString());
-            newUser.setLastName(lastName.getText().toString());
-            newUser.setBirthDate(birthDate.getText().toString());
+            Map<String, Object> attributes = new HashMap<>();
+            attributes.put("username",etUsername.getText().toString());
+            attributes.put("email",etEmail.getText().toString());
+            attributes.put("firstName",firstName.getText().toString());
+            attributes.put("lastName",lastName.getText().toString());
+            attributes.put("birthDate",birthDate.getText().toString());
             //call viewmodel to add
-
+            viewModel.addUser(attributes);
             //return usermanagement
             requireActivity().getOnBackPressedDispatcher().onBackPressed();
         }

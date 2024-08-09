@@ -12,6 +12,7 @@ import com.main.comicapp.repositories.UserRepository;
 import com.main.comicapp.repositories.impl.UserRepositoryImpl;
 
 import java.util.Map;
+import java.util.UUID;
 
 public class UserViewModel extends ViewModel {
     private final UserRepository userRepository;
@@ -149,5 +150,13 @@ public class UserViewModel extends ViewModel {
 
     public Task<QuerySnapshot> getAllUser(){
         return userRepository.getAllUser();
+    }
+
+    public Task<Void> deleteUser(String userId) {
+        return userRepository.deleteUser(userId);
+    }
+
+    public boolean addUser(Map<String, Object> user) {
+        return userRepository.addUser(User.toObject(user, UUID.randomUUID().toString()));
     }
 }

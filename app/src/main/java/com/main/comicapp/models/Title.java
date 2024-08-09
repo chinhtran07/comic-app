@@ -10,8 +10,8 @@ import com.main.comicapp.utils.ValidateUtil;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -130,5 +130,16 @@ public class Title implements Serializable {
             title.setGenreIds(genreIds);
         }
         return title;
+    }
+    public static Map<String, Object> toMap(Title title) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("title", title.getTitle());
+        map.put("uploadedDate", title.getUploadedDate());
+        map.put("cover", title.getCover());
+        map.put("views", title.getViews());
+        map.put("pubStatus", title.getPubStatus());
+        map.put("titleFormat", title.getTitleFormat());
+        map.put("genreIds", title.getGenreIds());
+        return map;
     }
 }

@@ -4,6 +4,7 @@ import com.main.comicapp.enums.UserRole;
 import com.main.comicapp.utils.ValidateUtil;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Map;
 
 public class User implements Serializable {
@@ -135,5 +136,16 @@ public class User implements Serializable {
             user.setisActive((Boolean) data.get("isActive"));
         }
         return user;
+    }
+
+    public static Map<String, Object> toMap(User user) {
+        Map<String, Object> data = new HashMap<>();
+        data.put("username", user.getUsername());
+        data.put("password", user.getPassword());
+        data.put("email", user.getEmail());
+        data.put("userRole", user.getUserRole());
+        data.put("avatar", user.getAvatar());
+        data.put("isActive", user.getisActive());
+        return data;
     }
 }

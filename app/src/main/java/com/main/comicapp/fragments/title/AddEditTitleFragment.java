@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,6 +17,7 @@ import androidx.navigation.Navigation;
 
 import com.main.comicapp.R;
 import com.main.comicapp.models.Title;
+import com.main.comicapp.viewmodels.TitleViewModel;
 
 public class AddEditTitleFragment extends Fragment {
 
@@ -23,6 +25,7 @@ public class AddEditTitleFragment extends Fragment {
     private Button btnSave;
     private boolean isEditMode = false;
     private Title comic;
+    private TitleViewModel viewModel;
 
     @Nullable
     @Override
@@ -32,6 +35,8 @@ public class AddEditTitleFragment extends Fragment {
         etTitle = view.findViewById(R.id.et_comic_title);
         etAuthor = view.findViewById(R.id.et_comic_author);
         btnSave = view.findViewById(R.id.btn_save_comic);
+
+        viewModel = new TitleViewModel();
 
         if (getArguments() != null) {
             comic = (Title) getArguments().getSerializable("comic");
@@ -47,14 +52,14 @@ public class AddEditTitleFragment extends Fragment {
             String author = etAuthor.getText().toString().trim();
 
             if (TextUtils.isEmpty(title) || TextUtils.isEmpty(author)) {
-                // Show error message
+                Toast.makeText(getContext(), "Please type information", Toast.LENGTH_SHORT).show();
                 return;
             }
 
             if (isEditMode) {
-                // Update comic in database
+                viewModel.updateTitle(comic.getId(), comic);
             } else {
-                // Add new comic to database
+                viewModel.addTitle(comic);
             }
 
             NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_admin);

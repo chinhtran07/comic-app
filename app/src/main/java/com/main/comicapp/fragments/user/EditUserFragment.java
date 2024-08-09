@@ -15,6 +15,10 @@ import androidx.navigation.Navigation;
 import com.main.comicapp.R;
 import com.main.comicapp.databinding.FragmentEditUserBinding;
 import com.main.comicapp.models.User;
+import com.main.comicapp.viewmodels.UserViewModel;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class EditUserFragment extends Fragment {
 
@@ -22,6 +26,7 @@ public class EditUserFragment extends Fragment {
     private Button btnSaveUser;
     private User user; //
     private FragmentEditUserBinding binding;
+    private UserViewModel viewModel;
 
     @Override
     public View onCreateView(
@@ -29,6 +34,8 @@ public class EditUserFragment extends Fragment {
 
         binding = FragmentEditUserBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+        viewModel = new UserViewModel();
 
         etUsername = binding.etUsername;
         etEmail = binding.etEmail;
@@ -51,13 +58,14 @@ public class EditUserFragment extends Fragment {
     }
 
     private void saveUser() {
-        String username = etUsername.getText().toString();
-        String email = etEmail.getText().toString();
+        Map<String, Object> params = new HashMap<>();
+        params.put("username", etUsername.getText().toString());
+        params.put("email", etEmail.getText().toString());
+        viewModel.saveUser(user.getId(), params);
 
-        // Update user information and save to database or ViewModel
 
         // Example of navigating back to UserManagementFragment
-        NavController navController = Navigation.findNavController(getActivity(), R.id.action_edit_user_to_user_management);
+        NavController navController = Navigation.findNavController(requireActivity(), R.id.action_edit_user_to_user_management);
         navController.popBackStack(); // Go back to previous fragment (UserManagementFragment)
     }
 }

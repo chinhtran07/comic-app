@@ -75,6 +75,7 @@ public class UserDetailFragment extends Fragment {
     }
 
     private void deleteUser() {
+        viewModel.deleteUser(user.getId());
         requireActivity().getOnBackPressedDispatcher().onBackPressed(); // Go back to previous fragment (UserManagementFragment)
     }
 

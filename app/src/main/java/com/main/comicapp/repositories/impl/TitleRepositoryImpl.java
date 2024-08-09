@@ -22,6 +22,7 @@ import com.main.comicapp.viewmodels.ReadingHistoryViewModel;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 public class TitleRepositoryImpl implements TitleRepository {
 
@@ -65,7 +66,7 @@ public class TitleRepositoryImpl implements TitleRepository {
 
     @Override
     public void addTitle(Title title) {
-        getTitleReference().add(title);
+        getTitleReference().document(UUID.randomUUID().toString()).set(Title.toMap(title));
 
     }
 

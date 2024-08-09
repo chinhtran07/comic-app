@@ -1,15 +1,16 @@
 package com.main.comicapp.repositories.impl;
 
+import android.util.Log;
+
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.main.comicapp.models.User;
-import com.main.comicapp.repositories.UserRepository;
 import com.main.comicapp.repositories.SendMailRepository;
+import com.main.comicapp.repositories.UserRepository;
 
-import android.util.Log;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
@@ -91,6 +92,17 @@ public class UserRepositoryImpl implements UserRepository {
                 throw new RuntimeException("Failed to fetch the document.", task.getException());
             }
         });
+    }
+
+    @Override
+    public Task<Void> deleteUser(String userId) {
+        DocumentReference userDocRef = db.collection("users").document(userId);
+        return userDocRef.delete();
+    }
+
+    @Override
+    public boolean addUser(User user) {
+        return db.collection("users").document(user.getId()).set(User.toMap(user)).isSuccessful();
     }
 
     private void sendEmailAsync(User user, boolean newStatus) {
