@@ -2,6 +2,11 @@ package com.main.comicapp.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +24,9 @@ public class AdminManagementUserActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private UserAdminAdapter adapter;
     private UserViewModel userViewModel;
+    private EditText searchEditText;
+    private TextView noResultsTextView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,10 +35,11 @@ public class AdminManagementUserActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycler_view_user_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        adapter = new UserAdminAdapter(this::navigateToUserProfile, this::toggleUserActiveStatus);
+        noResultsTextView = findViewById(R.id.tv_no_results);
+
+        adapter = new UserAdminAdapter(this::navigateToUserProfile, this::toggleUserActiveStatus, this::updateNoResultsVisibility);
         recyclerView.setAdapter(adapter);
 
-        // Khởi tạo ViewModel
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
 
         userViewModel.getAllUser().addOnSuccessListener(queryDocumentSnapshots -> {
@@ -38,10 +47,27 @@ public class AdminManagementUserActivity extends AppCompatActivity {
         }).addOnFailureListener(e -> {
             Toast.makeText(AdminManagementUserActivity.this, "Failed to load users: " + e.getMessage(), Toast.LENGTH_LONG).show();
         });
+
+        searchEditText = findViewById(R.id.et_search_user);
+
+        searchEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+                adapter.filterUsers(charSequence.toString().trim());
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+        });
     }
 
     private void navigateToUserProfile(String userId) {
-        Intent intent = new Intent(AdminManagementUserActivity.this, UserProfileActivity.class);
+        Intent intent = new Intent(AdminManagementUserActivity.this, AdminBlockUserActivity.class);
         intent.putExtra("USER_ID", userId);
         startActivity(intent);
     }
@@ -55,5 +81,12 @@ public class AdminManagementUserActivity extends AppCompatActivity {
                 Toast.makeText(this, "Failed to update user status.", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+    private void updateNoResultsVisibility(int itemCount) {
+        if (itemCount == 0) {
+            noResultsTextView.setVisibility(View.VISIBLE);
+        } else {
+            noResultsTextView.setVisibility(View.GONE);
+        }
     }
 }

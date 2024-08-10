@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -15,9 +14,32 @@
         android:layout_marginBottom="16dp"
         android:contentDescription="@string/admin_tile_user"/>
 
+    <EditText
+        android:id="@+id/et_search_user"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_search_user"
+        android:inputType="text"
+        android:drawableEnd="@drawable/ic_search"
+        android:drawablePadding="10dp"
+        android:padding="12dp"
+        android:background="@drawable/background_edit_text"
+        android:layout_marginBottom="16dp"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_user_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"/>
+
+    <TextView
+        android:id="@+id/tv_no_results"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Không có kết quả"
+        android:gravity="center"
+        android:visibility="gone"
+        android:textSize="16sp"
+        android:textColor="@android:color/darker_gray"
+        android:layout_marginTop="16dp"/>
 </LinearLayout>

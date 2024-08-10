@@ -58,6 +58,7 @@
     <string name="user_role">User Role</string>
     <string name="gender">Gender</string>
     <string name="birth_date">Birth Date</string>
+    <string name="hint_search_user">Tìm kiếm</string>
 
     <string name="action_button_text">Action</string>
 </resources>
