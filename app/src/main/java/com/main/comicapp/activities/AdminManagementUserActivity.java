@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -69,6 +70,7 @@ public class AdminManagementUserActivity extends AppCompatActivity {
     private void navigateToUserProfile(String userId) {
         Intent intent = new Intent(AdminManagementUserActivity.this, AdminBlockUserActivity.class);
         intent.putExtra("USER_ID", userId);
+        Log.d("User Id", userId);
         startActivity(intent);
     }
 

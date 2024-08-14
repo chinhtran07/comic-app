@@ -52,7 +52,6 @@ public class UserAdminAdapter extends RecyclerView.Adapter<UserAdminAdapter.User
         }
     }
 
-    // Thêm phương thức để lọc người dùng
     public void filterUsers(String query) {
         filteredUserList.clear();
         if (query.isEmpty()) {

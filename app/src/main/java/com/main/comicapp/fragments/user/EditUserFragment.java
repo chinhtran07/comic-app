@@ -57,7 +57,7 @@ public class EditUserFragment extends Fragment {
         // Update user information and save to database or ViewModel
 
         // Example of navigating back to UserManagementFragment
-        NavController navController = Navigation.findNavController(getActivity(), R.id.action_edit_user_to_user_management);
-        navController.popBackStack(); // Go back to previous fragment (UserManagementFragment)
+//        NavController navController = Navigation.findNavController(getActivity(), R.id.action_edit_user_to_user_management);
+//        navController.popBackStack(); // Go back to previous fragment (UserManagementFragment)
     }
 }
