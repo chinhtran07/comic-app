@@ -79,6 +79,6 @@ public class UserDetailFragment extends Fragment {
         // Navigate to EditUserFragment with the current user
         Bundle args = new Bundle();
         args.putSerializable("user", user); // Assuming User implements Serializable
-        navController.navigate(R.id.action_detail_user_to_edit_user);
+        //navController.navigate(R.id.action_detail_user_to_edit_user);
     }
 }

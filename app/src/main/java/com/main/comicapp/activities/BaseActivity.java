@@ -9,15 +9,10 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.activity.EdgeToEdge;
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -36,6 +31,7 @@ abstract class BaseActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
     private User currentUser;
     private Context context;
+    private String uid = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +64,7 @@ abstract class BaseActivity extends AppCompatActivity {
         super.setContentView(R.layout.activity_base);
         ViewGroup contentLayout = findViewById(R.id.content_frame);
         LayoutInflater.from(this).inflate(layoutResId, contentLayout, true);
-     }
+    }
 
     @Override
     protected void onStart() {
@@ -85,50 +81,50 @@ abstract class BaseActivity extends AppCompatActivity {
         bottomNavigationView.setSelectedItemId(currentAction);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
-             int itemId = item.getItemId();
-             SharedPreferences.Editor editor = actionPrefs.edit();
+            int itemId = item.getItemId();
+            SharedPreferences.Editor editor = actionPrefs.edit();
 
-             editor.putInt("current_action", itemId);
-             editor.apply();
-             if (itemId == R.id.action_home) {
-                 Intent intent = new Intent(this, HomeActivity.class);
-                 startActivity(intent);
-                 finish();
-                 return true;
-             }
-             else if (itemId == R.id.action_history) {
-                 Intent intent = new Intent(this, AllRecentComicActivity.class);
-                 startActivity(intent);
-                 finish();
-                 return true;
-             }
-             else if (itemId == R.id.action_profile) {
-                 Intent intent = new Intent(this, UserProfileActivity.class);
-                 startActivity(intent);
-                 finish();
-                 return true;
-             }
-             else if (itemId == R.id.action_logout) {
-                 logout();
-                 return true;
-             }
-             else if (itemId == R.id.action_admin) {
-                 Intent intent = new Intent(this, AdminActivity.class);
-                 startActivity(intent);
-                 finish();
-                 return true;
-             }
-             else return false;
+            editor.putInt("current_action", itemId);
+            editor.apply();
+            if (itemId == R.id.action_home) {
+                Intent intent = new Intent(this, HomeActivity.class);
+                startActivity(intent);
+                finish();
+                return true;
+            }
+            else if (itemId == R.id.action_history) {
+                Intent intent = new Intent(this, AllRecentComicActivity.class);
+                startActivity(intent);
+                finish();
+                return true;
+            }
+            else if (itemId == R.id.action_profile) {
+                Intent intent = new Intent(this, UserProfileActivity.class);
+                intent.putExtra("USER_ID", uid);
+                startActivity(intent);
+                finish();
+                return true;
+            }
+            else if (itemId == R.id.action_logout) {
+                logout();
+                return true;
+            }
+            else if (itemId == R.id.action_admin) {
+                Intent intent = new Intent(this, AdminActivity.class);
+                startActivity(intent);
+                finish();
+                return true;
+            }
+            else return false;
         });
         bottomNavigationView.getMenu().findItem(R.id.action_admin).setVisible(false);
         invalidateOptionsMenu();
 
-     }
+    }
 
     protected void validateSession() {
         SharedPreferences prefs = getSharedPreferences("user_session", MODE_PRIVATE);
         if (!prefs.contains("session_id")) {
-            // Force to login
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
             finish();
@@ -147,6 +143,7 @@ abstract class BaseActivity extends AppCompatActivity {
                         userViewModel.fetchUserById(userSession.getUserId());
                         userViewModel.getUserLiveData().observe(this, user -> {
                             if (user != null) {
+                                uid = user.getId();
                                 if (user.getUserRole().equals(UserRole.ADMIN.name())) {
                                     bottomNavigationView.getMenu().findItem(R.id.action_profile).setVisible(false);
                                     bottomNavigationView.getMenu().findItem(R.id.action_admin).setVisible(true);
