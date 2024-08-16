@@ -1,5 +1,7 @@
 package com.main.comicapp.activities;
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,11 +19,13 @@ public class AdminBlockUserActivity extends AppCompatActivity {
 
     private ImageView ivProfilePicture;
     private TextView tvFirstName, tvLastName, tvUsername, tvGender, tvBirthDate, tvEmail, tvUserRole;
+    private Button btUserRole;
+    private String id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_profile);
+        setContentView(R.layout.activity_admin_user_profile);
 
         initializeViews();
         retrieveAndDisplayUserData();
@@ -36,6 +40,9 @@ public class AdminBlockUserActivity extends AppCompatActivity {
         tvBirthDate = findViewById(R.id.tv_birth_date);
         tvEmail = findViewById(R.id.tv_email);
         tvUserRole = findViewById(R.id.tv_user_role);
+        btUserRole = findViewById(R.id.btn_change_role);
+
+        btUserRole.setOnClickListener(v -> changeUserRole());
     }
 
     private void retrieveAndDisplayUserData() {
@@ -67,6 +74,7 @@ public class AdminBlockUserActivity extends AppCompatActivity {
         tvBirthDate.setText(user.getBirthDate());
         tvEmail.setText(user.getEmail());
         tvUserRole.setText(user.getUserRole());
+        id = user.getId();
 
         Glide.with(this)
                 .load(user.getAvatar())
@@ -78,4 +86,26 @@ public class AdminBlockUserActivity extends AppCompatActivity {
     private void showError(String message) {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
+    private void changeUserRole() {
+        if (id != null) {
+            userViewModel.updateUserRole(id).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    Toast.makeText(this, "Role updated successfully", Toast.LENGTH_SHORT).show();
+                    navigateToAdminManagementUserActivity(id);
+                } else {
+                    showError("Failed to update role.");
+                }
+            });
+        } else {
+            showError("User ID is null.");
+        }
+    }
+
+    private void navigateToAdminManagementUserActivity(String userId) {
+        Intent intent = new Intent(this, AdminManagementUserActivity.class);
+        intent.putExtra("USER_ID", userId);
+        startActivity(intent);
+        finish();
+    }
+
 }
