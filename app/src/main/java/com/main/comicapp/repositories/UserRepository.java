@@ -14,4 +14,5 @@ public interface UserRepository {
     Task<QuerySnapshot> fetchUserByUsername(String username);
     Task<Void> save(Map<String, Object> userData, String userId);
     Task<Void> updateUserStatus(String userId);
+    Task<Void> updateUserRole(String id);
 }

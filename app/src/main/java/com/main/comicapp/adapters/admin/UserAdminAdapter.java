@@ -41,11 +41,17 @@ public class UserAdminAdapter extends RecyclerView.Adapter<UserAdminAdapter.User
         this.listener = listener;
         this.statusClickListener = statusClickListener;
         this.noResultsCallback = noResultsCallback;
+        this.userList = new ArrayList<>(); // Khởi tạo userList để tránh NullPointerException
+        this.filteredUserList = new ArrayList<>(); // Khởi tạo filteredUserList để tránh NullPointerException
     }
 
     public void setUsers(List<User> users) {
         this.userList = users;
-        this.filteredUserList = new ArrayList<>(users);
+        if (filteredUserList == null) {
+            filteredUserList = new ArrayList<>(); // Đảm bảo filteredUserList không null
+        }
+        this.filteredUserList.clear();
+        this.filteredUserList.addAll(users);
         notifyDataSetChanged();
         if (noResultsCallback != null) {
             noResultsCallback.onUpdateNoResultsVisibility(getItemCount());
@@ -53,6 +59,9 @@ public class UserAdminAdapter extends RecyclerView.Adapter<UserAdminAdapter.User
     }
 
     public void filterUsers(String query) {
+        if (filteredUserList == null) {
+            filteredUserList = new ArrayList<>(); // Đảm bảo filteredUserList không null
+        }
         filteredUserList.clear();
         if (query.isEmpty()) {
             filteredUserList.addAll(userList);
@@ -67,6 +76,26 @@ public class UserAdminAdapter extends RecyclerView.Adapter<UserAdminAdapter.User
         notifyDataSetChanged();
         if (noResultsCallback != null) {
             noResultsCallback.onUpdateNoResultsVisibility(getItemCount());
+        }
+    }
+
+    public void removeUserById(String userId) {
+        User userToRemove = null;
+
+        for (User user : userList) {
+            if (user.getId().equals(userId)) {
+                userToRemove = user;
+                break;
+            }
+        }
+
+        if (userToRemove != null) {
+            userList.remove(userToRemove);
+            filteredUserList.remove(userToRemove);
+            notifyDataSetChanged();
+            if (noResultsCallback != null) {
+                noResultsCallback.onUpdateNoResultsVisibility(getItemCount());
+            }
         }
     }
 

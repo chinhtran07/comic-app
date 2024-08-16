@@ -108,4 +108,52 @@ public class UserRepositoryImpl implements UserRepository {
         super.finalize();
         emailExecutor.shutdown();
     }
+
+    @Override
+    public Task<Void> updateUserRole(String id) {
+        DocumentReference userDocRef = db.collection("users").document(id);
+        return userDocRef.get().continueWithTask(task -> {
+            if (task.isSuccessful() && task.getResult() != null) {
+                DocumentSnapshot document = task.getResult();
+                String role = document.getString("userRole");
+                if (document.exists()) {
+                    if (role != null) {
+                        Map<String, Object> updates = new HashMap<>();
+                        String newRole;
+                        if ("ADMIN".equals(role))
+                            newRole = "USER";
+                        else
+                            newRole = "ADMIN";
+                        updates.put("userRole", newRole);
+                        return userDocRef.update(updates).addOnCompleteListener(updateTask -> {
+                            if (updateTask.isSuccessful()) {
+                                User user = document.toObject(User.class);
+                                if (user != null) {
+                                    sendRoleChangeEmailAsync(user, newRole);
+                                }
+                            } else {
+                                Log.e("UpdateRole", "Failed to update user role", updateTask.getException());
+                            }
+                        });
+                    } else {
+                        throw new RuntimeException("Field 'userRole' is missing or null.");
+                    }
+                } else {
+                    throw new RuntimeException("Document does not exist.");
+                }
+            } else {
+                throw new RuntimeException("Failed to fetch the document.", task.getException());
+            }
+        });
+    }
+
+    private void sendRoleChangeEmailAsync(User user, String newRole) {
+        emailExecutor.submit(() -> {
+            try {
+                sendMailRepository.sendStatusRole(user, newRole);
+            } catch (MessagingException e) {
+                Log.e("EmailSender", "Failed to send role change email", e);
+            }
+        });
+    }
 }
