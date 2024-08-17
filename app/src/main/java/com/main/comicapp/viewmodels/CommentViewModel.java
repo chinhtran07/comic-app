@@ -102,8 +102,8 @@ public class CommentViewModel extends ViewModel {
         });
     }
 
-    public void deleteComment(String commentId) {
-        commentRepository.deleteComment(commentId).addOnCompleteListener(task -> {
+    public void updateStatusComment(String commentId, boolean status) {
+        commentRepository.updateStatusComment(commentId, status).addOnCompleteListener(task -> {
             fetchComments();
         });
     }

@@ -7,6 +7,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.main.comicapp.models.Comment;
 import com.main.comicapp.repositories.CommentRepository;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class CommentRepositoryImpl implements CommentRepository {
@@ -28,9 +29,12 @@ public class CommentRepositoryImpl implements CommentRepository {
     }
 
     @Override
-    public Task<Void> deleteComment(String commentId) {
-        return db.collection("comments").document(commentId).delete();
+    public Task<Void> updateStatusComment(String commentId, boolean status) {
+        Map<String, Object> updates = new HashMap<>();
+        updates.put("isActive", status);
+        return db.collection("comments").document(commentId).update(updates);
     }
+
 
     @Override
     public Task<Void> createComment(Comment comment) {

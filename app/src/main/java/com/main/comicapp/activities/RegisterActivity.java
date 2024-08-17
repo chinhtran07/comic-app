@@ -222,7 +222,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                     @Override
                     public void onSuccess(String requestId, Map resultData) {
-                        avatarUrl = resultData.get("secure_url").toString(); // Lưu URL của ảnh
+                        avatarUrl = resultData.get("secure_url").toString();
                         registerUserInFirebase(email, password, username, firstName, lastName, gender, birthDate);
                     }
 
