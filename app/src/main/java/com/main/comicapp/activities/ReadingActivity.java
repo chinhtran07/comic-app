@@ -83,7 +83,9 @@ public class ReadingActivity extends AppCompatActivity {
             }
 
             if (titleId != null) {
-                loadReadingPosition(titleId);
+                // loadReadingPosition(titleId);
+                Chapter chapter = (Chapter) intent.getSerializableExtra("chapter");
+                loadChapterById(chapter.getId(), chapter.getChapterNumber() - 1);
                 if (chapterDocumentIds == null) {
                     loadChapterDocumentIds();
                 }
@@ -165,8 +167,10 @@ public class ReadingActivity extends AppCompatActivity {
             @Override
             public void onChanged(List<String> strings) {
                 if (strings != null) {
-                    chapterDocumentIds = strings;
-                    currentChapterIndex = chapterDocumentIds.indexOf(currentChapter.getId());
+                    if (currentChapter != null) {
+                        chapterDocumentIds = strings;
+                        currentChapterIndex = chapterDocumentIds.indexOf(currentChapter.getId());
+                    }
                 }
             }
         });
