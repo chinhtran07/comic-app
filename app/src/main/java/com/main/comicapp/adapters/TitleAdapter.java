@@ -23,7 +23,6 @@ public class TitleAdapter extends RecyclerView.Adapter<TitleAdapter.TitleViewHol
     private List<Title> titles;
     private OnTitleClickListener listener;
     private final Context context;
-    private final FirebaseStorage storage;
 
     public void setListener(OnTitleClickListener listener) {
         this.listener = listener;
@@ -42,7 +41,6 @@ public class TitleAdapter extends RecyclerView.Adapter<TitleAdapter.TitleViewHol
     public TitleAdapter(Context context, List<Title> titles) {
         this.titles = titles;
         this.context = context;
-        this.storage = FirebaseStorage.getInstance();
     }
 
     @NonNull
@@ -58,9 +56,8 @@ public class TitleAdapter extends RecyclerView.Adapter<TitleAdapter.TitleViewHol
         // Set comic cover image and title
         holder.tvTitleName.setText(title.getTitle());
 
-        StorageReference storageRef = storage.getReference().child(title.getCover());
         Glide.with(context)
-                .load(storageRef)
+                .load(title.getCover())
                 .into(holder.ivTitleCover);
 
         holder.itemView.setOnClickListener(v -> listener.onTitleClick(title));

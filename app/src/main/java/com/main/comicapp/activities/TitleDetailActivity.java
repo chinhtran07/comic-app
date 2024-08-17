@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -69,6 +70,7 @@ public class TitleDetailActivity extends BaseActivity {
         setContentView(R.layout.activity_title_detail);
 
         // Initialize views
+        imageView = findViewById(R.id.title_detail_cover_image);
         txtTitleName = findViewById(R.id.title_detail_title_name);
         btnWriteComment = findViewById(R.id.title_detail_write_comment);
         txtGenres = findViewById(R.id.title_detail_genres);
@@ -173,6 +175,8 @@ public class TitleDetailActivity extends BaseActivity {
                     }
                 }
             });
+            // TODO: Reduce Image View Size and make the view scrollable
+            // Glide.with(this).load(title.getCover()).into(imageView);
         }
 
 
