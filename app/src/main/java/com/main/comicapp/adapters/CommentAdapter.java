@@ -1,6 +1,7 @@
 package com.main.comicapp.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,11 +65,21 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     public void onBindViewHolder(@NonNull CommentViewHolder holder, int position) {
         Comment comment = comments.get(position);
         holder.tvCommentText.setText(comment.getText());
-        holder.tvCommentTitle.setText(titleNames.get(comment.getTitleId())); // Hiển thị tên tiêu đề
-        holder.tvCommentUser.setText(userNames.get(comment.getUserId())); // Hiển thị tên người dùng
+        holder.tvCommentTitle.setText(titleNames.get(comment.getTitleId()));
+        holder.tvCommentUser.setText(userNames.get(comment.getUserId()));
+
+        Log.d("CommentAdapter", "Comment ID: " + comment.getId());
+
+        if (comment.getIsActive() != null && comment.getIsActive()) {
+            holder.btnDeleteComment.setText("Ẩn");
+        } else {
+            holder.btnDeleteComment.setText("Hiển thị");
+        }
+
         holder.btnEditComment.setOnClickListener(v -> listener.onEditClick(comment));
         holder.btnDeleteComment.setOnClickListener(v -> listener.onDeleteClick(comment));
     }
+
 
     @Override
     public int getItemCount() {

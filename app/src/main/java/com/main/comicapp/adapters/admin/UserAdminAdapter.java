@@ -41,14 +41,14 @@ public class UserAdminAdapter extends RecyclerView.Adapter<UserAdminAdapter.User
         this.listener = listener;
         this.statusClickListener = statusClickListener;
         this.noResultsCallback = noResultsCallback;
-        this.userList = new ArrayList<>(); // Khởi tạo userList để tránh NullPointerException
-        this.filteredUserList = new ArrayList<>(); // Khởi tạo filteredUserList để tránh NullPointerException
+        this.userList = new ArrayList<>();
+        this.filteredUserList = new ArrayList<>();
     }
 
     public void setUsers(List<User> users) {
         this.userList = users;
         if (filteredUserList == null) {
-            filteredUserList = new ArrayList<>(); // Đảm bảo filteredUserList không null
+            filteredUserList = new ArrayList<>();
         }
         this.filteredUserList.clear();
         this.filteredUserList.addAll(users);
@@ -60,7 +60,7 @@ public class UserAdminAdapter extends RecyclerView.Adapter<UserAdminAdapter.User
 
     public void filterUsers(String query) {
         if (filteredUserList == null) {
-            filteredUserList = new ArrayList<>(); // Đảm bảo filteredUserList không null
+            filteredUserList = new ArrayList<>();
         }
         filteredUserList.clear();
         if (query.isEmpty()) {

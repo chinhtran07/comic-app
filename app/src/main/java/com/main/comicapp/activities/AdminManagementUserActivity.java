@@ -43,7 +43,6 @@ public class AdminManagementUserActivity extends AppCompatActivity {
 
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
 
-        // Xử lý Intent để xóa người dùng nếu có ID được truyền từ AdminBlockUserActivity
         handleIntent(getIntent());
 
         userViewModel.getAllUser().addOnSuccessListener(queryDocumentSnapshots -> {
@@ -70,7 +69,6 @@ public class AdminManagementUserActivity extends AppCompatActivity {
         });
     }
 
-    // Xử lý Intent để xóa người dùng khỏi danh sách nếu có ID được truyền về
     private void handleIntent(Intent intent) {
         if (intent != null && intent.hasExtra("USER_ID")) {
             String userId = intent.getStringExtra("USER_ID");

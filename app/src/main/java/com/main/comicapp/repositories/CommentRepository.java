@@ -9,6 +9,6 @@ public interface CommentRepository {
     Task<QuerySnapshot> getComments();
     Task<DocumentSnapshot> getUserById(String userId);
     Task<DocumentSnapshot> getTitleById(String titleId);
-    Task<Void> deleteComment(String commentId);
+    Task<Void> updateStatusComment(String commentId, boolean status);
     Task<Void> createComment(Comment comment);
 }
