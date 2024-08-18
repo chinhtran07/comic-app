@@ -80,7 +80,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         holder.btnDeleteComment.setOnClickListener(v -> listener.onDeleteClick(comment));
     }
 
-
     @Override
     public int getItemCount() {
         return comments != null ? comments.size() : 0;

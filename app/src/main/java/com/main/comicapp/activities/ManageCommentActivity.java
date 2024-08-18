@@ -25,7 +25,6 @@ public class ManageCommentActivity extends AppCompatActivity implements CommentA
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_comment);
 
-        // Khởi tạo RecyclerView và Adapter
         rvComments = findViewById(R.id.rv_comments);
         rvComments.setLayoutManager(new LinearLayoutManager(this));
         commentAdapter = new CommentAdapter(this, null, new HashMap<>(), new HashMap<>());
@@ -46,16 +45,24 @@ public class ManageCommentActivity extends AppCompatActivity implements CommentA
             commentAdapter.setTitleNames(titleNames);
         });
 
-        commentViewModel.fetchComments();
+        commentViewModel.fetchAllComments();
     }
 
     @Override
     public void onEditClick(Comment comment) {
     }
+
     @Override
     public void onDeleteClick(Comment comment) {
         Log.d("CMT id: ", comment.getId());
         Log.d("Status: ", String.valueOf(comment.getIsActive()));
-        commentViewModel.updateStatusComment(comment.getId(), comment.getIsActive());
+
+        commentViewModel.updateStatusComment(comment.getId()).addOnSuccessListener(aVoid -> {
+            commentViewModel.fetchAllComments();
+        }).addOnFailureListener(e -> {
+            Log.e("ManageCommentActivity", "Failed to update comment status", e);
+        });
     }
+
+
 }
