@@ -1,8 +1,8 @@
-package com.main.comicapp.activities;
+package com.main.comicapp.activities.admin;
 
 import android.os.Bundle;
 import android.widget.TextView;
-import androidx.appcompat.app.AppCompatActivity;
+
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import com.github.mikephil.charting.charts.PieChart;
@@ -10,6 +10,7 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.main.comicapp.R;
+import com.main.comicapp.activities.BaseActivity;
 import com.main.comicapp.viewmodels.UserViewModel;
 
 import java.util.ArrayList;

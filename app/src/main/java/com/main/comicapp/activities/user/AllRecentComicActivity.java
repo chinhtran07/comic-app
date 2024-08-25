@@ -1,4 +1,4 @@
-package com.main.comicapp.activities;
+package com.main.comicapp.activities.user;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -6,13 +6,13 @@ import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.main.comicapp.R;
+import com.main.comicapp.activities.BaseActivity;
 import com.main.comicapp.adapters.TitleAdapter;
 import com.main.comicapp.models.Title;
 import com.main.comicapp.viewmodels.TitleViewModel;

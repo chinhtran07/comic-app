@@ -1,16 +1,15 @@
-package com.main.comicapp.activities;
+package com.main.comicapp.activities.user;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.main.comicapp.R;
+import com.main.comicapp.activities.BaseActivity;
 import com.main.comicapp.adapters.TitleAdapter;
 import com.main.comicapp.models.Title;
 import com.main.comicapp.viewmodels.TitleViewModel;
@@ -32,7 +31,7 @@ public class HomeActivity extends BaseActivity {
         setContentView(R.layout.activity_home);
 
         initViews();
-        setupAllComicsClickListener();
+//        setupAllComicsClickListener();
         Map<String, String> params = new HashMap<>();
         titleViewModel.getTitles(params).observeForever(new Observer<List<Title>>() {
             @Override
@@ -65,12 +64,12 @@ public class HomeActivity extends BaseActivity {
         titleViewModel = new ViewModelProvider(this).get(TitleViewModel.class);
     }
 
-    private void setupAllComicsClickListener() {
-        findViewById(R.id.tv_all_comics).setOnClickListener(view -> {
-            Intent intent = new Intent(HomeActivity.this, AllRecentComicActivity.class);
-            startActivity(intent);
-        });
-    }
+//    private void setupAllComicsClickListener() {
+//        findViewById(R.id.tv_all_comics).setOnClickListener(view -> {
+//            Intent intent = new Intent(HomeActivity.this, AllRecentComicActivity.class);
+//            startActivity(intent);
+//        });
+//    }
 
     private void openTitleDetailActivity(Title title) {
         Intent intent = new Intent(getApplicationContext(), TitleDetailActivity.class);

@@ -1,4 +1,4 @@
-package com.main.comicapp.activities;
+package com.main.comicapp.activities.admin;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +13,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
 import com.main.comicapp.R;
+import com.main.comicapp.activities.user.HomeActivity;
 import com.main.comicapp.databinding.ActivityAdminBinding;
 
 public class AdminActivity extends AppCompatActivity {

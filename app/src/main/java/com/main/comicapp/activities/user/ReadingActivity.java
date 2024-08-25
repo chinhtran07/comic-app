@@ -1,4 +1,4 @@
-package com.main.comicapp.activities;
+package com.main.comicapp.activities.user;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
