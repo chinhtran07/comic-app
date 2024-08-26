@@ -41,7 +41,7 @@
     <string name="menu_user_managing">Quản lý người dùng</string>
     <string name="menu_genre_managing">Quản lý thể loại</string>
     <string name="title_management">Quản lý truyện</string>
-    <string name="comment_management">Quản lý comment comment</string>
+    <string name="comment_management">Quản lý comment</string>
 
     <string name="action_logout">Logout</string>
     <string name="action_admin">Admin</string>
@@ -62,5 +62,13 @@
     <string name="hint_search_user">Tìm kiếm</string>
 
     <string name="action_button_text">Action</string>
+    <string name="delete_comic">Delete</string>
+    <string name="edit_comic">Edit</string>
+
+    <string-array name="user_role_options">
+        <item>Admin</item>
+        <item>Editor</item>
+        <item>Viewer</item>
+    </string-array>
 </resources>
 

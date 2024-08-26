@@ -1,42 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
     tools:context=".fragments.user.UserDetailFragment">
 
-    <!-- User details -->
+    <!-- User Avatar -->
+    <ImageView
+        android:id="@+id/iv_avatar"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_gravity="center"
+        android:scaleType="centerCrop"
+        android:contentDescription="User avatar"
+        android:src="@drawable/ic_user_placeholder" />
+
+    <!-- Username -->
     <TextView
         android:id="@+id/tv_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Username"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:layout_margin="16dp" />
+        android:layout_marginTop="16dp" />
 
+    <!-- Email -->
     <TextView
         android:id="@+id/tv_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tv_username"
-        android:layout_margin="16dp" />
+        android:text="Email"
+        android:textSize="16sp"
+        android:layout_marginTop="8dp" />
 
-    <!-- Buttons for delete and edit user -->
-    <Button
-        android:id="@+id/btn_delete_user"
+    <!-- User Role -->
+    <TextView
+        android:id="@+id/tv_user_role"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Delete"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="16dp" />
+        android:text="Role"
+        android:textSize="16sp"
+        android:layout_marginTop="8dp" />
 
-    <Button
-        android:id="@+id/btn_edit_user"
+    <!-- First Name -->
+    <TextView
+        android:id="@+id/tv_first_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Edit"
-        android:layout_toStartOf="@id/btn_delete_user"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="16dp" />
-</RelativeLayout>
+        android:text="First Name"
+        android:textSize="16sp"
+        android:layout_marginTop="8dp" />
+
+    <!-- Last Name -->
+    <TextView
+        android:id="@+id/tv_last_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Last Name"
+        android:textSize="16sp"
+        android:layout_marginTop="8dp" />
+
+    <!-- Gender -->
+    <TextView
+        android:id="@+id/tv_gender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Gender"
+        android:textSize="16sp"
+        android:layout_marginTop="8dp" />
+
+    <!-- Birth Date -->
+    <TextView
+        android:id="@+id/tv_birth_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Birth Date"
+        android:textSize="16sp"
+        android:layout_marginTop="8dp" />
+
+    <!-- Is Active -->
+    <CheckBox
+        android:id="@+id/cb_active"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Active"
+        android:layout_marginTop="16dp"
+        android:enabled="false" />
+
+    <!-- Edit and Delete Buttons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:orientation="horizontal"
+        android:gravity="end">
+
+        <Button
+            android:id="@+id/btn_edit_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Edit"
+            android:layout_marginEnd="8dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/btn_delete_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Delete"
+            android:backgroundTint="@android:color/holo_red_light"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
+</LinearLayout>

@@ -3,23 +3,43 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="16dp"
     tools:context=".fragments.user.AddUserFragment">
+
+    <!-- Avatar image picker -->
+    <ImageView
+        android:id="@+id/iv_avatar"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/circle_border"
+        android:clickable="true"
+        android:contentDescription="Profile Image"
+        android:focusable="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_user_placeholder" />
 
     <!-- Form fields to add user -->
     <EditText
         android:id="@+id/et_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/iv_avatar"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/rounded_edit_text"
         android:hint="Username"
-        android:layout_margin="16dp" />
+        android:padding="12dp" />
 
     <EditText
         android:id="@+id/et_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Email"
         android:layout_below="@id/et_username"
-        android:layout_margin="16dp" />
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/rounded_edit_text"
+        android:hint="Email"
+        android:padding="12dp" />
 
     <LinearLayout
         android:id="@+id/ll_name"
@@ -27,52 +47,62 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/et_email"
         android:orientation="horizontal"
-        android:layout_margin="16dp">
+        android:layout_marginBottom="12dp">
         <EditText
             android:id="@+id/et_first_name"
-            android:layout_width="100dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="Tên" />
+            android:layout_weight="1"
+            android:hint="First Name"
+            android:background="@drawable/rounded_edit_text"
+            android:padding="12dp" />
 
         <EditText
             android:id="@+id/et_last_name"
-            android:layout_width="300dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="Họ và tên đệm" />
+            android:layout_weight="1"
+            android:hint="Last Name"
+            android:background="@drawable/rounded_edit_text"
+            android:padding="12dp" />
     </LinearLayout>
 
     <EditText
         android:id="@+id/et_birth_date"
         android:layout_width="match_parent"
-        android:layout_below="@id/ll_name"
         android:layout_height="wrap_content"
-        android:hint="Ngày sinh"
-        android:paddingVertical="10dp"
-        android:layout_margin="16dp"/>
+        android:hint="Date of Birth"
+        android:layout_below="@id/ll_name"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/rounded_edit_text"
+        android:padding="12dp" />
 
     <Spinner
         android:id="@+id/spinner_gender"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/et_birth_date"
-        android:paddingVertical="10dp"
-        android:layout_margin="16dp"/>
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/rounded_spinner"
+        android:padding="12dp"/>
 
-   <Spinner
-       android:id="@+id/spinner_user_role"
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:layout_below="@id/spinner_gender"
-       android:layout_margin="16dp"
-       android:paddingVertical="10dp"/>
-
+    <Spinner
+        android:id="@+id/spinner_user_role"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/spinner_gender"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/rounded_spinner"
+        android:padding="12dp"/>
 
     <Button
         android:id="@+id/btn_save_user"
-        android:background="@color/blue_200"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Lưu"
+        android:text="Save"
+        android:background="@color/colorPrimary"
+        android:textColor="@android:color/white"
         android:layout_below="@id/spinner_user_role"
-        android:layout_margin="16dp" />
+        android:layout_marginTop="16dp"
+        android:padding="12dp"/>
 </RelativeLayout>

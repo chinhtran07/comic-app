@@ -7,32 +7,101 @@
     android:padding="16dp"
     tools:context=".fragments.title.TitleDetailFragment">
 
+    <!-- Comic Title -->
     <TextView
         android:id="@+id/tv_comic_detail_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Comic Title"
         android:textSize="20sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:textColor="@color/colorPrimary"
+        android:layout_marginBottom="8dp" />
 
+    <!-- Comic Author -->
     <TextView
         android:id="@+id/tv_comic_detail_author"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Comic Author"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:textColor="@color/colorAccent"
+        android:layout_marginBottom="16dp" />
 
-    <!-- Add other fields as necessary -->
+    <!-- Comic Uploaded Date -->
+    <TextView
+        android:id="@+id/tv_comic_detail_uploaded_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Uploaded Date: 01/01/2024"
+        android:textSize="16sp"
+        android:layout_marginBottom="8dp" />
 
+    <!-- Comic Cover -->
+    <ImageView
+        android:id="@+id/iv_comic_detail_cover"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:scaleType="centerCrop"
+        android:layout_marginBottom="16dp"
+        android:contentDescription="Comic Cover"
+        tools:srcCompat="@drawable/ic_user_placeholder" />
+
+    <!-- Comic Views -->
+    <TextView
+        android:id="@+id/tv_comic_detail_views"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Views: 12345"
+        android:textSize="16sp"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Comic Publication Status -->
+    <TextView
+        android:id="@+id/tv_comic_detail_pub_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Publication Status: Published"
+        android:textSize="16sp"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Comic Format -->
+    <TextView
+        android:id="@+id/tv_comic_detail_format"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Format: Digital"
+        android:textSize="16sp"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Comic Genres -->
+    <TextView
+        android:id="@+id/tv_comic_detail_genres"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Genres: Action, Adventure"
+        android:textSize="16sp"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Edit Button -->
     <Button
         android:id="@+id/btn_edit_comic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Edit" />
+        android:text="Edit"
+        android:textColor="@android:color/white"
+        android:backgroundTint="@color/colorPrimary"
+        android:padding="12dp"
+        android:layout_marginBottom="8dp" />
 
+    <!-- Delete Button -->
     <Button
         android:id="@+id/btn_delete_comic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Delete" />
+        android:text="Delete"
+        android:textColor="@android:color/white"
+        android:backgroundTint="@color/colorAccent"
+        android:padding="12dp" />
+
 </LinearLayout>
