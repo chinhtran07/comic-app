@@ -11,6 +11,7 @@ import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.main.comicapp.models.Genre;
 import com.main.comicapp.repositories.GenreRepository;
 
@@ -21,6 +22,7 @@ import java.util.List;
 public class GenreRepositoryImpl implements GenreRepository {
 
     private static GenreRepositoryImpl instance;
+    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     private GenreRepositoryImpl() {
 
@@ -81,5 +83,10 @@ public class GenreRepositoryImpl implements GenreRepository {
 
     private CollectionReference getGenreReference() {
         return FirebaseFirestore.getInstance().collection("genres");
+    }
+
+    @Override
+    public Task<QuerySnapshot> getAllGenres(){
+        return db.collection("genres").get();
     }
 }
