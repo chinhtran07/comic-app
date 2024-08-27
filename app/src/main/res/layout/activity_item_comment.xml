@@ -3,7 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="8dp">
+    android:padding="16dp"
+    android:background="@android:color/white"
+    android:elevation="2dp"
+    android:layout_marginBottom="8dp">
 
     <TextView
         android:id="@+id/tv_comment_text"
@@ -12,6 +15,7 @@
         android:text="Comment Text"
         android:textSize="16sp"
         android:textStyle="bold"
+        android:textColor="@color/black"
         android:layout_marginBottom="4dp"/>
 
     <TextView
@@ -20,6 +24,7 @@
         android:layout_height="wrap_content"
         android:text="Title"
         android:textSize="14sp"
+        android:textColor="@color/darker_gray"
         android:layout_marginBottom="2dp"/>
 
     <TextView
@@ -28,32 +33,37 @@
         android:layout_height="wrap_content"
         android:text="User"
         android:textSize="14sp"
+        android:textColor="@color/darker_gray"
         android:layout_marginBottom="8dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:gravity="end">
 
         <Button
             android:id="@+id/btn_edit_comment"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Edit" />
+            android:text="Edit"
+            android:textColor="@color/colorPrimary"
+            android:background="@android:color/transparent"
+            android:layout_marginEnd="8dp"/>
 
         <Button
             android:id="@+id/btn_delete_comment"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Delete" />
+            android:text="Delete"
+            android:textColor="@color/colorAccent"
+            android:background="@android:color/transparent"/>
     </LinearLayout>
 
-    <!-- Thêm một đường kẻ phân cách ở dưới cùng của mỗi item -->
+    <!-- A subtle divider for better separation -->
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@android:color/darker_gray"
+        android:background="@color/darker_gray"
         android:layout_marginTop="8dp"/>
 </LinearLayout>

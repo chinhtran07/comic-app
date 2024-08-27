@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.main.comicapp.R;
+import com.main.comicapp.activities.user.HomeActivity;
 import com.main.comicapp.models.User;
 import com.main.comicapp.models.UserSession;
 import com.main.comicapp.viewmodels.UserSessionViewModel;
@@ -20,7 +21,6 @@ import com.main.comicapp.viewmodels.UserViewModel;
 
 import org.mindrot.jbcrypt.BCrypt;
 
-import java.util.Objects;
 import java.util.UUID;
 import java.util.regex.Pattern;
 

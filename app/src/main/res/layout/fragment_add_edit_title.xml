@@ -11,24 +11,74 @@
         android:orientation="vertical"
         android:padding="16dp">
 
+        <!-- Comic Title -->
         <EditText
             android:id="@+id/et_comic_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Comic Title" />
+            android:hint="Comic Title"
+            android:padding="12dp"
+            android:background="@drawable/rounded_edit_text" />
 
+        <!-- Comic Author -->
         <EditText
             android:id="@+id/et_comic_author"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Comic Author" />
+            android:hint="Comic Author"
+            android:layout_marginTop="12dp"
+            android:padding="12dp"
+            android:background="@drawable/rounded_edit_text" />
 
-        <!-- Add other fields as necessary -->
+        <!-- Cover Image -->
+        <ImageView
+            android:id="@+id/iv_cover_image"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/circle_border"
+            android:clickable="true"
+            android:contentDescription="Cover Image"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_user_placeholder" />
 
+        <!-- Publish Status -->
+        <Spinner
+            android:id="@+id/spinner_pub_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/rounded_spinner"
+            android:padding="12dp"/>
+
+        <!-- Title Format -->
+        <Spinner
+            android:id="@+id/spinner_title_format"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/rounded_spinner"
+            android:padding="12dp"/>
+
+        <!-- Genre -->
+        <EditText
+            android:id="@+id/et_genre_ids"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Genre IDs (comma separated)"
+            android:layout_marginTop="12dp"
+            android:padding="12dp"
+            android:background="@drawable/rounded_edit_text" />
+
+        <!-- Save Button -->
         <Button
             android:id="@+id/btn_save_comic"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Save" />
+            android:text="Save"
+            android:layout_marginTop="24dp"
+            android:background="@color/colorPrimary"
+            android:textColor="@android:color/white"
+            android:padding="12dp"/>
     </LinearLayout>
 </ScrollView>

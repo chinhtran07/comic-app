@@ -3,30 +3,43 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="8dp">
+    android:padding="16dp"
+    android:background="@android:color/white"
+    android:layout_marginBottom="8dp"
+    android:elevation="2dp">
 
+    <!-- Chapter Number -->
     <TextView
         android:id="@+id/text_view_chapter_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Chapter Number"
-        android:textSize="16sp"
-        android:textStyle="bold"/>
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:layout_marginBottom="4dp"/>
 
+    <!-- Chapter Description -->
     <TextView
         android:id="@+id/text_view_chapter_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Description"
-        android:textSize="14sp"/>
+        android:textSize="16sp"
+        android:textColor="@color/darker_gray"
+        android:layout_marginBottom="4dp"/>
 
+    <!-- Uploaded Date -->
     <TextView
         android:id="@+id/text_view_uploaded_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Uploaded Date"
-        android:textSize="14sp"/>
+        android:textSize="14sp"
+        android:textColor="@color/darker_gray"
+        android:layout_marginBottom="8dp"/>
 
+    <!-- Buttons for Update and Delete -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -38,14 +51,24 @@
             android:id="@+id/button_update_chapter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Update"/>
+            android:text="Update"
+            android:background="@color/colorPrimary"
+            android:textColor="@android:color/white"
+            android:layout_marginEnd="8dp"/>
 
         <Button
             android:id="@+id/button_delete_chapter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Delete"
-            android:layout_marginStart="8dp"/>
+            android:background="@color/colorAccent"
+            android:textColor="@android:color/white"/>
     </LinearLayout>
 
+    <!-- Divider -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/darker_gray"
+        android:layout_marginTop="8dp"/>
 </LinearLayout>

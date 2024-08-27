@@ -1,31 +1,158 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
     tools:context=".fragments.user.EditUserFragment">
 
-    <!-- Form fields to edit user -->
-    <EditText
-        android:id="@+id/et_username"
+    <!-- Username field -->
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Username"
-        android:layout_margin="16dp" />
+        android:layout_marginBottom="12dp">
+        <EditText
+            android:id="@+id/et_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Username"
+            android:inputType="textPersonName"
+            android:importantForAccessibility="yes"
+            android:contentDescription="Enter username"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <EditText
-        android:id="@+id/et_email"
+    <!-- Email field -->
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Email"
-        android:layout_below="@id/et_username"
-        android:layout_margin="16dp" />
+        android:layout_marginBottom="12dp">
+        <EditText
+            android:id="@+id/et_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            android:importantForAccessibility="yes"
+            android:contentDescription="Enter email"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
 
+    <!-- First Name field -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp">
+        <EditText
+            android:id="@+id/et_first_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="First Name"
+            android:inputType="textPersonName"
+            android:importantForAccessibility="yes"
+            android:contentDescription="Enter first name"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Last Name field -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp">
+        <EditText
+            android:id="@+id/et_last_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Last Name"
+            android:inputType="textPersonName"
+            android:importantForAccessibility="yes"
+            android:contentDescription="Enter last name"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Gender field -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp">
+        <Spinner
+            android:id="@+id/spinner_gender"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:importantForAccessibility="yes"
+            android:contentDescription="Select gender"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Birth Date field -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp">
+        <EditText
+            android:id="@+id/et_birth_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Birth Date (YYYY-MM-DD)"
+            android:inputType="date"
+            android:importantForAccessibility="yes"
+            android:contentDescription="Enter birth date"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Avatar URL field -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp">
+        <EditText
+            android:id="@+id/et_avatar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Avatar URL"
+            android:inputType="textUri"
+            android:importantForAccessibility="yes"
+            android:contentDescription="Enter avatar URL"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- User Role selection spinner -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp">
+        <Spinner
+            android:id="@+id/spinner_role"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:importantForAccessibility="yes"
+            android:contentDescription="Select user role"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Active status checkbox -->
+    <CheckBox
+        android:id="@+id/cb_active"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Active"
+        android:layout_marginBottom="16dp"
+        android:importantForAccessibility="yes"
+        android:contentDescription="Active status"
+        />
+
+    <!-- Save button -->
     <Button
         android:id="@+id/btn_save_user"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Save"
-        android:layout_below="@id/et_email"
-        android:layout_margin="16dp" />
-</RelativeLayout>
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/colorPrimary"
+        android:textColor="@android:color/white"
+        android:importantForAccessibility="yes"
+        android:contentDescription="Save user details"
+        />
+
+</LinearLayout>

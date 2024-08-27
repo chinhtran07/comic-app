@@ -1,4 +1,4 @@
-package com.main.comicapp.activities;
+package com.main.comicapp.activities.admin;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
