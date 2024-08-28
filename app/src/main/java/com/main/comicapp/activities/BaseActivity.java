@@ -90,8 +90,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         bottomNavigationView.setSelectedItemId(currentAction);
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> handleBottomNavSelection(item.getItemId(), actionPrefs));
-        bottomNavigationView.getMenu().findItem(R.id.action_admin).setVisible(false);
-        invalidateOptionsMenu();
+        invalidateOptionsMenu(); // Cập nhật menu sau khi thiết lập
     }
 
     private void initializeNavigationActions() {
@@ -100,7 +99,27 @@ public abstract class BaseActivity extends AppCompatActivity {
         navigationActions.put(R.id.action_history, this::navigateToHistory);
         navigationActions.put(R.id.action_profile, this::startUserProfileActivity);
         navigationActions.put(R.id.action_logout, this::logout);
-        navigationActions.put(R.id.action_admin, this::navigateToAdmin);
+
+        // Kiểm tra vai trò người dùng để quyết định hiển thị icon Admin
+        fetchUserId(new UserIdCallback() {
+            @Override
+            public void onUserIdFetched(String userId) {
+                if (userId != null) {
+                    userViewModel.fetchUserById(userId);
+                    userViewModel.getUserLiveData().observe(BaseActivity.this, user -> {
+                        if (user != null) {
+                            if (user.getUserRole().equals(UserRole.ADMIN.name())) {
+                                navigationActions.put(R.id.action_admin, BaseActivity.this::navigateToAdmin);
+                                bottomNavigationView.getMenu().findItem(R.id.action_admin).setVisible(true);
+                            } else {
+                                bottomNavigationView.getMenu().findItem(R.id.action_admin).setVisible(false);
+                            }
+                            invalidateOptionsMenu();
+                        }
+                    });
+                }
+            }
+        });
     }
 
     private boolean handleBottomNavSelection(int itemId, SharedPreferences actionPrefs) {
@@ -132,22 +151,16 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     private void startUserProfileActivity() {
-        fetchUserId(new UserIdCallback() {
-            @Override
-            public void onUserIdFetched(String userId) {
-                Intent intent = new Intent(BaseActivity.this, UserProfileActivity.class);
-                if (userId != null) {
-                    intent.putExtra("USER_ID", userId);
-                    Log.d("UID: ", userId);
-                } else {
-                    Log.d("UID: ", "Null");
-                }
-                startActivity(intent);
-                finish();
-            }
-        });
+        if (uid != null) {
+            Intent intent = new Intent(this, UserProfileActivity.class);
+            intent.putExtra("USER_ID", uid);
+            Log.d("UID: ", uid);
+            startActivity(intent);
+            finish();
+        } else {
+            Log.d("UID: ", "Null");
+        }
     }
-
 
     protected void logout() {
         new AlertDialog.Builder(this)
@@ -181,9 +194,9 @@ public abstract class BaseActivity extends AppCompatActivity {
                     userViewModel.fetchUserById(userSession.getUserId());
                     userViewModel.getUserLiveData().observe(this, user -> {
                         if (user != null) {
-                            String userID = user.getId();
-                            Log.d("User ID: ", userID);
-                            callback.onUserIdFetched(userID);
+                            uid = user.getId();
+                            Log.d("User ID: ", uid);
+                            callback.onUserIdFetched(uid);
                         }
                     });
                 }
@@ -196,7 +209,4 @@ public abstract class BaseActivity extends AppCompatActivity {
     public interface UserIdCallback {
         void onUserIdFetched(String userId);
     }
-
-
-
 }
