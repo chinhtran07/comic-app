@@ -5,16 +5,16 @@
     android:orientation="horizontal"
     android:padding="20dp"
     android:gravity="center_vertical"
-    android:background="@drawable/user_background"
+    android:background="@drawable/genre_background"
     android:elevation="4dp"
     android:layout_margin="8dp">
 
     <ImageView
-        android:id="@+id/iv_user_avatar"
+        android:id="@+id/iv_genre_icon"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:src="@drawable/ic_user_placeholder"
-        android:contentDescription="@string/user_avatar"
+        android:src="@drawable/baseline_chevron_right_24"
+        android:contentDescription="Genre Icon"
         android:layout_marginEnd="16dp"/>
 
     <LinearLayout
@@ -25,14 +25,14 @@
         android:layout_gravity="center_vertical">
 
         <TextView
-            android:id="@+id/tv_user_name"
+            android:id="@+id/tv_genre_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
-            android:textSize="16sp"/>
+            android:textSize="18sp"/>
 
         <TextView
-            android:id="@+id/tv_user_email"
+            android:id="@+id/tv_genre_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"
@@ -40,8 +40,9 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/btn_user_status"
+        android:id="@+id/btn_genre_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Xóa"
         android:textSize="14sp"/>
 </LinearLayout>

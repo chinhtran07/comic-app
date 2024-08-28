@@ -32,7 +32,7 @@ public class AdminActivity extends AppCompatActivity {
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow, R.id.nav_title_management, R.id.nav_comment_management)
+                R.id.nav_home, R.id.nav_gallery, R.id.nav_title_management, R.id.nav_comment_management, R.id.nav_genre_management)
                 .setOpenableLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_admin);
@@ -46,15 +46,18 @@ public class AdminActivity extends AppCompatActivity {
                 startActivity(intent);
                 drawer.closeDrawers();
                 return true;
-            }
-            else if(id == R.id.nav_gallery){
+            } else if (id == R.id.nav_gallery) {
                 Intent intent = new Intent(this, AdminManagementUserActivity.class);
                 startActivity(intent);
                 drawer.closeDrawers();
                 return true;
-            }
-            else if(id == R.id.nav_home){
+            } else if (id == R.id.nav_home) {
                 Intent intent = new Intent(this, HomeActivity.class);
+                startActivity(intent);
+                drawer.closeDrawers();
+                return true;
+            } else if (id == R.id.nav_genre_management) {
+                Intent intent = new Intent(this, AdminManagementGenreActivity.class);
                 startActivity(intent);
                 drawer.closeDrawers();
                 return true;

@@ -15,9 +15,7 @@ public class UserManagementFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        // Trực tiếp chuyển đến AdminManagementUserActivity khi Fragment này được tạo.
         startActivity(new Intent(getActivity(), AdminManagementUserActivity.class));
-        // Không gọi finish() để cho phép người dùng quay lại.
-        return new View(getContext()); // Trả về một View rỗng vì không cần hiển thị gì
+        return new View(getContext());
     }
 }

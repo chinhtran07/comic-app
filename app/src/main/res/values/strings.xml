@@ -42,6 +42,7 @@
     <string name="menu_genre_managing">Quản lý thể loại</string>
     <string name="title_management">Quản lý truyện</string>
     <string name="comment_management">Quản lý comment</string>
+    <string name="genre_management">Quản lý danh mục</string>
 
     <string name="action_logout">Logout</string>
     <string name="action_admin">Admin</string>

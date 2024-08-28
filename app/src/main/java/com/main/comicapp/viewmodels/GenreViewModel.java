@@ -24,4 +24,19 @@ public class GenreViewModel extends ViewModel {
         return genreRepository.getGenres(genreIds);
     }
 
+    public LiveData<List<Genre>> getAllGenres() {
+        return genreRepository.getAllGenres();
+    }
+
+    public void addGenre(Genre genre) {
+        genreRepository.addGenre(genre);
+    }
+
+    public void deleteGenre(String genreId) {
+        genreRepository.deleteGenre(genreId);
+    }
+
+    public void updateGenre(Genre genre) {
+        genreRepository.updateGenre(genre);
+    }
 }
