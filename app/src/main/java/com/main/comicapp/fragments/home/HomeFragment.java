@@ -63,7 +63,6 @@ public class HomeFragment extends Fragment {
     }
 
     private void loadStats() {
-        // Example: Adding stat cards programmatically
         addStatCard("Total Comics", "120");
         addStatCard("Total Users", "350");
         addStatCard("New Comics This Month", "20");

@@ -16,6 +16,10 @@ public class Genre implements Serializable {
         this.name = name;
     }
 
+    public Genre(String id, String name) {
+        this.name = name;
+    }
+
     public String getId() {
         return id;
     }
@@ -35,9 +39,12 @@ public class Genre implements Serializable {
     public static Genre toObject(Map<String, Object> data, String id) {
         Genre genre = new Genre();
         genre.setId(id);
-        if (ValidateUtil.validateObject(data)) {
-            genre.setName(Objects.requireNonNull(data.get("name")).toString());
+        if (data != null && data.containsKey("name") && data.get("name") != null) {
+            genre.setName(data.get("name").toString());
+        } else {
+            genre.setName("Unknown");
         }
         return genre;
     }
+
 }
