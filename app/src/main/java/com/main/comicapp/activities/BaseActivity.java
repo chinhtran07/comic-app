@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -33,7 +34,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected UserSession currentUserSession;
     protected BottomNavigationView bottomNavigationView;
     private Context context;
-    private String uid;
+    private String uid = null;
     private Map<Integer, Runnable> navigationActions;
 
     @Override
@@ -131,11 +132,22 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     private void startUserProfileActivity() {
-        Intent intent = new Intent(this, UserProfileActivity.class);
-        intent.putExtra("USER_ID", uid);
-        startActivity(intent);
-        finish();
+        fetchUserId(new UserIdCallback() {
+            @Override
+            public void onUserIdFetched(String userId) {
+                Intent intent = new Intent(BaseActivity.this, UserProfileActivity.class);
+                if (userId != null) {
+                    intent.putExtra("USER_ID", userId);
+                    Log.d("UID: ", userId);
+                } else {
+                    Log.d("UID: ", "Null");
+                }
+                startActivity(intent);
+                finish();
+            }
+        });
     }
+
 
     protected void logout() {
         new AlertDialog.Builder(this)
@@ -157,4 +169,34 @@ public abstract class BaseActivity extends AppCompatActivity {
         userSessionViewModel.deleteUserSession(currentSessionId);
         prefs.edit().remove("session_id").apply();
     }
+
+    private void fetchUserId(UserIdCallback callback) {
+        SharedPreferences prefs = getSharedPreferences("user_session", MODE_PRIVATE);
+        String currentSessionId = prefs.getString("session_id", null);
+
+        if (currentSessionId != null) {
+            userSessionViewModel.fetchUserSession(currentSessionId);
+            userSessionViewModel.getCurrentUserSession().observe(this, userSession -> {
+                if (userSession != null) {
+                    userViewModel.fetchUserById(userSession.getUserId());
+                    userViewModel.getUserLiveData().observe(this, user -> {
+                        if (user != null) {
+                            String userID = user.getId();
+                            Log.d("User ID: ", userID);
+                            callback.onUserIdFetched(userID);
+                        }
+                    });
+                }
+            });
+        } else {
+            callback.onUserIdFetched(null);
+        }
+    }
+
+    public interface UserIdCallback {
+        void onUserIdFetched(String userId);
+    }
+
+
+
 }
