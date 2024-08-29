@@ -4,9 +4,9 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="16dp"
-    android:background="@android:color/white"
-    android:elevation="2dp"
-    android:layout_marginBottom="8dp">
+    android:background="@drawable/genre_background"
+    android:elevation="4dp"
+    android:layout_margin="8dp">
 
     <TextView
         android:id="@+id/tv_comment_text"
@@ -15,25 +15,22 @@
         android:text="Comment Text"
         android:textSize="16sp"
         android:textStyle="bold"
-        android:textColor="@color/black"
         android:layout_marginBottom="4dp"/>
 
     <TextView
         android:id="@+id/tv_comment_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Title"
+        android:text="Tên truyện: "
         android:textSize="14sp"
-        android:textColor="@color/darker_gray"
         android:layout_marginBottom="2dp"/>
 
     <TextView
         android:id="@+id/tv_comment_user"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="User"
+        android:text="Tên người dùng: "
         android:textSize="14sp"
-        android:textColor="@color/darker_gray"
         android:layout_marginBottom="8dp"/>
 
     <LinearLayout
@@ -43,27 +40,9 @@
         android:gravity="end">
 
         <Button
-            android:id="@+id/btn_edit_comment"
+            android:id="@+id/btn_toggle_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Edit"
-            android:textColor="@color/colorPrimary"
-            android:background="@android:color/transparent"
-            android:layout_marginEnd="8dp"/>
-
-        <Button
-            android:id="@+id/btn_delete_comment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Delete"
-            android:textColor="@color/colorAccent"
-            android:background="@android:color/transparent"/>
+            android:text=""/>
     </LinearLayout>
-
-    <!-- A subtle divider for better separation -->
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/darker_gray"
-        android:layout_marginTop="8dp"/>
 </LinearLayout>
