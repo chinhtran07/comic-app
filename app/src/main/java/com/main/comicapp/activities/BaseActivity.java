@@ -191,6 +191,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             userSessionViewModel.fetchUserSession(currentSessionId);
             userSessionViewModel.getCurrentUserSession().observe(this, userSession -> {
                 if (userSession != null) {
+                    currentUserSession = userSession;
                     userViewModel.fetchUserById(userSession.getUserId());
                     userViewModel.getUserLiveData().observe(this, user -> {
                         if (user != null) {
