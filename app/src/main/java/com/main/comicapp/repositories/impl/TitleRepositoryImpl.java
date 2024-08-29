@@ -8,6 +8,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -55,8 +56,8 @@ public class TitleRepositoryImpl implements TitleRepository {
     }
 
     @Override
-    public void addTitle(Title title) {
-        getTitleReference().add(title);
+    public Task<DocumentReference> addTitle(Title title) {
+        return getTitleReference().add(title);
     }
 
     @Override

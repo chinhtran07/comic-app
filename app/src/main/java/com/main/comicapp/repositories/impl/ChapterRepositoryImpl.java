@@ -35,20 +35,17 @@ public class ChapterRepositoryImpl implements ChapterRepository {
     @Override
     public LiveData<Chapter> getChapter(String id) {
         MutableLiveData<Chapter> chapterLiveData = new MutableLiveData<>();
-        getChapterReference().document(id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        Chapter chapter = Chapter.toObject(document.getData(), id);
-                        chapterLiveData.setValue(chapter);
-                    } else {
-                        chapterLiveData.setValue(null);
-                    }
+        getChapterReference().document(id).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot document = task.getResult();
+                if (document.exists()) {
+                    Chapter chapter = Chapter.toObject(document.getData(), id);
+                    chapterLiveData.setValue(chapter);
                 } else {
                     chapterLiveData.setValue(null);
                 }
+            } else {
+                chapterLiveData.setValue(null);
             }
         });
         return chapterLiveData;
@@ -57,51 +54,27 @@ public class ChapterRepositoryImpl implements ChapterRepository {
     @Override
     public void addChapter(Chapter chapter) {
         getChapterReference().add(chapter)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        // Chapter added successfully
-                    }
+                .addOnSuccessListener(documentReference -> {
                 })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        // Handle failure
-                    }
+                .addOnFailureListener(e -> {
                 });
     }
 
     @Override
     public void updateChapter(String id, Chapter chapter) {
         getChapterReference().document(id).set(chapter)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        // Chapter updated successfully
-                    }
+                .addOnSuccessListener(aVoid -> {
                 })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        // Handle failure
-                    }
+                .addOnFailureListener(e -> {
                 });
     }
 
     @Override
     public void deleteChapter(String id) {
         getChapterReference().document(id).delete()
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        // Chapter deleted successfully
-                    }
+                .addOnSuccessListener(aVoid -> {
                 })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        // Handle failure
-                    }
+                .addOnFailureListener(e -> {
                 });
     }
 
@@ -109,23 +82,15 @@ public class ChapterRepositoryImpl implements ChapterRepository {
     public LiveData<List<Chapter>> getChapters(String titleId) {
         MutableLiveData<List<Chapter>> chaptersLiveData = new MutableLiveData<>();
         Query query = getChapterReference().whereEqualTo("titleId", titleId);
-        query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                List<Chapter> chapters = new ArrayList<>();
-                for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                    Map<String, Object> data = documentSnapshot.getData();
-                    Chapter chapter = Chapter.toObject(data, documentSnapshot.getId());
-                    chapters.add(chapter);
-                }
-                chaptersLiveData.setValue(chapters);
+        query.get().addOnSuccessListener(queryDocumentSnapshots -> {
+            List<Chapter> chapters = new ArrayList<>();
+            for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                Map<String, Object> data = documentSnapshot.getData();
+                Chapter chapter = Chapter.toObject(data, documentSnapshot.getId());
+                chapters.add(chapter);
             }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                chaptersLiveData.setValue(null);
-            }
-        });
+            chaptersLiveData.setValue(chapters);
+        }).addOnFailureListener(e -> chaptersLiveData.setValue(null));
         return chaptersLiveData;
     }
 
@@ -133,44 +98,48 @@ public class ChapterRepositoryImpl implements ChapterRepository {
     public LiveData<List<String>> getChapterDocumentIds(String titleId) {
         MutableLiveData<List<String>> result = new MutableLiveData<>();
         getChapterReference().whereEqualTo("titleId", titleId).get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        List<String> documentIds = new ArrayList<>();
-                        for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
-                            documentIds.add(document.getId());
-                        }
-                        result.setValue(documentIds);
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    List<String> documentIds = new ArrayList<>();
+                    for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
+                        documentIds.add(document.getId());
                     }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        result.setValue(null);
-                    }
-                });
+                    result.setValue(documentIds);
+                }).addOnFailureListener(e -> result.setValue(null));
         return result;
+    }
+
+    @Override
+    public LiveData<List<Chapter>> getChaptersByIds(List<String> chapterIds) {
+        MutableLiveData<List<Chapter>> chaptersLiveData = new MutableLiveData<>();
+        if (chapterIds == null || chapterIds.isEmpty()) {
+            chaptersLiveData.setValue(new ArrayList<>());
+            return chaptersLiveData;
+        }
+
+        getChapterReference().whereIn("__name__", chapterIds).get().addOnSuccessListener(queryDocumentSnapshots -> {
+            List<Chapter> chapters = new ArrayList<>();
+            for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                Map<String, Object> data = documentSnapshot.getData();
+                Chapter chapter = Chapter.toObject(data, documentSnapshot.getId());
+                chapters.add(chapter);
+            }
+            chaptersLiveData.setValue(chapters);
+        }).addOnFailureListener(e -> chaptersLiveData.setValue(null));
+        return chaptersLiveData;
     }
 
     @Override
     public LiveData<List<Chapter>> getAllChapters() {
         MutableLiveData<List<Chapter>> allChaptersLiveData = new MutableLiveData<>();
-        getChapterReference().get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                List<Chapter> chapters = new ArrayList<>();
-                for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                    Map<String, Object> data = documentSnapshot.getData();
-                    Chapter chapter = Chapter.toObject(data, documentSnapshot.getId());
-                    chapters.add(chapter);
-                }
-                allChaptersLiveData.setValue(chapters);
+        getChapterReference().get().addOnSuccessListener(queryDocumentSnapshots -> {
+            List<Chapter> chapters = new ArrayList<>();
+            for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                Map<String, Object> data = documentSnapshot.getData();
+                Chapter chapter = Chapter.toObject(data, documentSnapshot.getId());
+                chapters.add(chapter);
             }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                allChaptersLiveData.setValue(null);
-            }
-        });
+            allChaptersLiveData.setValue(chapters);
+        }).addOnFailureListener(e -> allChaptersLiveData.setValue(null));
         return allChaptersLiveData;
     }
 

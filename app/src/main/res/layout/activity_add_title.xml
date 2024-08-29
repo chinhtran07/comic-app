@@ -1,0 +1,107 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="@android:color/background_light">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:id="@+id/tv_add_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Thêm truyện mới"
+            android:textSize="24sp"
+            android:textColor="@android:color/holo_blue_dark"
+            android:gravity="center"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp" />
+
+        <EditText
+            android:id="@+id/et_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Title"
+            android:inputType="textPersonName"
+            android:padding="12dp"
+            android:background="@drawable/rounded_edittext"
+            android:layout_marginBottom="16dp" />
+
+        <EditText
+            android:id="@+id/et_title_format"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Title Format"
+            android:inputType="textPersonName"
+            android:padding="12dp"
+            android:background="@drawable/rounded_edittext"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Button to select genres -->
+        <Button
+            android:id="@+id/btn_select_genres"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_button"
+            android:text="Chọn thể loại"
+            android:textColor="@android:color/white"
+            android:padding="12dp"
+            android:backgroundTint="#4E5581"
+            android:elevation="2dp"
+            android:layout_marginBottom="16dp" />
+
+        <EditText
+            android:id="@+id/et_views"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Views"
+            android:inputType="number"
+            android:padding="12dp"
+            android:background="@drawable/rounded_edittext"
+            android:layout_marginBottom="16dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="16dp">
+
+            <Button
+                android:id="@+id/btn_choose_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Chọn ảnh"
+                android:background="@drawable/rounded_button"
+                android:textColor="@android:color/white"
+                android:padding="8dp"
+                android:backgroundTint="#4E5581"
+                android:elevation="2dp" />
+
+            <ImageView
+                android:id="@+id/iv_image_preview"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginStart="16dp"
+                android:visibility="gone"
+                android:contentDescription="Image Preview"
+                android:scaleType="centerCrop"
+                android:background="@drawable/rounded_edittext" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_add_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_button"
+            android:text="Thêm truyện"
+            android:textColor="@android:color/white"
+            android:padding="16dp"
+            android:backgroundTint="#4E5581"
+            android:elevation="2dp"
+            android:layout_marginTop="20dp" />
+    </LinearLayout>
+</ScrollView>

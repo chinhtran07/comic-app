@@ -84,6 +84,12 @@
         <activity
             android:name=".activities.admin.AdminManagementGenreActivity"
             android:exported="true" />
+        <activity
+            android:name=".activities.admin.ManageTitleActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activities.admin.AddTitleActivity"
+            android:exported="true" />
     </application>
 
 </manifest>

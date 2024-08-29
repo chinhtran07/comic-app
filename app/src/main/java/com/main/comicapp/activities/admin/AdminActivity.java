@@ -61,6 +61,11 @@ public class AdminActivity extends AppCompatActivity {
                 startActivity(intent);
                 drawer.closeDrawers();
                 return true;
+            } else if (id == R.id.nav_title_management) {
+                Intent intent = new Intent(this, ManageTitleActivity.class);
+                startActivity(intent);
+                drawer.closeDrawers();
+                return true;
             }
             return NavigationUI.onNavDestinationSelected(item, navController)
                     || super.onOptionsItemSelected(item);
