@@ -50,4 +50,25 @@ public class SendMailRepositoryImpl implements SendMailRepository {
         EmailSenderUtils.sendEmail(user.getEmail(), subject, messageBody);
     }
 
+    @Override
+    public void sendStatusComment(User user, boolean newStatus) throws MessagingException {
+        String subject = "Thông báo về trạng thái comment của bạn";
+        String messageBody;
+
+        if (newStatus) {
+            messageBody = "Thân chào " + user.getLastName() + " " + user.getFirstName() + ",\n\n"
+                    + "Do bình luận của bạn đã vi phạm chính sách cộng đồng của chúng tôi nên sẽ bị ẩn.\n\n"
+                    + "Nếu có khiếu nại xin hãy liên hệ trực tiếp với người quản trị để được hỗ trợ \n\n"
+                    + "Trân trọng,\n"
+                    + "Đội ngũ hỗ trợ";
+        } else {
+            messageBody = "Thân chào " + user.getLastName() + " " + user.getFirstName() + ",\n\n"
+                    + "Cảm ơn bạn đã góp ý.\n\n"
+                    + "Bình luận của bạn đã được xem xét và khôi phục trở lại.\n\n"
+                    + "Trân trọng,\n"
+                    + "Đội ngũ hỗ trợ";
+        }
+
+        EmailSenderUtils.sendEmail(user.getEmail(), subject, messageBody);
+    }
 }

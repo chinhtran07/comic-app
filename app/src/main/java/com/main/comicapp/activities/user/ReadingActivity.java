@@ -94,15 +94,12 @@ public class ReadingActivity extends AppCompatActivity {
     }
 
     private void loadReadingPosition(String titleId) {
-        // Load from SharedPreferences
         String chapterId = sharedPreferences.getString(titleId + "_chapterId", null);
         String pageId = sharedPreferences.getString(titleId + "_pageId", null);
 
         if (chapterId != null) {
-            // If data exists in SharedPreferences, load chapter and pages
             loadChapterById(chapterId, -1);
         } else {
-            // Else, load from Firestore
             readingPositionViewModel.getReadingPosition(titleId, new OnSuccessListener<DocumentSnapshot>() {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
