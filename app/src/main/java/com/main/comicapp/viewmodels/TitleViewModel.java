@@ -26,8 +26,12 @@ public class TitleViewModel extends ViewModel {
         return titleRepository.getTitles(params);
     }
 
-    public void addTitle(Title title) {
-        titleRepository.addTitle(title);
+    public LiveData<Boolean> addTitle(Title title) {
+        MutableLiveData<Boolean> success = new MutableLiveData<>();
+        titleRepository.addTitle(title)
+                .addOnSuccessListener(documentReference -> success.setValue(true))
+                .addOnFailureListener(e -> success.setValue(false));
+        return success;
     }
 
     public void updateTitle(String id, Title title) {

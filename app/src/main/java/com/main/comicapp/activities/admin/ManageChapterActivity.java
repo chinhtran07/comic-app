@@ -24,11 +24,14 @@ public class ManageChapterActivity extends AppCompatActivity {
     private ChapterViewModel chapterViewModel;
     private RecyclerView recyclerView;
     private ChapterAdapter adapter;
+    private String titleId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_chapter);
+
+        titleId = getIntent().getStringExtra("title_id");
 
         recyclerView = findViewById(R.id.recycler_view_chapters);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -38,18 +41,29 @@ public class ManageChapterActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
         chapterViewModel = new ViewModelProvider(this).get(ChapterViewModel.class);
-        chapterViewModel.getAllChapters().observe(this, new Observer<List<Chapter>>() {
+
+        chapterViewModel.getChapterDocumentIds(titleId).observe(this, new Observer<List<String>>() {
             @Override
-            public void onChanged(List<Chapter> chapters) {
-                adapter.setChapters(chapters);
+            public void onChanged(List<String> chapterIds) {
+                if (chapterIds != null && !chapterIds.isEmpty()) {
+                    chapterViewModel.getChaptersByIds(chapterIds).observe(ManageChapterActivity.this, new Observer<List<Chapter>>() {
+                        @Override
+                        public void onChanged(List<Chapter> chapters) {
+                            adapter.setChapters(chapters);
+                        }
+                    });
+                } else {
+                    adapter.clearChapters();
+                }
             }
         });
+
 
         findViewById(R.id.button_add_chapter).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Mở Activity để thêm chương mới
                 Intent intent = new Intent(ManageChapterActivity.this, AddChapterActivity.class);
+                intent.putExtra("title_id", titleId);
                 startActivity(intent);
             }
         });
@@ -57,12 +71,10 @@ public class ManageChapterActivity extends AppCompatActivity {
         adapter.setListener(new ChapterAdapter.OnChapterClickListener() {
             @Override
             public void onChapterClick(Chapter chapter) {
-                // Xử lý khi click vào chương (có thể mở chi tiết chương)
             }
 
             @Override
             public void onUpdateClick(Chapter chapter) {
-                // Mở Activity để cập nhật chương
                 Intent intent = new Intent(ManageChapterActivity.this, UpdateChapterActivity.class);
                 intent.putExtra("chapter_id", chapter.getId());
                 startActivity(intent);
@@ -70,7 +82,6 @@ public class ManageChapterActivity extends AppCompatActivity {
 
             @Override
             public void onDeleteClick(Chapter chapter) {
-                // Xóa chương
                 chapterViewModel.deleteChapter(chapter.getId());
                 Toast.makeText(ManageChapterActivity.this, "Chapter deleted", Toast.LENGTH_SHORT).show();
             }

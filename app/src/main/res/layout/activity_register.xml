@@ -1,188 +1,164 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    android:background="@android:color/background_light">
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/tv_register_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Register your account"
+        android:textSize="24sp"
+        android:textColor="@android:color/holo_blue_dark"
+        android:gravity="center"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center_horizontal">
+        android:orientation="horizontal"
+        android:layout_marginBottom="16dp">
+
+        <EditText
+            android:id="@+id/et_first_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:hint="First Name"
+            android:inputType="textPersonName" />
+
+        <EditText
+            android:id="@+id/et_last_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:hint="Last Name"
+            android:inputType="textPersonName" />
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/et_username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:hint="Username"
+        android:inputType="textPersonName" />
+
+    <TextView
+        android:id="@+id/tv_username_error"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/holo_red_light"
+        android:visibility="gone"
+        android:text="Username already taken"/>
+
+    <EditText
+        android:id="@+id/et_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:hint="Email"
+        android:inputType="textEmailAddress" />
+
+    <TextView
+        android:id="@+id/tv_email_error"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/holo_red_light"
+        android:visibility="gone"
+        android:text="Email already taken"/>
+
+    <EditText
+        android:id="@+id/et_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:hint="Password"
+        android:inputType="textPassword" />
+
+    <EditText
+        android:id="@+id/et_confirm_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:hint="Confirm Password"
+        android:inputType="textPassword" />
+
+    <Spinner
+        android:id="@+id/spinner_gender"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:entries="@array/gender_options" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="16dp">
 
         <TextView
-            android:id="@+id/tv_register_title"
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_birth_date"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Register Your Account"
-            android:textSize="24sp"
-            android:textColor="@android:color/holo_blue_dark"
-            android:gravity="center"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="16dp">
-
-            <EditText
-                android:id="@+id/et_first_name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginEnd="8dp"
-                android:hint="First Name"
-                android:inputType="textPersonName"
-                android:padding="12dp"
-                android:background="@drawable/rounded_edittext" />
-
-            <EditText
-                android:id="@+id/et_last_name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginStart="8dp"
-                android:hint="Last Name"
-                android:inputType="textPersonName"
-                android:padding="12dp"
-                android:background="@drawable/rounded_edittext" />
-        </LinearLayout>
-
-        <EditText
-            android:id="@+id/et_username"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:hint="Username"
-            android:inputType="textPersonName"
-            android:padding="12dp"
-            android:background="@drawable/rounded_edittext" />
-
-        <TextView
-            android:id="@+id/tv_username_error"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/holo_red_light"
-            android:visibility="gone"
-            android:text="Username already taken"
-            android:layout_marginBottom="8dp"/>
-
-        <EditText
-            android:id="@+id/et_email"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:hint="Email"
-            android:inputType="textEmailAddress"
-            android:padding="12dp"
-            android:background="@drawable/rounded_edittext" />
-
-        <TextView
-            android:id="@+id/tv_email_error"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/holo_red_light"
-            android:visibility="gone"
-            android:text="Email already taken"
-            android:layout_marginBottom="8dp"/>
-
-        <EditText
-            android:id="@+id/et_password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:hint="Password"
-            android:inputType="textPassword"
-            android:padding="12dp"
-            android:background="@drawable/rounded_edittext" />
-
-        <EditText
-            android:id="@+id/et_confirm_password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:hint="Confirm Password"
-            android:inputType="textPassword"
-            android:padding="12dp"
-            android:background="@drawable/rounded_edittext" />
-
-        <Spinner
-            android:id="@+id/spinner_gender"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:padding="12dp"
-            android:background="@drawable/rounded_edittext" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="16dp">
-
-            <TextView
-                android:id="@+id/tv_birth_date"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="Birth Date"
-                android:padding="16dp"
-                android:background="@drawable/rounded_edittext" />
-
-            <Button
-                android:id="@+id/btn_pick_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Pick Date"
-                android:background="@drawable/rounded_button"
-                android:textColor="@android:color/white"
-                android:padding="8dp"
-                android:layout_marginStart="8dp"
-                android:backgroundTint="#4E5581"
-                android:elevation="2dp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="16dp">
-
-            <ImageView
-                android:id="@+id/iv_image_preview"
-                android:layout_width="0dp"
-                android:layout_height="100dp"
-                android:layout_weight="1"
-                android:visibility="gone"
-                android:contentDescription="Image Preview"
-                android:scaleType="centerCrop"
-                android:background="@drawable/rounded_edittext" />
-
-            <Button
-                android:id="@+id/btn_choose_image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Choose Image"
-                android:background="@drawable/rounded_button"
-                android:textColor="@android:color/white"
-                android:padding="8dp"
-                android:layout_marginStart="8dp"
-                android:backgroundTint="#4E5581"
-                android:elevation="2dp" />
-        </LinearLayout>
+            android:layout_weight="1"
+            android:hint="Birth Date"
+            android:padding="16dp" />
 
         <Button
-            android:id="@+id/btn_register"
-            android:layout_width="match_parent"
+            android:id="@+id/btn_pick_date"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="Pick Date"
             android:background="@drawable/rounded_button"
-            android:text="Register"
             android:textColor="@android:color/white"
-            android:padding="16dp"
+            android:padding="8dp"
+            android:layout_marginStart="8dp"
             android:backgroundTint="#4E5581"
-            android:elevation="2dp"
-            android:layout_marginTop="20dp" />
+            android:elevation="2dp" />
     </LinearLayout>
-</ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="16dp">
+
+        <ImageView
+            android:id="@+id/iv_image_preview"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_weight="1"
+            android:visibility="gone"
+            android:contentDescription="Image Preview"
+            android:scaleType="centerCrop" />
+
+        <Button
+            android:id="@+id/btn_choose_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Choose Image"
+            android:background="@drawable/rounded_button"
+            android:textColor="@android:color/white"
+            android:padding="8dp"
+            android:layout_marginStart="8dp"
+            android:backgroundTint="#4E5581"
+            android:elevation="2dp" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_register"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_button"
+        android:text="Register"
+        android:textColor="@android:color/white"
+        android:padding="16dp"
+        android:backgroundTint="#4E5581"
+        android:elevation="2dp" />
+</LinearLayout>

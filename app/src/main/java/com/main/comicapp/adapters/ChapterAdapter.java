@@ -58,10 +58,26 @@ public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterV
         holder.txtChapterName.setText(chapterName);
         holder.txtDescription.setText(chapter.getDescription());
         holder.txtUploadDate.setText(chapter.getUploadedDate().toString());
-        holder.itemView.setOnClickListener(v -> listener.onChapterClick(chapter));
-        holder.btnUpdate.setOnClickListener(v -> listener.onUpdateClick(chapter));
-        holder.btnDelete.setOnClickListener(v -> listener.onDeleteClick(chapter));
+
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onChapterClick(chapter);
+            }
+        });
+
+        holder.btnUpdate.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onUpdateClick(chapter);
+            }
+        });
+
+        holder.btnDelete.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onDeleteClick(chapter);
+            }
+        });
     }
+
 
     @Override
     public int getItemCount() {

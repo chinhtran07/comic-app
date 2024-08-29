@@ -79,6 +79,7 @@ dependencies {
     implementation(libs.android.mail)
     implementation(libs.android.activation)
     implementation(kotlin("script-runtime"))
+    implementation("com.squareup.picasso:picasso:2.71828")
 }
 
 apply(plugin = "com.google.gms.google-services")

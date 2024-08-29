@@ -59,6 +59,21 @@ public class CommentViewModel extends ViewModel {
         });
     }
 
+    public void fetchAllComments() {
+        commentRepository.getAllComments().addOnCompleteListener(task -> {
+            if (task.isSuccessful() && task.getResult() != null) {
+                List<Comment> comments = task.getResult().toObjects(Comment.class);
+                commentsLiveData.setValue(comments);
+                for (Comment comment : comments) {
+                    fetchUserName(comment.getUserId());
+                    fetchTitleName(comment.getTitleId());
+                }
+            } else {
+                commentsLiveData.setValue(null);
+            }
+        });
+    }
+
     public LiveData<List<Comment>> getCommentsByTitle(String titleId) {
         MutableLiveData<List<Comment>> commentsByTitleLiveData = new MutableLiveData<>();
         commentRepository.getComments().addOnCompleteListener(task -> {

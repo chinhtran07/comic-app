@@ -27,6 +27,13 @@ public class CommentRepositoryImpl implements CommentRepository {
 
     @Override
     public Task<QuerySnapshot> getComments() {
+        return db.collection("comments")
+                .whereEqualTo("isActive", true)
+                .get();
+    }
+
+    @Override
+    public Task<QuerySnapshot> getAllComments() {
         return db.collection("comments").get();
     }
 

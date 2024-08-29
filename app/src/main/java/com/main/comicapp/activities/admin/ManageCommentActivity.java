@@ -54,7 +54,7 @@ public class ManageCommentActivity extends AppCompatActivity implements CommentA
             commentAdapter.setTitleNames(titleNames);
         });
 
-        commentViewModel.fetchComments();
+        commentViewModel.fetchAllComments();
         EditText etSearchComment = findViewById(R.id.et_search_comment);
         etSearchComment.addTextChangedListener(new TextWatcher() {
             @Override

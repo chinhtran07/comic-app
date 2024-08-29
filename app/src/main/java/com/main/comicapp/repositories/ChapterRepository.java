@@ -10,6 +10,10 @@ public interface ChapterRepository {
     void updateChapter(String id, Chapter chapter);
     void deleteChapter(String id);
     LiveData<List<Chapter>> getChapters(String titleId);
+
     LiveData<List<String>> getChapterDocumentIds(String titleId);
+
+    LiveData<List<Chapter>> getChaptersByIds(List<String> chapterIds);
+
     LiveData<List<Chapter>> getAllChapters();
 }

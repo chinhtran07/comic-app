@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-
 public class Title implements Serializable {
     private String id;
     private String title;
@@ -28,7 +27,6 @@ public class Title implements Serializable {
     private List<String> genreIds;
 
     public Title() {
-
     }
 
     public Title(String title, Date uploadedDate, String cover, int views, String pubStatus, String titleFormat, List<String> genreIds) {
@@ -105,6 +103,11 @@ public class Title implements Serializable {
         this.genreIds = genres;
     }
 
+    public void setGenre(String genreId) {
+        this.genreIds = new ArrayList<>();
+        this.genreIds.add(genreId);
+    }
+
     public static Title toObject(Map<String, Object> data, String id) throws ClassCastException {
         Title title = new Title();
         title.setId(id);
@@ -118,7 +121,7 @@ public class Title implements Serializable {
             } else if (uploadedDateObj instanceof String) {
                 try {
                     @SuppressLint("SimpleDateFormat")
-                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX");
                     Date uploadedDate = formatter.parse(uploadedDateObj.toString());
                     title.setUploadedDate(uploadedDate);
                 } catch (ParseException e) {
@@ -139,5 +142,4 @@ public class Title implements Serializable {
         }
         return title;
     }
-
 }
