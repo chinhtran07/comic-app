@@ -1,6 +1,7 @@
 package com.main.comicapp.activities.admin;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
@@ -50,6 +51,7 @@ public class StatisticsActivity extends BaseActivity {
     private void updatePieChart() {
         Integer readerCount = userViewModel.getReaderCountLiveData().getValue();
         Integer adminCount = userViewModel.getAdminCountLiveData().getValue();
+        Log.d("Sl user: ", readerCount.toString());
 
         if (readerCount != null && adminCount != null) {
             List<PieEntry> entries = new ArrayList<>();
