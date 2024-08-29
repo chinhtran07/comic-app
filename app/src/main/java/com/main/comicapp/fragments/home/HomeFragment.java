@@ -75,9 +75,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void observeData() {
-        // Quan sát số lượng người dùng và cập nhật bảng số liệu
         userViewModel.getReaderCountLiveData().observe(getViewLifecycleOwner(), readerCount -> {
-            // Lấy số lượng tổng số truyện
             titleViewModel.getTitleCount().observe(getViewLifecycleOwner(), totalComics -> {
                 if (totalComics != null) {
                     updateStats(totalComics);
@@ -93,7 +91,6 @@ public class HomeFragment extends Fragment {
         });
 
         userViewModel.getAdminCountLiveData().observe(getViewLifecycleOwner(), adminCount -> {
-            // Lấy số lượng tổng số truyện
             titleViewModel.getTitleCount().observe(getViewLifecycleOwner(), totalComics -> {
                 if (totalComics != null) {
                     updateStats(totalComics);
@@ -123,9 +120,7 @@ public class HomeFragment extends Fragment {
         addStatCard("Total Admins", adminCount != null ? adminCount.toString() : "0");
     }
 
-    // Phương thức mới để cập nhật số lượng truyện mới trong tháng hiện tại
     private void updateNewComicsStats(int newComicsThisMonth) {
-        // Remove old "New Comics This Month" card if exists
         removeStatCard("New Comics This Month");
         // Add updated "New Comics This Month" card
         addStatCard("New Comics This Month", String.valueOf(newComicsThisMonth));
@@ -197,10 +192,8 @@ public class HomeFragment extends Fragment {
                             genreCounts.put(genreName, count);
                             Log.d("PieChartData", "Ten danh muc: " + genreName + genre.getId() + " - SL: " + count);
 
-                            // Update entries for the pie chart
                             entries.add(new PieEntry(count, genreName));
 
-                            // Once all genres are processed, update the pie chart
                             if (genreCounts.size() == genres.size()) {
                                 updatePieChart(entries, pieChart);
                             }
@@ -216,7 +209,6 @@ public class HomeFragment extends Fragment {
         dataSet.setSliceSpace(3f);
         dataSet.setSelectionShift(5f);
 
-        // Generate random colors for each slice
         List<Integer> colors = new ArrayList<>();
         for (int i = 0; i < entries.size(); i++) {
             int color = Color.rgb((int) (Math.random() * 256), (int) (Math.random() * 256), (int) (Math.random() * 256));
@@ -229,7 +221,7 @@ public class HomeFragment extends Fragment {
         data.setValueTextColor(Color.YELLOW);
 
         pieChart.setData(data);
-        pieChart.invalidate(); // Refresh the chart
+        pieChart.invalidate();
     }
 
 
