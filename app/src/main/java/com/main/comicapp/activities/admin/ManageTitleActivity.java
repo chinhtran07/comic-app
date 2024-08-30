@@ -65,7 +65,6 @@ public class ManageTitleActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        // Add FloatingActionButton for adding new titles
         FloatingActionButton fabAddComic = findViewById(R.id.fab_add_comic);
         fabAddComic.setOnClickListener(v -> {
             Intent intent = new Intent(ManageTitleActivity.this, AddTitleActivity.class);

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.main.comicapp.R;
 import com.main.comicapp.models.Chapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterViewHolder> {
@@ -41,7 +42,11 @@ public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterV
     }
 
     public ChapterAdapter(List<Chapter> chapters) {
-        this.chapters = chapters;
+        if (chapters == null) {
+            this.chapters = new ArrayList<>(); // Khởi tạo danh sách chapters nếu null
+        } else {
+            this.chapters = chapters;
+        }
     }
 
     @NonNull
@@ -78,7 +83,6 @@ public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterV
         });
     }
 
-
     @Override
     public int getItemCount() {
         return chapters != null ? chapters.size() : 0;
@@ -102,7 +106,9 @@ public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterV
     }
 
     public void clearChapters() {
-        chapters.clear();
-        notifyDataSetChanged();
+        if (chapters != null) {
+            chapters.clear();
+            notifyDataSetChanged();
+        }
     }
 }

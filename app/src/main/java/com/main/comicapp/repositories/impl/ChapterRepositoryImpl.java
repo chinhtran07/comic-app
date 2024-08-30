@@ -1,19 +1,12 @@
 package com.main.comicapp.repositories.impl;
 
-import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.main.comicapp.models.Chapter;
 import com.main.comicapp.repositories.ChapterRepository;
 
@@ -52,12 +45,12 @@ public class ChapterRepositoryImpl implements ChapterRepository {
     }
 
     @Override
-    public void addChapter(Chapter chapter) {
+    public LiveData<Boolean> addChapter(Chapter chapter) {
+        MutableLiveData<Boolean> successLiveData = new MutableLiveData<>();
         getChapterReference().add(chapter)
-                .addOnSuccessListener(documentReference -> {
-                })
-                .addOnFailureListener(e -> {
-                });
+                .addOnSuccessListener(documentReference -> successLiveData.setValue(true))
+                .addOnFailureListener(e -> successLiveData.setValue(false));
+        return successLiveData;
     }
 
     @Override

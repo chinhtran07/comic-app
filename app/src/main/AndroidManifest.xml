@@ -90,6 +90,9 @@
         <activity
             android:name=".activities.admin.AddTitleActivity"
             android:exported="true" />
+        <activity
+            android:name=".activities.admin.UpdateChapterActivity"
+            android:exported="true" />
     </application>
 
 </manifest>
