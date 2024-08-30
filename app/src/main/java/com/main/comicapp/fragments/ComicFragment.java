@@ -28,7 +28,6 @@ public class ComicFragment extends Fragment {
     private String chapterId;
 
     public ComicFragment() {
-        // Required empty public constructor
     }
 
     @Override
