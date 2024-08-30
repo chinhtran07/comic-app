@@ -3,11 +3,10 @@ package com.main.comicapp.models;
 import android.annotation.SuppressLint;
 import android.util.Log;
 
-import com.google.firebase.firestore.PropertyName;
+import com.google.firebase.Timestamp;
 import com.main.comicapp.utils.ValidateUtil;
 
 import java.io.Serializable;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
@@ -78,14 +77,20 @@ public class Chapter implements Serializable {
             chapter.setChapterNumber(((Long) Objects.requireNonNull(data.get("chapterNumber"))).intValue());
             chapter.setDescription(Objects.requireNonNull(data.get("description")).toString());
 
-            @SuppressLint("SimpleDateFormat")
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-            try {
-                Date uploadedDate = formatter.parse(Objects.requireNonNull(data.get("uploadedDate")).toString());
-                chapter.setUploadedDate(uploadedDate);
-            } catch (ParseException e) {
-                Log.e("Error", "onEvent: Parse Exception", e);
+            Object uploadedDateObj = data.get("uploadedDate");
+            if (uploadedDateObj instanceof Timestamp) {
+                chapter.setUploadedDate(((Timestamp) uploadedDateObj).toDate());
+            } else if (uploadedDateObj instanceof String) {
+                try {
+                    @SuppressLint("SimpleDateFormat")
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+                    Date uploadedDate = formatter.parse(uploadedDateObj.toString());
+                    chapter.setUploadedDate(uploadedDate);
+                } catch (Exception e) {
+                    Log.e("Error", "onEvent: Parse Exception", e);
+                }
             }
+
             chapter.setTitleId(Objects.requireNonNull(data.get("titleId")).toString());
         }
         return chapter;

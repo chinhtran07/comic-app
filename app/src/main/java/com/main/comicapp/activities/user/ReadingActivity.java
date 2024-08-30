@@ -1,4 +1,4 @@
-package com.main.comicapp.activities;
+package com.main.comicapp.activities.user;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -83,7 +83,9 @@ public class ReadingActivity extends AppCompatActivity {
             }
 
             if (titleId != null) {
-                loadReadingPosition(titleId);
+                // loadReadingPosition(titleId);
+                Chapter chapter = (Chapter) intent.getSerializableExtra("chapter");
+                loadChapterById(chapter.getId(), chapter.getChapterNumber() - 1);
                 if (chapterDocumentIds == null) {
                     loadChapterDocumentIds();
                 }
@@ -92,15 +94,12 @@ public class ReadingActivity extends AppCompatActivity {
     }
 
     private void loadReadingPosition(String titleId) {
-        // Load from SharedPreferences
         String chapterId = sharedPreferences.getString(titleId + "_chapterId", null);
         String pageId = sharedPreferences.getString(titleId + "_pageId", null);
 
         if (chapterId != null) {
-            // If data exists in SharedPreferences, load chapter and pages
             loadChapterById(chapterId, -1);
         } else {
-            // Else, load from Firestore
             readingPositionViewModel.getReadingPosition(titleId, new OnSuccessListener<DocumentSnapshot>() {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -165,8 +164,10 @@ public class ReadingActivity extends AppCompatActivity {
             @Override
             public void onChanged(List<String> strings) {
                 if (strings != null) {
-                    chapterDocumentIds = strings;
-                    currentChapterIndex = chapterDocumentIds.indexOf(currentChapter.getId());
+                    if (currentChapter != null) {
+                        chapterDocumentIds = strings;
+                        currentChapterIndex = chapterDocumentIds.indexOf(currentChapter.getId());
+                    }
                 }
             }
         });

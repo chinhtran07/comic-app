@@ -1,12 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingTop="12dp"
     android:paddingBottom="12dp"
-    android:gravity="center">
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp">
 
     <TextView
         android:id="@+id/title_detail_chapter_list_title"
@@ -16,8 +15,8 @@
         tools:ignore="HardcodedText"
         android:textSize="16sp"
         android:textStyle="bold"
-        android:layout_marginTop="4dp"
-        android:gravity="center|start"/>
+        android:layout_alignParentStart="true"
+        android:gravity="start"/>
 
     <TextView
         android:id="@+id/title_detail_chapter_list_upload"
@@ -25,11 +24,8 @@
         android:layout_height="wrap_content"
         android:text="1/1/2024"
         tools:ignore="HardcodedText"
-        android:textSize="16sp"
+        android:textSize="14sp"
         android:textStyle="italic"
-        android:layout_marginTop="4dp"
         android:layout_alignParentEnd="true"
-        />
-
-
+        android:gravity="end"/>
 </RelativeLayout>

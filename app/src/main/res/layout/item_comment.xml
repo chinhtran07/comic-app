@@ -1,34 +1,37 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:padding="12dp"
+    android:background="@drawable/bg_comment"
+    android:layout_marginBottom="8dp">
+
     <TextView
         android:id="@+id/title_detail_comments_list_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="16sp"
-        android:textStyle="italic"
-        android:text="Comment"
-        tools:ignore="HardcodedText"/>
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        tools:ignore="HardcodedText"
+        android:layout_marginBottom="4dp" />
+
     <TextView
         android:id="@+id/title_detail_comments_list_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textStyle="normal"
-        android:textSize="16sp"
-        />
+        android:textSize="14sp"
+        android:textColor="@android:color/black"
+        android:layout_marginBottom="8dp" />
 
     <TextView
+        android:id="@+id/title_detail_comments_list_uploaded_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text=""
-        android:textSize="16sp"
+        android:textSize="12sp"
         android:textStyle="italic"
-        android:id="@+id/title_detail_comments_list_uploaded_date"
-        android:gravity="end"
-        />
-
+        android:textColor="@android:color/darker_gray"
+        android:gravity="end" />
 
 </LinearLayout>

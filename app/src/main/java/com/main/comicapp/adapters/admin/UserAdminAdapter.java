@@ -1,26 +1,29 @@
 package com.main.comicapp.adapters.admin;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.main.comicapp.R;
 import com.main.comicapp.models.User;
-import com.main.comicapp.viewmodels.UserViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class UserAdminAdapter extends RecyclerView.Adapter<UserAdminAdapter.UserViewHolder> {
     private List<User> userList;
+    private List<User> filteredUserList;
     private OnUserClickListener listener;
     private OnUserStatusClickListener statusClickListener;
+    private NoResultsCallback noResultsCallback;
 
     public interface OnUserClickListener {
         void onUserClick(String userId);
@@ -30,14 +33,70 @@ public class UserAdminAdapter extends RecyclerView.Adapter<UserAdminAdapter.User
         void onUserStatusClick(User user, int position);
     }
 
-    public UserAdminAdapter(OnUserClickListener listener, OnUserStatusClickListener statusClickListener) {
+    public interface NoResultsCallback {
+        void onUpdateNoResultsVisibility(int itemCount);
+    }
+
+    public UserAdminAdapter(OnUserClickListener listener, OnUserStatusClickListener statusClickListener, NoResultsCallback noResultsCallback) {
         this.listener = listener;
         this.statusClickListener = statusClickListener;
+        this.noResultsCallback = noResultsCallback;
+        this.userList = new ArrayList<>();
+        this.filteredUserList = new ArrayList<>();
     }
 
     public void setUsers(List<User> users) {
         this.userList = users;
+        if (filteredUserList == null) {
+            filteredUserList = new ArrayList<>();
+        }
+        this.filteredUserList.clear();
+        this.filteredUserList.addAll(users);
         notifyDataSetChanged();
+        if (noResultsCallback != null) {
+            noResultsCallback.onUpdateNoResultsVisibility(getItemCount());
+        }
+    }
+
+    public void filterUsers(String query) {
+        if (filteredUserList == null) {
+            filteredUserList = new ArrayList<>();
+        }
+        filteredUserList.clear();
+        if (query.isEmpty()) {
+            filteredUserList.addAll(userList);
+        } else {
+            String lowerCaseQuery = query.toLowerCase(Locale.ROOT);
+            for (User user : userList) {
+                if (user.getUsername().toLowerCase(Locale.ROOT).contains(lowerCaseQuery)) {
+                    filteredUserList.add(user);
+                }
+            }
+        }
+        notifyDataSetChanged();
+        if (noResultsCallback != null) {
+            noResultsCallback.onUpdateNoResultsVisibility(getItemCount());
+        }
+    }
+
+    public void removeUserById(String userId) {
+        User userToRemove = null;
+
+        for (User user : userList) {
+            if (user.getId().equals(userId)) {
+                userToRemove = user;
+                break;
+            }
+        }
+
+        if (userToRemove != null) {
+            userList.remove(userToRemove);
+            filteredUserList.remove(userToRemove);
+            notifyDataSetChanged();
+            if (noResultsCallback != null) {
+                noResultsCallback.onUpdateNoResultsVisibility(getItemCount());
+            }
+        }
     }
 
     @NonNull
@@ -49,13 +108,13 @@ public class UserAdminAdapter extends RecyclerView.Adapter<UserAdminAdapter.User
 
     @Override
     public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
-        User user = userList.get(position);
+        User user = filteredUserList.get(position);
         holder.bind(user);
     }
 
     @Override
     public int getItemCount() {
-        return userList != null ? userList.size() : 0;
+        return filteredUserList != null ? filteredUserList.size() : 0;
     }
 
     static class UserViewHolder extends RecyclerView.ViewHolder {

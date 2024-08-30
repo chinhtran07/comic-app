@@ -1,5 +1,6 @@
-package com.main.comicapp.activities;
+package com.main.comicapp.activities.admin;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 
@@ -12,6 +13,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
 import com.main.comicapp.R;
+import com.main.comicapp.activities.user.HomeActivity;
 import com.main.comicapp.databinding.ActivityAdminBinding;
 
 public class AdminActivity extends AppCompatActivity {
@@ -29,20 +31,49 @@ public class AdminActivity extends AppCompatActivity {
         setSupportActionBar(binding.appBarAdmin.toolbar);
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow, R.id.nav_title_management)
+                R.id.nav_home, R.id.nav_gallery, R.id.nav_title_management, R.id.nav_comment_management, R.id.nav_genre_management)
                 .setOpenableLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_admin);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        navigationView.setNavigationItemSelectedListener(item -> {
+            int id = item.getItemId();
+            if (id == R.id.nav_comment_management) {
+                Intent intent = new Intent(this, ManageCommentActivity.class);
+                startActivity(intent);
+                drawer.closeDrawers();
+                return true;
+            } else if (id == R.id.nav_gallery) {
+                Intent intent = new Intent(this, AdminManagementUserActivity.class);
+                startActivity(intent);
+                drawer.closeDrawers();
+                return true;
+            } else if (id == R.id.nav_home) {
+                Intent intent = new Intent(this, HomeActivity.class);
+                startActivity(intent);
+                drawer.closeDrawers();
+                return true;
+            } else if (id == R.id.nav_genre_management) {
+                Intent intent = new Intent(this, AdminManagementGenreActivity.class);
+                startActivity(intent);
+                drawer.closeDrawers();
+                return true;
+            } else if (id == R.id.nav_title_management) {
+                Intent intent = new Intent(this, ManageTitleActivity.class);
+                startActivity(intent);
+                drawer.closeDrawers();
+                return true;
+            }
+            return NavigationUI.onNavDestinationSelected(item, navController)
+                    || super.onOptionsItemSelected(item);
+        });
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.admin, menu);
         return true;
     }

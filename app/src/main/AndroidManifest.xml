@@ -2,10 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-feature android:name="android.hardware.camera" android:required="true"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
 
     <application
         android:allowBackup="true"
@@ -17,36 +20,39 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Base.Theme.ComicApp"
-        tools:targetApi="31"
         tools:ignore="HardcodedDebugMode"
-        tools:replace="android:fullBackupContent">
+        tools:replace="android:fullBackupContent"
+        tools:targetApi="31">
 
         <activity
-            android:name=".activities.AdminActivity"
-            android:exported="true"
-            android:label="@string/title_activity_admin"
-            android:theme="@style/Base.Theme.ComicApp.NoActionBar">
-        </activity>
-
-        <activity
-            android:name=".activities.AllRecentComicActivity"
-            android:exported="true" />
-        <activity
-            android:name=".activities.ReadingActivity"
-            android:exported="true" />
-        <activity
-            android:name=".activities.CommentActivity"
-            android:exported="true" />
-        <activity
-            android:name=".activities.TitleDetailActivity"
-            android:exported="true" />
-        <activity
-            android:name=".activities.HomeActivity"
+            android:name=".activities.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".activities.admin.AdminActivity"
+            android:exported="true"
+            android:label="@string/title_activity_admin"
+            android:theme="@style/Base.Theme.ComicApp.NoActionBar" />
+        <activity
+            android:name=".activities.user.AllRecentComicActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activities.user.ReadingActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activities.user.CommentActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activities.user.TitleDetailActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activities.user.HomeActivity"
+            android:exported="true">
         </activity>
         <activity
             android:name=".activities.RegisterActivity"
@@ -55,25 +61,37 @@
             android:name=".activities.LoginActivity"
             android:exported="true" />
         <activity
-            android:name=".activities.UserProfileActivity"
+            android:name=".activities.user.UserProfileActivity"
             android:exported="true" />
         <activity
-            android:name=".activities.StatisticsActivity"
+            android:name=".activities.admin.StatisticsActivity"
             android:exported="true" />
         <activity
-            android:name=".activities.ManageCommentActivity"
+            android:name=".activities.admin.ManageCommentActivity"
             android:exported="true" />
         <activity
-            android:name=".activities.ManageChapterActivity"
+            android:name=".activities.admin.ManageChapterActivity"
             android:exported="true" />
         <activity
             android:name=".activities.BaseActivity"
             android:exported="true" />
         <activity
-            android:name=".activities.AdminManagementUserActivity"
+            android:name=".activities.admin.AdminManagementUserActivity"
             android:exported="true" />
         <activity
-            android:name=".activities.AdminBlockUserActivity"
+            android:name=".activities.admin.AdminBlockUserActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activities.admin.AdminManagementGenreActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activities.admin.ManageTitleActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activities.admin.AddTitleActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activities.admin.UpdateChapterActivity"
             android:exported="true" />
     </application>
 

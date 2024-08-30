@@ -1,4 +1,4 @@
-package com.main.comicapp.activities;
+package com.main.comicapp.activities.user;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,7 +10,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -24,6 +23,8 @@ import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.main.comicapp.R;
+import com.main.comicapp.activities.BaseActivity;
+import com.main.comicapp.activities.admin.UpdateChapterActivity;
 import com.main.comicapp.adapters.ChapterAdapter;
 import com.main.comicapp.adapters.CommentsAdapter;
 import com.main.comicapp.enums.PubStatus;
@@ -69,6 +70,7 @@ public class TitleDetailActivity extends BaseActivity {
         setContentView(R.layout.activity_title_detail);
 
         // Initialize views
+        imageView = findViewById(R.id.title_detail_cover_image);
         txtTitleName = findViewById(R.id.title_detail_title_name);
         btnWriteComment = findViewById(R.id.title_detail_write_comment);
         txtGenres = findViewById(R.id.title_detail_genres);
@@ -173,6 +175,8 @@ public class TitleDetailActivity extends BaseActivity {
                     }
                 }
             });
+            // TODO: Reduce Image View Size and make the view scrollable
+            // Glide.with(this).load(title.getCover()).into(imageView);
         }
 
 

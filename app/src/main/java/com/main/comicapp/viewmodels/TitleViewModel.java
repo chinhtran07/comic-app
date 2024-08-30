@@ -1,6 +1,7 @@
 package com.main.comicapp.viewmodels;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.main.comicapp.models.Title;
@@ -25,8 +26,12 @@ public class TitleViewModel extends ViewModel {
         return titleRepository.getTitles(params);
     }
 
-    public void addTitle(Title title) {
-        titleRepository.addTitle(title);
+    public LiveData<Boolean> addTitle(Title title) {
+        MutableLiveData<Boolean> success = new MutableLiveData<>();
+        titleRepository.addTitle(title)
+                .addOnSuccessListener(documentReference -> success.setValue(true))
+                .addOnFailureListener(e -> success.setValue(false));
+        return success;
     }
 
     public void updateTitle(String id, Title title) {
@@ -39,5 +44,21 @@ public class TitleViewModel extends ViewModel {
 
     public LiveData<List<Title>> getRecentReadingTitles(String userId, int limit) {
         return titleRepository.getRecentTitles(userId, limit);
+    }
+
+    public LiveData<Integer> getTitleCount() {
+        return titleRepository.getTitleCount();
+    }
+
+    public LiveData<Integer> getTitleCountByGenre(String genreId) {
+        return titleRepository.getTitleCountByGenre(genreId);
+    }
+
+    public LiveData<List<Title>> getTitlesUpdatedThisMonth() {
+        return titleRepository.getTitlesUpdatedThisMonth();
+    }
+
+    public LiveData<Integer> getTitleCountByGenreId(String genreId) {
+        return titleRepository.getTitleCountByGenreId(genreId);
     }
 }

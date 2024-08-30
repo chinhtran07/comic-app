@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.main.comicapp.R;
+import com.main.comicapp.activities.user.HomeActivity;
 import com.main.comicapp.models.User;
 import com.main.comicapp.models.UserSession;
 import com.main.comicapp.viewmodels.UserSessionViewModel;
@@ -20,7 +21,6 @@ import com.main.comicapp.viewmodels.UserViewModel;
 
 import org.mindrot.jbcrypt.BCrypt;
 
-import java.util.Objects;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
@@ -57,14 +57,9 @@ public class LoginActivity extends AppCompatActivity {
                         createUserSession(currentUser.getId());
                         Intent intent = new Intent();
                         if (currentUser.getisActive()){
-                            if(Objects.equals(currentUser.getUserRole(), "ADMIN")){
-                                intent.setClass(LoginActivity.this, AdminActivity.class);
-                                Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
-                            }
-                            else {
-                                intent.setClass(LoginActivity.this, HomeActivity.class);
-                                Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
-                            }
+                            intent.setClass(LoginActivity.this, HomeActivity.class);
+                            intent.putExtra("USER_ID", currentUser.getId());
+                            Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
                             startActivity(intent);
                             finish();
                         }

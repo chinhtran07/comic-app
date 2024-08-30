@@ -1,6 +1,8 @@
 package com.main.comicapp.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,7 @@ import com.main.comicapp.R;
 import com.main.comicapp.models.Page;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 
 public class PageAdapter extends RecyclerView.Adapter<PageAdapter.PageViewHolder>{
@@ -41,8 +44,9 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.PageViewHolder
     public void onBindViewHolder(@NonNull PageViewHolder holder, int position) {
         Page page = pages.get(position);
 
-        StorageReference storageRef = storage.getReference().child(page.getImagePath());
-        Glide.with(context).load(storageRef)
+        Logger.getLogger(page.getImagePath());
+
+        Glide.with(context).load(page.getImagePath())
                 .into(holder.imageView);
     }
 
@@ -60,7 +64,9 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.PageViewHolder
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     public void setPages(List<Page> pages) {
         this.pages = pages;
+        notifyDataSetChanged();
     }
 }

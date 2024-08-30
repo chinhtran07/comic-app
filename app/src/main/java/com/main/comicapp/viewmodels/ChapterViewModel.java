@@ -20,8 +20,8 @@ public class ChapterViewModel extends ViewModel {
         return chapterRepository.getChapter(id);
     }
 
-    public void addChapter(Chapter chapter) {
-        chapterRepository.addChapter(chapter);
+    public LiveData<Boolean> addChapter(Chapter chapter) {
+        return chapterRepository.addChapter(chapter);
     }
 
     public void updateChapter(String id, Chapter chapter) {
@@ -40,7 +40,10 @@ public class ChapterViewModel extends ViewModel {
         return chapterRepository.getChapterDocumentIds(titleId);
     }
 
-    // Phương thức mới để lấy tất cả các chương
+    public LiveData<List<Chapter>> getChaptersByIds(List<String> chapterIds) {
+        return chapterRepository.getChaptersByIds(chapterIds);
+    }
+
     public LiveData<List<Chapter>> getAllChapters() {
         return chapterRepository.getAllChapters();
     }

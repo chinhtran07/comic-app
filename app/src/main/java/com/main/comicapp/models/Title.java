@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-
 public class Title implements Serializable {
     private String id;
     private String title;
@@ -28,7 +27,6 @@ public class Title implements Serializable {
     private List<String> genreIds;
 
     public Title() {
-
     }
 
     public Title(String title, Date uploadedDate, String cover, int views, String pubStatus, String titleFormat, List<String> genreIds) {
@@ -105,29 +103,42 @@ public class Title implements Serializable {
         this.genreIds = genres;
     }
 
+    public void setGenre(String genreId) {
+        this.genreIds = new ArrayList<>();
+        this.genreIds.add(genreId);
+    }
+
     public static Title toObject(Map<String, Object> data, String id) throws ClassCastException {
         Title title = new Title();
         title.setId(id);
         if (ValidateUtil.validateObject(data)) {
             title.setTitle(Objects.requireNonNull(data.get("title")).toString());
-            title.setCover(data.get("cover").toString());
-            @SuppressLint("SimpleDateFormat")
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-            try {
-                Date uploadedDate = formatter.parse(Objects.requireNonNull(data.get("uploadedDate")).toString());
-                title.setUploadedDate(uploadedDate);
-            } catch (ParseException e) {
-                Log.e("Error", "onEvent: Parse Exception", e);
-            }
-            title.setViews(((Long) Objects.requireNonNull(data.get("views"))).intValue());
-            title.setPubStatus((String)data.get("pubStatus"));
-            title.setTitleFormat((String)data.get("titleFormat"));
+            title.setCover(Objects.requireNonNull(data.get("cover")).toString());
 
+            Object uploadedDateObj = data.get("uploadedDate");
+            if (uploadedDateObj instanceof com.google.firebase.Timestamp) {
+                title.setUploadedDate(((com.google.firebase.Timestamp) uploadedDateObj).toDate());
+            } else if (uploadedDateObj instanceof String) {
+                try {
+                    @SuppressLint("SimpleDateFormat")
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX");
+                    Date uploadedDate = formatter.parse(uploadedDateObj.toString());
+                    title.setUploadedDate(uploadedDate);
+                } catch (ParseException e) {
+                    Log.e("Error", "onEvent: Parse Exception", e);
+                }
+            }
+
+            title.setViews(((Long) Objects.requireNonNull(data.get("views"))).intValue());
+            title.setPubStatus(Objects.requireNonNull(data.get("pubStatus")).toString());
+            title.setTitleFormat(Objects.requireNonNull(data.get("titleFormat")).toString());
 
             List<String> genreIds = (List<String>) data.get("genres");
-            assert genreIds != null;
-
-            title.setGenreIds(genreIds);
+            if (genreIds != null) {
+                title.setGenreIds(genreIds);
+            } else {
+                title.setGenreIds(new ArrayList<>());
+            }
         }
         return title;
     }

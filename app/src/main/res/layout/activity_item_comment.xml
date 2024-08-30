@@ -3,7 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="8dp">
+    android:padding="16dp"
+    android:background="@drawable/genre_background"
+    android:elevation="4dp"
+    android:layout_margin="8dp">
 
     <TextView
         android:id="@+id/tv_comment_text"
@@ -18,7 +21,7 @@
         android:id="@+id/tv_comment_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Title"
+        android:text="Tên truyện: "
         android:textSize="14sp"
         android:layout_marginBottom="2dp"/>
 
@@ -26,27 +29,20 @@
         android:id="@+id/tv_comment_user"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="User"
+        android:text="Tên người dùng: "
         android:textSize="14sp"
         android:layout_marginBottom="8dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:gravity="end">
 
         <Button
-            android:id="@+id/btn_edit_comment"
-            android:layout_width="0dp"
+            android:id="@+id/btn_toggle_status"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Edit" />
-
-        <Button
-            android:id="@+id/btn_delete_comment"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Delete" />
+            android:text=""/>
     </LinearLayout>
 </LinearLayout>

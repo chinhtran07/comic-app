@@ -1,27 +1,26 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:padding="8dp">
+    android:padding="8dp"
+    android:background="@drawable/bg_rounded_card"
+    android:elevation="4dp"
+    android:gravity="center">
 
     <ImageView
         android:id="@+id/iv_title_cover"
         android:layout_width="120dp"
         android:layout_height="180dp"
         android:scaleType="centerCrop"
-        android:contentDescription="Comic cover"
-        tools:ignore="HardcodedText" />
+        android:contentDescription="Comic cover"/>
 
     <TextView
         android:id="@+id/tv_title_name"
-        android:layout_width="120dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="Comic Title"
         android:textSize="16sp"
         android:textStyle="bold"
-        android:gravity="center"
-        tools:ignore="HardcodedText" />
+        android:gravity="center" />
 </LinearLayout>

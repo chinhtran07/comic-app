@@ -1,33 +1,52 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="?android:attr/windowBackground">
 
     <TextView
         android:id="@+id/label_manage_chapter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Manage Chapter"
+        android:text="Danh sách chapter"
         android:textSize="24sp"
         android:textStyle="bold"
+        android:textColor="?android:textColorPrimary"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"/>
-
-    <Button
-        android:id="@+id/button_add_chapter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Add Chapter"
-        android:layout_below="@id/label_manage_chapter"
-        android:layout_marginTop="16dp"
         android:layout_centerHorizontal="true"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_chapters"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/button_add_chapter"
-        android:layout_marginTop="16dp"/>
+        android:layout_below="@id/label_manage_chapter"
+        android:layout_marginTop="16dp"
+        android:clipToPadding="false"
+        android:paddingBottom="80dp"/>
 
+    <!-- TextView này sẽ hiển thị khi không có chapters -->
+    <TextView
+        android:id="@+id/tv_no_chapters"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Không có chapters nào"
+        android:textSize="16sp"
+        android:textColor="@android:color/darker_gray"
+        android:gravity="center"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/button_add_chapter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        android:text="Thêm Chapter"
+        android:textColor="@android:color/white"
+        android:backgroundTint="@android:color/holo_green_dark"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="16dp"
+        android:padding="12dp"/>
 </RelativeLayout>

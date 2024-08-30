@@ -32,9 +32,7 @@ public class PageRepositoryImpl implements PageRepository {
     @Override
     public LiveData<List<Page>> getPages(Map<String, String> params, String chapterId) {
         MutableLiveData<List<Page>> pagesLiveData = new MutableLiveData<>();
-        Query query = getPageReference();
-
-        query.whereEqualTo("chapterId", chapterId);
+        Query query = getPageReference().whereEqualTo("chapterId", chapterId);
 
         String limit = params.get("limit");
         if (limit != null && !limit.isEmpty())

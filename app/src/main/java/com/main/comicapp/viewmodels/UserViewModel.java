@@ -150,4 +150,8 @@ public class UserViewModel extends ViewModel {
     public Task<QuerySnapshot> getAllUser(){
         return userRepository.getAllUser();
     }
+
+    public Task<Void> updateUserRole (String id){
+        return userRepository.updateUserRole(id);
+    }
 }

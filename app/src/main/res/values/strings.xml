@@ -41,6 +41,9 @@
     <string name="menu_user_managing">Quản lý người dùng</string>
     <string name="menu_genre_managing">Quản lý thể loại</string>
     <string name="title_management">Quản lý truyện</string>
+    <string name="comment_management">Quản lý comment</string>
+    <string name="comic_cover">Ảnh truyện</string>
+    <string name="genre_management">Quản lý danh mục</string>
 
     <string name="action_logout">Logout</string>
     <string name="action_admin">Admin</string>
@@ -58,7 +61,21 @@
     <string name="user_role">User Role</string>
     <string name="gender">Gender</string>
     <string name="birth_date">Birth Date</string>
+    <string name="hint_search_user">Tìm kiếm</string>
 
     <string name="action_button_text">Action</string>
+    <string name="delete_comic">Delete</string>
+    <string name="edit_comic">Edit</string>
+
+    <string-array name="user_role_options">
+        <item>Admin</item>
+        <item>Editor</item>
+        <item>Viewer</item>
+    </string-array>
+
+    <string-array name="content_type_array">
+        <item>Ảnh</item>
+        <item>File Văn Bản</item>
+    </string-array>
 </resources>
 

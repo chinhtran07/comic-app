@@ -22,7 +22,7 @@ public class UserDetailFragment extends Fragment {
 
     private TextView tvUsername, tvEmail;
     private Button btnDeleteUser, btnEditUser;
-    private User user; // Assuming User is a model class
+    private User user;
     private FragmentDetailUserBinding binding;
     private NavController navController;
 
@@ -45,8 +45,6 @@ public class UserDetailFragment extends Fragment {
         btnEditUser = binding.btnEditUser;
 
         navController = Navigation.findNavController(view);
-
-        // Retrieve User object from arguments
         if (getArguments() != null) {
             user = (User) getArguments().getSerializable("user");
             displayUserDetails(user);
@@ -72,13 +70,11 @@ public class UserDetailFragment extends Fragment {
     }
 
     private void deleteUser() {
-        requireActivity().getOnBackPressedDispatcher().onBackPressed(); // Go back to previous fragment (UserManagementFragment)
+        requireActivity().getOnBackPressedDispatcher().onBackPressed();
     }
 
     private void navigateToEditUser() {
-        // Navigate to EditUserFragment with the current user
         Bundle args = new Bundle();
-        args.putSerializable("user", user); // Assuming User implements Serializable
-        navController.navigate(R.id.action_detail_user_to_edit_user);
+        args.putSerializable("user", user);
     }
 }

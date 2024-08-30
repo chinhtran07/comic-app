@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.main.comicapp.R;
 import com.main.comicapp.models.Chapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterViewHolder> {
@@ -41,7 +42,11 @@ public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterV
     }
 
     public ChapterAdapter(List<Chapter> chapters) {
-        this.chapters = chapters;
+        if (chapters == null) {
+            this.chapters = new ArrayList<>(); // Khởi tạo danh sách chapters nếu null
+        } else {
+            this.chapters = chapters;
+        }
     }
 
     @NonNull
@@ -58,9 +63,24 @@ public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterV
         holder.txtChapterName.setText(chapterName);
         holder.txtDescription.setText(chapter.getDescription());
         holder.txtUploadDate.setText(chapter.getUploadedDate().toString());
-        holder.itemView.setOnClickListener(v -> listener.onChapterClick(chapter));
-        holder.btnUpdate.setOnClickListener(v -> listener.onUpdateClick(chapter));
-        holder.btnDelete.setOnClickListener(v -> listener.onDeleteClick(chapter));
+
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onChapterClick(chapter);
+            }
+        });
+
+        holder.btnUpdate.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onUpdateClick(chapter);
+            }
+        });
+
+        holder.btnDelete.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onDeleteClick(chapter);
+            }
+        });
     }
 
     @Override
@@ -86,7 +106,9 @@ public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterV
     }
 
     public void clearChapters() {
-        chapters.clear();
-        notifyDataSetChanged();
+        if (chapters != null) {
+            chapters.clear();
+            notifyDataSetChanged();
+        }
     }
 }

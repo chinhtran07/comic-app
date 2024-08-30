@@ -1,18 +1,19 @@
-package com.main.comicapp.activities;
+package com.main.comicapp.activities.user;
+
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
 import com.main.comicapp.R;
+import com.main.comicapp.activities.BaseActivity;
 import com.main.comicapp.models.User;
 import com.main.comicapp.viewmodels.UserViewModel;
 
-public class AdminBlockUserActivity extends AppCompatActivity {
+public class UserProfileActivity extends BaseActivity {
     private UserViewModel userViewModel;
 
     private ImageView ivProfilePicture;
