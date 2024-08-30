@@ -20,8 +20,8 @@ public class ChapterViewModel extends ViewModel {
         return chapterRepository.getChapter(id);
     }
 
-    public void addChapter(Chapter chapter) {
-        chapterRepository.addChapter(chapter);
+    public LiveData<Boolean> addChapter(Chapter chapter) {
+        return chapterRepository.addChapter(chapter);
     }
 
     public void updateChapter(String id, Chapter chapter) {
