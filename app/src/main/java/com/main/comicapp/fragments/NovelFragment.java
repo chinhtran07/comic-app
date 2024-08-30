@@ -1,5 +1,6 @@
 package com.main.comicapp.fragments;
 
+import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -52,6 +53,7 @@ public class NovelFragment extends Fragment {
         }
     }
 
+    @SuppressLint("StaticFieldLeak")
     private class DownloadFileData extends AsyncTask<StorageReference, Void, String> {
 
         @Override
