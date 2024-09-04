@@ -2,6 +2,7 @@ package com.main.comicapp.models;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 
 public class ReadingHistory implements Serializable {
     private String id;
@@ -10,7 +11,6 @@ public class ReadingHistory implements Serializable {
     private Date lastTimeReading;
 
     public ReadingHistory() {
-
     }
 
     public ReadingHistory(String userId, String titleId, Date lastTimeReading) {
@@ -49,5 +49,31 @@ public class ReadingHistory implements Serializable {
 
     public void setLastTimeReading(Date lastTimeReading) {
         this.lastTimeReading = lastTimeReading;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ReadingHistory that = (ReadingHistory) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(userId, that.userId) &&
+                Objects.equals(titleId, that.titleId) &&
+                Objects.equals(lastTimeReading, that.lastTimeReading);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, userId, titleId, lastTimeReading);
+    }
+
+    @Override
+    public String toString() {
+        return "ReadingHistory{" +
+                "id='" + id + '\'' +
+                ", userId='" + userId + '\'' +
+                ", titleId='" + titleId + '\'' +
+                ", lastTimeReading=" + lastTimeReading +
+                '}';
     }
 }

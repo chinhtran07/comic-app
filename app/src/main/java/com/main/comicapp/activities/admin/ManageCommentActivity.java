@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.main.comicapp.R;
 import com.main.comicapp.adapters.CommentAdapter;
 import com.main.comicapp.models.Comment;
@@ -26,20 +25,24 @@ public class ManageCommentActivity extends AppCompatActivity implements CommentA
     private CommentViewModel commentViewModel;
     private RecyclerView rvComments;
     private CommentAdapter commentAdapter;
+    private EditText etSearchComment;
     private List<Comment> allComments = new ArrayList<>();
+    private Map<String, String> userNames = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_comment);
 
-        commentViewModel = new ViewModelProvider(this).get(CommentViewModel.class);
-
         rvComments = findViewById(R.id.rv_comments);
         rvComments.setLayoutManager(new LinearLayoutManager(this));
-        commentAdapter = new CommentAdapter(this, null, new HashMap<>(), new HashMap<>(), commentViewModel);
+        commentAdapter = new CommentAdapter(this, null, new HashMap<>(), new HashMap<>());
         commentAdapter.setListener(this);
         rvComments.setAdapter(commentAdapter);
+
+        etSearchComment = findViewById(R.id.et_search_comment);
+
+        commentViewModel = new ViewModelProvider(this).get(CommentViewModel.class);
 
         commentViewModel.getCommentsLiveData().observe(this, comments -> {
             allComments = comments;
@@ -47,6 +50,7 @@ public class ManageCommentActivity extends AppCompatActivity implements CommentA
         });
 
         commentViewModel.getUserNamesLiveData().observe(this, userNames -> {
+            this.userNames = userNames;
             commentAdapter.setUserNames(userNames);
         });
 
@@ -55,11 +59,10 @@ public class ManageCommentActivity extends AppCompatActivity implements CommentA
         });
 
         commentViewModel.fetchAllComments();
-        EditText etSearchComment = findViewById(R.id.et_search_comment);
+
         etSearchComment.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -67,31 +70,30 @@ public class ManageCommentActivity extends AppCompatActivity implements CommentA
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-            }
+            public void afterTextChanged(Editable s) {}
         });
     }
 
     private void filterCommentsByUsername(String query) {
         List<Comment> filteredComments = new ArrayList<>();
-        Map<String, String> userNames = commentViewModel.getUserNamesLiveData().getValue();
-
-        if (userNames != null && allComments != null) {
-            for (Comment comment : allComments) {
-                String userName = userNames.get(comment.getUserId());
-                if (userName != null && userName.toLowerCase().contains(query.toLowerCase())) {
-                    filteredComments.add(comment);
-                }
+        for (Comment comment : allComments) {
+            String userName = userNames.get(comment.getUserId());
+            if (userName != null && userName.toLowerCase().contains(query.toLowerCase())) {
+                filteredComments.add(comment);
             }
         }
-
         commentAdapter.setComments(filteredComments);
     }
 
     @Override
-    public void onDeleteClick(Comment comment) {
+    public void onStatusComment(Comment comment) {
         Log.d("CMT id: ", comment.getId());
         Log.d("Status: ", String.valueOf(comment.getIsActive()));
-        commentViewModel.updateStatusComment(comment.getId(), comment.getIsActive());
+
+        commentViewModel.updateStatusComment(comment.getId()).addOnSuccessListener(aVoid -> {
+            commentViewModel.fetchAllComments();
+        }).addOnFailureListener(e -> {
+            Log.e("ManageCommentActivity", "Failed to update comment status", e);
+        });
     }
 }

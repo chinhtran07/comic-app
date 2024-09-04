@@ -13,17 +13,18 @@ import com.main.comicapp.activities.BaseActivity;
 import com.main.comicapp.adapters.TitleAdapter;
 import com.main.comicapp.models.Title;
 import com.main.comicapp.viewmodels.TitleViewModel;
+import com.main.comicapp.viewmodels.ReadingHistoryViewModel;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 
 public class HomeActivity extends BaseActivity {
 
     private RecyclerView rvRecentComics;
     private TitleAdapter adapter;
     private TitleViewModel titleViewModel;
+    private ReadingHistoryViewModel readingHistoryViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +32,7 @@ public class HomeActivity extends BaseActivity {
         setContentView(R.layout.activity_home);
 
         initViews();
-//        setupAllComicsClickListener();
+
         Map<String, String> params = new HashMap<>();
         titleViewModel.getTitles(params).observeForever(new Observer<List<Title>>() {
             @Override
@@ -46,7 +47,6 @@ public class HomeActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
     }
 
     private void initViews() {
@@ -62,21 +62,19 @@ public class HomeActivity extends BaseActivity {
         rvRecentComics.setAdapter(adapter);
 
         titleViewModel = new ViewModelProvider(this).get(TitleViewModel.class);
+        readingHistoryViewModel = new ViewModelProvider(this).get(ReadingHistoryViewModel.class);
     }
 
-//    private void setupAllComicsClickListener() {
-//        findViewById(R.id.tv_all_comics).setOnClickListener(view -> {
-//            Intent intent = new Intent(HomeActivity.this, AllRecentComicActivity.class);
-//            startActivity(intent);
-//        });
-//    }
-
     private void openTitleDetailActivity(Title title) {
+        if (currentUserSession != null && currentUserSession.getUserId() != null) {
+            String userId = currentUserSession.getUserId();
+            readingHistoryViewModel.addHistory(userId, title.getId());
+        }
+
         Intent intent = new Intent(getApplicationContext(), TitleDetailActivity.class);
         intent.putExtra("title", title);
         startActivity(intent);
     }
-
 
     @Override
     protected void onDestroy() {
