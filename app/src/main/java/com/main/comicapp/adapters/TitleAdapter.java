@@ -16,6 +16,7 @@ import com.google.firebase.storage.StorageReference;
 import com.main.comicapp.R;
 import com.main.comicapp.models.Title;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TitleAdapter extends RecyclerView.Adapter<TitleAdapter.TitleViewHolder> {
@@ -33,6 +34,17 @@ public class TitleAdapter extends RecyclerView.Adapter<TitleAdapter.TitleViewHol
         this.titles = titles;
         notifyDataSetChanged();
     }
+
+    // Phương thức để thêm truyện mới vào danh sách hiện có
+    @SuppressLint("NotifyDataSetChanged")
+    public void addTitle(Title title) {
+        if (this.titles == null) {
+            this.titles = new ArrayList<>();  // Khởi tạo danh sách nếu nó là null
+        }
+        this.titles.add(title);
+        notifyDataSetChanged();
+    }
+
 
     public interface OnTitleClickListener {
         void onTitleClick(Title title);
@@ -53,7 +65,6 @@ public class TitleAdapter extends RecyclerView.Adapter<TitleAdapter.TitleViewHol
     @Override
     public void onBindViewHolder(@NonNull TitleViewHolder holder, int position) {
         Title title = titles.get(position);
-        // Set comic cover image and title
         holder.tvTitleName.setText(title.getTitle());
 
         Glide.with(context)
@@ -85,3 +96,4 @@ public class TitleAdapter extends RecyclerView.Adapter<TitleAdapter.TitleViewHol
         notifyDataSetChanged();
     }
 }
+

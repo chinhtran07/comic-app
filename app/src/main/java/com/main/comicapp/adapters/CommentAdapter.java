@@ -1,10 +1,6 @@
 package com.main.comicapp.adapters;
 
 import android.content.Context;
-import android.graphics.Typeface;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.main.comicapp.R;
 import com.main.comicapp.models.Comment;
-import com.main.comicapp.viewmodels.CommentViewModel;
 
 import java.util.List;
 import java.util.Map;
@@ -26,11 +21,10 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     private Map<String, String> userNames;
     private Map<String, String> titleNames;
     private OnCommentClickListener listener;
-    private CommentViewModel commentViewModel;
     private Context context;
 
     public interface OnCommentClickListener {
-        void onDeleteClick(Comment comment);
+        void onStatusComment(Comment comment);
     }
 
     public void setListener(OnCommentClickListener listener) {
@@ -52,12 +46,11 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         notifyDataSetChanged();
     }
 
-    public CommentAdapter(Context context, List<Comment> comments, Map<String, String> userNames, Map<String, String> titleNames, CommentViewModel commentViewModel) {
+    public CommentAdapter(Context context, List<Comment> comments, Map<String, String> userNames, Map<String, String> titleNames) {
         this.context = context;
         this.comments = comments;
         this.userNames = userNames;
         this.titleNames = titleNames;
-        this.commentViewModel = commentViewModel;
     }
 
     @NonNull
@@ -71,34 +64,18 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     public void onBindViewHolder(@NonNull CommentViewHolder holder, int position) {
         Comment comment = comments.get(position);
         holder.tvCommentText.setText(comment.getText());
-
-        // Nhấn mạnh "Tên truyện: "
-        String titlePrefix = "Tên truyện: ";
-        String title = titleNames.get(comment.getTitleId());
-        SpannableString spannableTitle = new SpannableString(titlePrefix + title);
-        spannableTitle.setSpan(new StyleSpan(Typeface.BOLD), 0, titlePrefix.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        holder.tvCommentTitle.setText(spannableTitle);
-
-        // Nhấn mạnh "Tên người dùng: "
-        String userPrefix = "Tên người dùng: ";
-        String user = userNames.get(comment.getUserId());
-        SpannableString spannableUser = new SpannableString(userPrefix + user);
-        spannableUser.setSpan(new StyleSpan(Typeface.BOLD), 0, userPrefix.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        holder.tvCommentUser.setText(spannableUser);
+        holder.tvCommentTitle.setText(titleNames.get(comment.getTitleId()));
+        holder.tvCommentUser.setText(userNames.get(comment.getUserId()));
 
         Log.d("CommentAdapter", "Comment ID: " + comment.getId());
 
-        // Set text for the button based on the isActive status
         if (comment.getIsActive() != null && comment.getIsActive()) {
-            holder.btnToggleStatus.setText("Ẩn");
+            holder.btnStatusComment.setText("Ẩn");
         } else {
-            holder.btnToggleStatus.setText("Hiển thị");
+            holder.btnStatusComment.setText("Hiển thị");
         }
 
-        holder.btnToggleStatus.setOnClickListener(v -> {
-            boolean newStatus = comment.getIsActive() == null ? false : !comment.getIsActive();
-            commentViewModel.updateStatusComment(comment.getId(), newStatus);
-        });
+        holder.btnStatusComment.setOnClickListener(v -> listener.onStatusComment(comment));
     }
 
     @Override
@@ -108,14 +85,14 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
     public static class CommentViewHolder extends RecyclerView.ViewHolder {
         TextView tvCommentText, tvCommentTitle, tvCommentUser;
-        Button btnToggleStatus;
+        Button btnStatusComment;
 
         public CommentViewHolder(@NonNull View itemView) {
             super(itemView);
             tvCommentText = itemView.findViewById(R.id.tv_comment_text);
             tvCommentTitle = itemView.findViewById(R.id.tv_comment_title);
             tvCommentUser = itemView.findViewById(R.id.tv_comment_user);
-            btnToggleStatus = itemView.findViewById(R.id.btn_toggle_status);
+            btnStatusComment = itemView.findViewById(R.id.btn_status_comment);
         }
     }
 }

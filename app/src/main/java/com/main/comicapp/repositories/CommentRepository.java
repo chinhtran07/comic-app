@@ -10,6 +10,6 @@ public interface CommentRepository {
     Task<QuerySnapshot> getAllComments();
     Task<DocumentSnapshot> getUserById(String userId);
     Task<DocumentSnapshot> getTitleById(String titleId);
-    Task<Void> updateStatusComment(String commentId, boolean status);
+    Task<Void> updateStatusComment(String commentId);
     Task<Void> createComment(Comment comment);
 }

@@ -29,4 +29,16 @@ public class ReadingHistoryViewModel extends ViewModel {
     public void deleteReadingHistory(String id) {
         readingHistoryRepository.deleteReadingHistory(id);
     }
+
+    public LiveData<List<ReadingHistory>> getAllReadingHistoriesByUserId(String userId) {
+        return readingHistoryRepository.getAllReadingHistoriesByUserId(userId);
+    }
+
+    public void addHistory(String userId, String titleId) {
+        readingHistoryRepository.addHistory(userId, titleId);
+    }
+
+    public void deleteAllHistoriesByUserId(String userId) {
+        readingHistoryRepository.deleteAllHistoriesByUserId(userId);
+    }
 }

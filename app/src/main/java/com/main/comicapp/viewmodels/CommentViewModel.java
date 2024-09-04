@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.main.comicapp.models.Comment;
 import com.main.comicapp.repositories.CommentRepository;
 import com.main.comicapp.repositories.impl.CommentRepositoryImpl;
@@ -117,11 +118,10 @@ public class CommentViewModel extends ViewModel {
         });
     }
 
-    public void updateStatusComment(String commentId, boolean status) {
-        commentRepository.updateStatusComment(commentId, status).addOnCompleteListener(task -> {
-            fetchComments();
-        });
+    public Task<Void> updateStatusComment(String commentId) {
+        return commentRepository.updateStatusComment(commentId);
     }
+
 
     public void createComment(Comment comment) {
         commentRepository.createComment(comment).addOnSuccessListener(new OnSuccessListener<Void>() {

@@ -48,7 +48,7 @@ public class CommentRepositoryImpl implements CommentRepository {
     }
 
     @Override
-    public Task<Void> updateStatusComment(String commentId, boolean status) {
+    public Task<Void> updateStatusComment(String commentId) {
         DocumentReference commentDocRef = db.collection("comments").document(commentId);
 
         return commentDocRef.get().continueWithTask(task -> {

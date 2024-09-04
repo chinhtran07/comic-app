@@ -90,7 +90,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         bottomNavigationView.setSelectedItemId(currentAction);
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> handleBottomNavSelection(item.getItemId(), actionPrefs));
-        invalidateOptionsMenu(); // Cập nhật menu sau khi thiết lập
+        invalidateOptionsMenu();
     }
 
     private void initializeNavigationActions() {
@@ -100,7 +100,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         navigationActions.put(R.id.action_profile, this::startUserProfileActivity);
         navigationActions.put(R.id.action_logout, this::logout);
 
-        // Kiểm tra vai trò người dùng để quyết định hiển thị icon Admin
         fetchUserId(new UserIdCallback() {
             @Override
             public void onUserIdFetched(String userId) {
@@ -141,8 +140,15 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     private void navigateToHistory() {
-        startActivity(new Intent(this, AllRecentComicActivity.class));
-        finish();
+        if (uid != null) {
+            Intent intent = new Intent(this, AllRecentComicActivity.class);
+            intent.putExtra("USER_ID", uid);
+            Log.d("UID: ", uid);
+            startActivity(intent);
+            finish();
+        } else {
+            Log.d("UID: ", "Null");
+        }
     }
 
     private void navigateToAdmin() {

@@ -18,7 +18,7 @@ public class TitleViewModel extends ViewModel {
         titleRepository = TitleRepositoryImpl.getInstance();
     }
 
-    public LiveData<Title> getTitle(String id) {
+    public LiveData<Title> getTitleById(String id) {
         return titleRepository.getTitle(id);
     }
 
