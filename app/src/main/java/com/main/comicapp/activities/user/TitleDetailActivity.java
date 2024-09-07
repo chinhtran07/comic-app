@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -112,18 +113,7 @@ public class TitleDetailActivity extends BaseActivity {
                     intentToReading(chapter, title);
                 }
 
-                @Override
-                public void onUpdateClick(Chapter chapter) {
-                    Intent updateIntent = new Intent(TitleDetailActivity.this, UpdateChapterActivity.class);
-                    updateIntent.putExtra("chapter_id", chapter.getId());
-                    startActivity(updateIntent);
-                }
 
-                @Override
-                public void onDeleteClick(Chapter chapter) {
-                    chapterViewModel.deleteChapter(chapter.getId());
-                    Toast.makeText(TitleDetailActivity.this, "Chapter deleted", Toast.LENGTH_SHORT).show();
-                }
             });
             chapterViewModel.getChapters(title.getId()).observeForever(new Observer<List<Chapter>>() {
                 @Override
@@ -176,7 +166,7 @@ public class TitleDetailActivity extends BaseActivity {
                 }
             });
             // TODO: Reduce Image View Size and make the view scrollable
-            // Glide.with(this).load(title.getCover()).into(imageView);
+            Glide.with(this).load(title.getCover()).into(imageView);
         }
 
 

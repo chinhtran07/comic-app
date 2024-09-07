@@ -1,4 +1,4 @@
-package com.main.comicapp.adapters;
+package com.main.comicapp.adapters.admin;
 
 import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
@@ -14,11 +14,9 @@ import com.main.comicapp.R;
 import com.main.comicapp.models.Chapter;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
-public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterViewHolder> {
+public class ChapterAdminAdapter extends RecyclerView.Adapter<ChapterAdminAdapter.ChapterViewHolder> {
 
     private List<Chapter> chapters;
     private OnChapterClickListener listener;
@@ -30,7 +28,6 @@ public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterV
     @SuppressLint("NotifyDataSetChanged")
     public void setChapters(List<Chapter> chapters) {
         this.chapters = chapters;
-        chapters.sort(Comparator.comparingInt(Chapter::getChapterNumber));
         notifyDataSetChanged();
     }
 
@@ -40,9 +37,11 @@ public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterV
 
     public interface OnChapterClickListener {
         void onChapterClick(Chapter chapter);
+        void onUpdateClick(Chapter chapter);
+        void onDeleteClick(Chapter chapter);
     }
 
-    public ChapterAdapter(List<Chapter> chapters) {
+    public ChapterAdminAdapter(List<Chapter> chapters) {
         if (chapters == null) {
             this.chapters = new ArrayList<>(); // Khởi tạo danh sách chapters nếu null
         } else {
@@ -53,7 +52,7 @@ public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterV
     @NonNull
     @Override
     public ChapterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_item_chapter, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_chapter_admin, parent, false);
         return new ChapterViewHolder(view);
     }
 
@@ -62,6 +61,7 @@ public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterV
         Chapter chapter = chapters.get(position);
         String chapterName = "Chương " + chapter.getChapterNumber();
         holder.txtChapterName.setText(chapterName);
+        holder.txtDescription.setText(chapter.getDescription());
         holder.txtUploadDate.setText(chapter.getUploadedDate().toString());
 
         holder.itemView.setOnClickListener(v -> {
@@ -70,6 +70,17 @@ public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterV
             }
         });
 
+        holder.btnUpdate.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onUpdateClick(chapter);
+            }
+        });
+
+        holder.btnDelete.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onDeleteClick(chapter);
+            }
+        });
     }
 
     @Override
@@ -79,12 +90,18 @@ public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterV
 
     public static class ChapterViewHolder extends RecyclerView.ViewHolder {
         TextView txtChapterName;
+        TextView txtDescription;
         TextView txtUploadDate;
+        Button btnUpdate;
+        Button btnDelete;
 
         public ChapterViewHolder(@NonNull View itemView) {
             super(itemView);
             txtChapterName = itemView.findViewById(R.id.text_view_chapter_number);
+            txtDescription = itemView.findViewById(R.id.text_view_chapter_description);
             txtUploadDate = itemView.findViewById(R.id.text_view_uploaded_date);
+            btnUpdate = itemView.findViewById(R.id.button_update_chapter);
+            btnDelete = itemView.findViewById(R.id.button_delete_chapter);
         }
     }
 
