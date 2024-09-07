@@ -145,12 +145,19 @@ public class ChatRoomListActivity extends AppCompatActivity {
     }
 
     private void onChatRoomClick(ChatRoom chatRoom) {
+        String otherUserId;
+        if (chatRoom.getSenderId().equals(currentUserId)) {
+            otherUserId = chatRoom.getReceiverId();
+        } else {
+            otherUserId = chatRoom.getSenderId();
+        }
         Intent intent = new Intent(ChatRoomListActivity.this, ChatRoomActivity.class);
         intent.putExtra("chatRoomId", chatRoom.getRoomId());
         intent.putExtra("currentUserId", currentUserId);
-        intent.putExtra("userId", chatRoom.getReceiverId());
+        intent.putExtra("userId", otherUserId); // Gửi ID của user còn lại
         startActivity(intent);
     }
+
 
     private void hideKeyboard() {
         InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
