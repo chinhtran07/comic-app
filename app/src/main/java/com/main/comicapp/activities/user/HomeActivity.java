@@ -2,6 +2,7 @@ package com.main.comicapp.activities.user;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageView;
 
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -25,6 +26,7 @@ public class HomeActivity extends BaseActivity {
     private TitleAdapter adapter;
     private TitleViewModel titleViewModel;
     private ReadingHistoryViewModel readingHistoryViewModel;
+    private ImageView icMessage; // Khai báo ImageView cho ic_message
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +34,7 @@ public class HomeActivity extends BaseActivity {
         setContentView(R.layout.activity_home);
 
         initViews();
+
 
         Map<String, String> params = new HashMap<>();
         titleViewModel.getTitles(params).observeForever(new Observer<List<Title>>() {
@@ -41,6 +44,12 @@ public class HomeActivity extends BaseActivity {
                     adapter.setTitles(titles);
                 }
             }
+        });
+
+        icMessage.setOnClickListener(v -> {
+            Intent intent = new Intent(HomeActivity.this, ChatRoomListActivity.class);
+            intent.putExtra("userId", currentUserSession.getUserId());
+            startActivity(intent);
         });
     }
 
@@ -63,6 +72,8 @@ public class HomeActivity extends BaseActivity {
 
         titleViewModel = new ViewModelProvider(this).get(TitleViewModel.class);
         readingHistoryViewModel = new ViewModelProvider(this).get(ReadingHistoryViewModel.class);
+
+        icMessage = findViewById(R.id.ic_message);
     }
 
     private void openTitleDetailActivity(Title title) {

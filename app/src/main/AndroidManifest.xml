@@ -64,6 +64,12 @@
             android:name=".activities.user.UserProfileActivity"
             android:exported="true" />
         <activity
+            android:name=".activities.user.ChatRoomActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activities.user.ChatRoomListActivity"
+            android:exported="true" />
+        <activity
             android:name=".activities.admin.StatisticsActivity"
             android:exported="true" />
         <activity
