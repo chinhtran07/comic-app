@@ -1,5 +1,7 @@
 package com.main.comicapp.viewmodels;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -11,6 +13,7 @@ import com.main.comicapp.models.User;
 import com.main.comicapp.repositories.UserRepository;
 import com.main.comicapp.repositories.impl.UserRepositoryImpl;
 
+import java.util.List;
 import java.util.Map;
 
 public class UserViewModel extends ViewModel {
@@ -20,6 +23,8 @@ public class UserViewModel extends ViewModel {
     private final MutableLiveData<User> userLiveData = new MutableLiveData<>();
     private final MutableLiveData<User> currentUserLiveData = new MutableLiveData<>();
     private final MutableLiveData<Boolean> usernameOrEmailTakenLiveData = new MutableLiveData<>();
+    private final MutableLiveData<List<User>> usersLiveData = new MutableLiveData<>();
+
     private boolean isUsernameTaken = false;
     private boolean isEmailTaken = false;
 
@@ -45,6 +50,10 @@ public class UserViewModel extends ViewModel {
 
     public LiveData<Boolean> getUsernameOrEmailTakenLiveData() {
         return usernameOrEmailTakenLiveData;
+    }
+
+    public LiveData<List<User>> getUsersLiveData() {
+        return usersLiveData;
     }
 
     public boolean isUsernameTaken() {
@@ -143,15 +152,24 @@ public class UserViewModel extends ViewModel {
         return userRepository.save(userData, userId);
     }
 
-    public Task<Void> updateUserStatus( String userId){
+    public Task<Void> updateUserStatus(String userId) {
         return userRepository.updateUserStatus(userId);
     }
 
-    public Task<QuerySnapshot> getAllUser(){
+    public Task<QuerySnapshot> getAllUser() {
         return userRepository.getAllUser();
     }
 
-    public Task<Void> updateUserRole (String id){
+    public void loadAllUsers() {
+        userRepository.getAllUser().addOnSuccessListener(querySnapshot -> {
+            List<User> userList = querySnapshot.toObjects(User.class);
+            usersLiveData.setValue(userList);
+        }).addOnFailureListener(e -> {
+            Log.e("UserViewModel", "Error loading users", e);
+        });
+    }
+
+    public Task<Void> updateUserRole(String id) {
         return userRepository.updateUserRole(id);
     }
 }

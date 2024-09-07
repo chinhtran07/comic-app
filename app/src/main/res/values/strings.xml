@@ -66,6 +66,9 @@
     <string name="action_button_text">Action</string>
     <string name="delete_comic">Delete</string>
     <string name="edit_comic">Edit</string>
+    <string name="chat">Trò chuyện</string>
+    <string name="action_message">Nhắn tin</string>
+    <string name="message">Nhắn tin</string>
 
     <string-array name="user_role_options">
         <item>Admin</item>

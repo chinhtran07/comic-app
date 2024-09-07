@@ -18,7 +18,6 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -31,6 +30,7 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -42,15 +42,11 @@ android {
         viewBinding = true
     }
 
-    android {
-        packaging {
-            resources {
-                resources {
-                    excludes += "META-INF/NOTICE.md"
-                    excludes += "META-INF/LICENSE.md"
-                    excludes += "META-INF/DEPENDENCIES"
-                }
-            }
+    packaging {
+        resources {
+            excludes += "META-INF/NOTICE.md"
+            excludes += "META-INF/LICENSE.md"
+            excludes += "META-INF/DEPENDENCIES"
         }
     }
 }
@@ -61,6 +57,7 @@ dependencies {
     implementation(libs.activity)
     implementation(libs.constraintlayout)
     implementation(platform(libs.firebase.bom))
+    implementation("com.google.firebase:firebase-database")
     implementation(libs.firebase.storage)
     implementation(libs.firebase.firestore)
     implementation(libs.firebase.auth)
@@ -72,7 +69,6 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
-
     implementation(libs.mpandroidchart)
     implementation(libs.jbcrypt)
     implementation(libs.cloudinary.android)
