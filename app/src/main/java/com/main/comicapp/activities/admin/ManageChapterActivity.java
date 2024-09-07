@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.main.comicapp.R;
-import com.main.comicapp.adapters.ChapterAdapter;
+import com.main.comicapp.adapters.admin.ChapterAdminAdapter;
 import com.main.comicapp.models.Chapter;
 import com.main.comicapp.viewmodels.ChapterViewModel;
 
@@ -25,7 +25,7 @@ public class ManageChapterActivity extends AppCompatActivity {
 
     private ChapterViewModel chapterViewModel;
     private RecyclerView recyclerView;
-    private ChapterAdapter adapter;
+    private ChapterAdminAdapter adapter;
     private String titleId;
     private TextView tvNoChapters;
 
@@ -42,7 +42,7 @@ public class ManageChapterActivity extends AppCompatActivity {
 
         tvNoChapters = findViewById(R.id.tv_no_chapters);
 
-        adapter = new ChapterAdapter(null);
+        adapter = new ChapterAdminAdapter(null);
         recyclerView.setAdapter(adapter);
 
         chapterViewModel = new ViewModelProvider(this).get(ChapterViewModel.class);
@@ -51,7 +51,7 @@ public class ManageChapterActivity extends AppCompatActivity {
 
         findViewById(R.id.button_add_chapter).setOnClickListener(v -> showAddChapterDialog());
 
-        adapter.setListener(new ChapterAdapter.OnChapterClickListener() {
+        adapter.setListener(new ChapterAdminAdapter.OnChapterClickListener() {
             @Override
             public void onChapterClick(Chapter chapter) {
                 Intent intent = new Intent(ManageChapterActivity.this, UpdateChapterActivity.class);
