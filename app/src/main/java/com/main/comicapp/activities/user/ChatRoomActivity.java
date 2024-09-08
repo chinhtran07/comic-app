@@ -78,19 +78,20 @@ public class ChatRoomActivity extends AppCompatActivity {
 
         userViewModel.fetchUserById(userId);
 
-        messageViewModel.loadMessagesByChatRoom(chatRoomId);
-        messageViewModel.getMessagesLiveData(chatRoomId).observe(this, messages -> {
+        messageViewModel.getMessagesLiveData().observe(this, messages -> {
             if (messages != null) {
                 messageAdapter.updateMessages(messages);
+                recyclerViewMessages.scrollToPosition(messages.size() - 1);
             }
         });
-
 
         sendButton.setOnClickListener(v -> {
             String content = messageInput.getText().toString().trim();
             if (!content.isEmpty()) {
                 Message message = new Message(currentUserId, chatRoomId, content, System.currentTimeMillis());
                 messageViewModel.saveMessage(message);
+                messageAdapter.addMessage(message);
+                recyclerViewMessages.scrollToPosition(messageAdapter.getItemCount() - 1);
                 messageInput.setText("");
             } else {
                 Toast.makeText(ChatRoomActivity.this, "Vui lòng nhập tin nhắn", Toast.LENGTH_SHORT).show();
