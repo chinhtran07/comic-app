@@ -78,12 +78,13 @@ public class ChatRoomActivity extends AppCompatActivity {
 
         userViewModel.fetchUserById(userId);
 
-        messageViewModel.getMessagesLiveData().observe(this, messages -> {
+        messageViewModel.loadMessagesByChatRoom(chatRoomId);
+        messageViewModel.getMessagesLiveData(chatRoomId).observe(this, messages -> {
             if (messages != null) {
                 messageAdapter.updateMessages(messages);
-                recyclerViewMessages.scrollToPosition(messages.size() - 1);
             }
         });
+
 
         sendButton.setOnClickListener(v -> {
             String content = messageInput.getText().toString().trim();

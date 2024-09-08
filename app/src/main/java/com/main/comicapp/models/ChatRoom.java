@@ -4,6 +4,7 @@ public class ChatRoom {
     private String roomId;
     private String senderId;
     private String receiverId;
+    private Message lastMessage;
 
     public ChatRoom() {
     }
@@ -12,6 +13,13 @@ public class ChatRoom {
         this.roomId = roomId;
         this.senderId = senderId;
         this.receiverId = receiverId;
+    }
+
+    public ChatRoom(String roomId, String senderId, String receiverId, Message lastMessage) {
+        this.roomId = roomId;
+        this.senderId = senderId;
+        this.receiverId = receiverId;
+        this.lastMessage = lastMessage;
     }
 
     public String getRoomId() {
@@ -36,5 +44,13 @@ public class ChatRoom {
 
     public void setReceiverId(String receiverId) {
         this.receiverId = receiverId;
+    }
+
+    public Message getLastMessage() {
+        return lastMessage;
+    }
+
+    public void setLastMessage(Message lastMessage) {
+        this.lastMessage = lastMessage;
     }
 }

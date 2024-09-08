@@ -8,6 +8,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -37,7 +38,9 @@ public class ChatRoomListActivity extends AppCompatActivity {
     private List<User> userList;
     private List<ChatRoom> chatRoomList;
     private EditText searchEditText;
+    private TextView tvNoResults;
     private String currentUserId;
+    private List<User> allUsers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,19 +49,20 @@ public class ChatRoomListActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setNavigationOnClickListener(v -> {
-            Intent intent = new Intent(ChatRoomListActivity.this, HomeActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-            finish();
-        });
+        toolbar.setNavigationOnClickListener(v -> finish());
 
         currentUserId = getIntent().getStringExtra("userId");
+        if (currentUserId == null) {
+            Toast.makeText(this, "Lỗi: Không tìm thấy ID người dùng", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
 
         recyclerView = findViewById(R.id.recycler_view_chat_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         searchEditText = findViewById(R.id.et_search_chat);
+        tvNoResults = findViewById(R.id.tv_no_results);
 
         userList = new ArrayList<>();
         chatRoomList = new ArrayList<>();
@@ -67,10 +71,11 @@ public class ChatRoomListActivity extends AppCompatActivity {
         chatRoomViewModel = new ViewModelProvider(this).get(ChatRoomViewModel.class);
         messageViewModel = new ViewModelProvider(this).get(MessageViewModel.class);
 
-        chatRoomAdapter = new ListChatRoomAdapter(currentUserId, userList, chatRoomList, this::onUserClick, this::onChatRoomClick, userViewModel, messageViewModel);
+        chatRoomAdapter = new ListChatRoomAdapter(currentUserId, userList, chatRoomList, this::onUserClick, this::onChatRoomClick);
         recyclerView.setAdapter(chatRoomAdapter);
 
         loadChatRooms();
+        loadAllUsers();
 
         searchEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -95,38 +100,67 @@ public class ChatRoomListActivity extends AppCompatActivity {
         });
     }
 
-    private void filterUsersOrShowChatRooms(String query) {
-        if (query.isEmpty()) {
-            chatRoomAdapter.setShowingUsers(false);
-            chatRoomAdapter.updateChatRoomList(chatRoomList);
-        } else {
-            userViewModel.getUsersLiveData().observe(this, users -> {
-                if (users != null && !users.isEmpty()) {
-                    List<User> filteredList = new ArrayList<>();
-                    for (User user : users) {
-                        if (user.getUsername().toLowerCase().contains(query.toLowerCase())) {
-                            filteredList.add(user);
-                        }
-                    }
-                    chatRoomAdapter.setShowingUsers(true);
-                    chatRoomAdapter.updateUserList(filteredList);
-                } else {
-                    Toast.makeText(ChatRoomListActivity.this, "Không có người dùng nào", Toast.LENGTH_SHORT).show();
-                }
-            });
-            userViewModel.loadAllUsers();
-        }
+    private void loadAllUsers() {
+        userViewModel.getUsersLiveData().observe(this, users -> {
+            if (users != null && !users.isEmpty()) {
+                allUsers = new ArrayList<>(users);
+                chatRoomAdapter.updateUserList(users);
+            }
+        });
+        userViewModel.loadAllUsers();
     }
 
     private void loadChatRooms() {
         chatRoomViewModel.loadChatRoomsForUser(currentUserId);
         chatRoomViewModel.getChatRoomsLiveData().observe(this, chatRooms -> {
             if (chatRooms != null && !chatRooms.isEmpty()) {
+                chatRoomList = chatRooms;
                 chatRoomAdapter.updateChatRoomList(chatRooms);
+                tvNoResults.setVisibility(View.GONE);
+
+                for (ChatRoom chatRoom : chatRooms) {
+                    loadLastMessageForChatRoom(chatRoom);
+                }
             } else {
+                chatRoomList.clear();
+                chatRoomAdapter.updateChatRoomList(chatRoomList);
+                tvNoResults.setVisibility(View.VISIBLE);
                 Toast.makeText(ChatRoomListActivity.this, "Không có phòng chat nào", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void loadLastMessageForChatRoom(ChatRoom chatRoom) {
+        messageViewModel.loadLastMessageByChatRoom(chatRoom.getRoomId());
+        messageViewModel.getLastMessageLiveData().observe(this, lastMessage -> {
+            if (lastMessage != null) {
+                chatRoom.setLastMessage(lastMessage);
+                chatRoomAdapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+    private void filterUsersOrShowChatRooms(String query) {
+        if (query.isEmpty()) {
+            chatRoomAdapter.setShowingUsers(false);
+            chatRoomAdapter.updateChatRoomList(chatRoomList);
+            tvNoResults.setVisibility(chatRoomList.isEmpty() ? View.VISIBLE : View.GONE);
+        } else {
+            if (allUsers != null && !allUsers.isEmpty()) {
+                List<User> filteredList = new ArrayList<>();
+                for (User user : allUsers) {
+                    if (user.getUsername().toLowerCase().contains(query.toLowerCase())) {
+                        filteredList.add(user);
+                    }
+                }
+                chatRoomAdapter.setShowingUsers(true);
+                chatRoomAdapter.updateUserList(filteredList);
+                tvNoResults.setVisibility(filteredList.isEmpty() ? View.VISIBLE : View.GONE);
+            } else {
+                Toast.makeText(ChatRoomListActivity.this, "Không có người dùng nào", Toast.LENGTH_SHORT).show();
+                tvNoResults.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     private void onUserClick(User user) {
@@ -154,16 +188,12 @@ public class ChatRoomListActivity extends AppCompatActivity {
         Intent intent = new Intent(ChatRoomListActivity.this, ChatRoomActivity.class);
         intent.putExtra("chatRoomId", chatRoom.getRoomId());
         intent.putExtra("currentUserId", currentUserId);
-        intent.putExtra("userId", otherUserId); // Gửi ID của user còn lại
+        intent.putExtra("userId", otherUserId);
         startActivity(intent);
     }
 
-
     private void hideKeyboard() {
         InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-        View view = this.getCurrentFocus();
-        if (view != null) {
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        }
+        imm.hideSoftInputFromWindow(searchEditText.getWindowToken(), 0);
     }
 }

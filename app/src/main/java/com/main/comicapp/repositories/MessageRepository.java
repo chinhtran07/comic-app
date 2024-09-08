@@ -1,6 +1,7 @@
 package com.main.comicapp.repositories;
 
 import com.main.comicapp.models.Message;
+
 import java.util.List;
 
 public interface MessageRepository {
