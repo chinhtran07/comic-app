@@ -1,5 +1,6 @@
 package com.main.comicapp.activities.user;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -32,7 +33,7 @@ public class ChatRoomActivity extends AppCompatActivity {
     private String userId;
 
     private TextView tvChatUserName;
-    private ImageView ivUserAvatar;
+    private ImageView ivUserAvatar, ivBack;
     private EditText messageInput;
     private ImageButton sendButton;
 
@@ -45,6 +46,14 @@ public class ChatRoomActivity extends AppCompatActivity {
         ivUserAvatar = findViewById(R.id.img_user_avatar);
         messageInput = findViewById(R.id.et_message_input);
         sendButton = findViewById(R.id.btn_send_message);
+        ivBack = findViewById(R.id.iv_back);
+
+        ivBack.setOnClickListener(v -> {
+            Intent intent = new Intent(ChatRoomActivity.this, ChatRoomListActivity.class);
+            intent.putExtra("userId", currentUserId);
+            startActivity(intent);
+            finish();
+        });
 
         chatRoomId = getIntent().getStringExtra("chatRoomId");
         currentUserId = getIntent().getStringExtra("currentUserId");
