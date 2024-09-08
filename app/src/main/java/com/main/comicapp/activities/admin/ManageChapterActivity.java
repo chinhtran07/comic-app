@@ -16,16 +16,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.main.comicapp.R;
 import com.main.comicapp.adapters.admin.ChapterAdminAdapter;
+import com.main.comicapp.enums.TitleFormat;
 import com.main.comicapp.models.Chapter;
+import com.main.comicapp.models.Title;
 import com.main.comicapp.viewmodels.ChapterViewModel;
+import com.main.comicapp.viewmodels.TitleViewModel;
 
 import java.util.Date;
 
 public class ManageChapterActivity extends AppCompatActivity {
 
     private ChapterViewModel chapterViewModel;
+    private TitleViewModel titleViewModel;
     private RecyclerView recyclerView;
     private ChapterAdminAdapter adapter;
+    private TitleFormat titleFormat;
     private String titleId;
     private TextView tvNoChapters;
 
@@ -46,16 +51,21 @@ public class ManageChapterActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
         chapterViewModel = new ViewModelProvider(this).get(ChapterViewModel.class);
+        titleViewModel = new ViewModelProvider(this).get(TitleViewModel.class);
 
         loadChapters();
+        loadTitle();
 
         findViewById(R.id.button_add_chapter).setOnClickListener(v -> showAddChapterDialog());
+
+
 
         adapter.setListener(new ChapterAdminAdapter.OnChapterClickListener() {
             @Override
             public void onChapterClick(Chapter chapter) {
                 Intent intent = new Intent(ManageChapterActivity.this, UpdateChapterActivity.class);
                 intent.putExtra("chapter_id", chapter.getId());
+                intent.putExtra("title_format", titleFormat);
                 startActivityForResult(intent, 1001);
             }
 
@@ -84,6 +94,14 @@ public class ManageChapterActivity extends AppCompatActivity {
         }
     }
 
+    private void loadTitle() {
+        titleViewModel.getTitleById(titleId).observe(this, title -> {
+            if (title != null) {
+                titleFormat = TitleFormat.valueOf(title.getTitleFormat());
+            }
+        });
+    }
+
     private void loadChapters() {
         chapterViewModel.getChapterDocumentIds(titleId).observe(this, chapterIds -> {
             if (chapterIds != null && !chapterIds.isEmpty()) {
@@ -105,6 +123,7 @@ public class ManageChapterActivity extends AppCompatActivity {
             }
         });
     }
+
 
     private void showAddChapterDialog() {
         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);

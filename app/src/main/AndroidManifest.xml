@@ -99,6 +99,9 @@
         <activity
             android:name=".activities.admin.UpdateChapterActivity"
             android:exported="true" />
+        <activity
+            android:name=".activities.admin.AdminManagementPage"
+            android:exported="true" />
     </application>
 
 </manifest>

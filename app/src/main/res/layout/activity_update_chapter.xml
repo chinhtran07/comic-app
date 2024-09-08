@@ -85,6 +85,13 @@
             android:layout_marginBottom="16dp" />
 
         <Button
+            android:id="@+id/button_manage_pages"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Quản lí trang"
+            android:layout_marginTop="16dp" />
+
+        <Button
             android:id="@+id/button_update_chapter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
