@@ -10,10 +10,8 @@ import com.main.comicapp.models.Message;
 import com.main.comicapp.repositories.MessageRepository;
 import com.main.comicapp.repositories.DataCallback;
 
-import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class MessageRepositoryImpl implements MessageRepository {
 
@@ -28,20 +26,14 @@ public class MessageRepositoryImpl implements MessageRepository {
     public void saveMessage(Message message) {
         String messageId = databaseReference.push().getKey();
         if (messageId != null) {
-            Map<String, Object> messageData = new HashMap<>();
-            messageData.put("senderId", message.getSenderId());
-            messageData.put("chatRoomId", message.getChatRoomId());
-            messageData.put("content", message.getContent());
-            messageData.put("timestamp", message.getTimestamp());
-
-            databaseReference.child(messageId).setValue(messageData);
+            databaseReference.child(messageId).setValue(message);
         }
     }
 
     @Override
     public void getAllMessagesByChatRoomId(String chatRoomId, final DataCallback<List<Message>> callback) {
         databaseReference.orderByChild("chatRoomId").equalTo(chatRoomId)
-                .addValueEventListener(new ValueEventListener() {
+                .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         List<Message> messageList = new ArrayList<>();
@@ -73,14 +65,11 @@ public class MessageRepositoryImpl implements MessageRepository {
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         Message lastMessage = snapshot.getValue(Message.class);
-                        if (lastMessage != null) {
-                            callback.onSuccess(lastMessage);
-                        } else {
-                            callback.onFailure(new Exception("No message found"));
-                        }
+                        callback.onSuccess(lastMessage);
+                        return;
                     }
                 } else {
-                    callback.onFailure(new Exception("No message found"));
+                    callback.onSuccess(null);
                 }
             }
 

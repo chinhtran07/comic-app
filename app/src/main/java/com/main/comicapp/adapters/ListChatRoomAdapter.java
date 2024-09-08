@@ -7,31 +7,25 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.main.comicapp.R;
 import com.main.comicapp.models.ChatRoom;
+import com.main.comicapp.models.Message;
 import com.main.comicapp.models.User;
-import com.main.comicapp.viewmodels.MessageViewModel;
-import com.main.comicapp.viewmodels.UserViewModel;
 
 import java.util.List;
 
 public class ListChatRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private static final int VIEW_TYPE_USER = 0;
-    private static final int VIEW_TYPE_CHAT_ROOM = 1;
+    private static final int VIEW_TYPE_CHAT_ROOM = 0;
+    private static final int VIEW_TYPE_USER = 1;
 
     private List<User> userList;
     private List<ChatRoom> chatRoomList;
-    private OnUserClickListener onUserClickListener;
-    private OnChatRoomClickListener onChatRoomClickListener;
-    private boolean showingUsers = false;
-    private UserViewModel userViewModel;
     private String currentUserId;
-    private MessageViewModel messageViewModel;
+    private boolean showingUsers = false;
 
     public interface OnUserClickListener {
         void onUserClick(User user);
@@ -41,16 +35,15 @@ public class ListChatRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         void onChatRoomClick(ChatRoom chatRoom);
     }
 
-    public ListChatRoomAdapter(String currentUserId, List<User> userList, List<ChatRoom> chatRoomList,
-                               OnUserClickListener userListener, OnChatRoomClickListener chatRoomListener,
-                               UserViewModel userViewModel, MessageViewModel messageViewModel) {
+    private final OnUserClickListener onUserClickListener;
+    private final OnChatRoomClickListener onChatRoomClickListener;
+
+    public ListChatRoomAdapter(String currentUserId, List<User> userList, List<ChatRoom> chatRoomList, OnUserClickListener onUserClickListener, OnChatRoomClickListener onChatRoomClickListener) {
         this.currentUserId = currentUserId;
         this.userList = userList;
         this.chatRoomList = chatRoomList;
-        this.onUserClickListener = userListener;
-        this.onChatRoomClickListener = chatRoomListener;
-        this.userViewModel = userViewModel;
-        this.messageViewModel = messageViewModel;
+        this.onUserClickListener = onUserClickListener;
+        this.onChatRoomClickListener = onChatRoomClickListener;
     }
 
     @Override
@@ -62,11 +55,11 @@ public class ListChatRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == VIEW_TYPE_USER) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_item_user_chat, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_user, parent, false);
             return new UserViewHolder(view);
         } else {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_item_chat_room, parent, false);
-            return new ChatRoomViewHolder(view, messageViewModel);
+            return new ChatRoomViewHolder(view);
         }
     }
 
@@ -88,6 +81,19 @@ public class ListChatRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     public void setShowingUsers(boolean showingUsers) {
         this.showingUsers = showingUsers;
+        notifyDataSetChanged();
+    }
+
+    public void updateUserList(List<User> newUserList) {
+        this.userList.clear();
+        this.userList.addAll(newUserList);
+        notifyDataSetChanged();
+    }
+
+    public void updateChatRoomList(List<ChatRoom> newChatRoomList) {
+        this.chatRoomList.clear();
+        this.chatRoomList.addAll(newChatRoomList);
+        notifyDataSetChanged();
     }
 
     public class UserViewHolder extends RecyclerView.ViewHolder {
@@ -116,61 +122,44 @@ public class ListChatRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public class ChatRoomViewHolder extends RecyclerView.ViewHolder {
         TextView tvUserName, tvLastMessage;
         ImageView ivUserAvatar;
-        MessageViewModel messageViewModel;
 
-        public ChatRoomViewHolder(@NonNull View itemView, MessageViewModel messageViewModel) {
+        public ChatRoomViewHolder(@NonNull View itemView) {
             super(itemView);
             tvUserName = itemView.findViewById(R.id.tv_user_name);
             tvLastMessage = itemView.findViewById(R.id.tv_last_message);
             ivUserAvatar = itemView.findViewById(R.id.iv_user_avatar);
-            this.messageViewModel = messageViewModel;
         }
 
         public void bind(ChatRoom chatRoom) {
-            String otherUserId;
-            if (chatRoom.getSenderId().equals(currentUserId)) {
-                otherUserId = chatRoom.getReceiverId();
-            } else {
-                otherUserId = chatRoom.getSenderId();
+            String otherUserId = chatRoom.getSenderId().equals(currentUserId) ? chatRoom.getReceiverId() : chatRoom.getSenderId();
+            User otherUser = getUserById(otherUserId);
+            if (otherUser != null) {
+                tvUserName.setText(otherUser.getUsername());
+
+                Glide.with(itemView.getContext())
+                        .load(otherUser.getAvatar())
+                        .placeholder(R.drawable.ic_user_placeholder)
+                        .error(R.drawable.ic_user_placeholder)
+                        .into(ivUserAvatar);
             }
 
-            userViewModel.fetchUserById(otherUserId);
-            userViewModel.getUserLiveData().observe((LifecycleOwner) itemView.getContext(), user -> {
-                if (user != null) {
-                    tvUserName.setText(user.getUsername());
-
-                    Glide.with(itemView.getContext())
-                            .load(user.getAvatar())
-                            .placeholder(R.drawable.ic_user_placeholder)
-                            .error(R.drawable.ic_user_placeholder)
-                            .into(ivUserAvatar);
-                } else {
-                    tvUserName.setText("Unknown User");
-                }
-            });
-
-            messageViewModel.loadLastMessageByChatRoom(chatRoom.getRoomId());
-            messageViewModel.getLastMessageLiveData().observe((LifecycleOwner) itemView.getContext(), lastMessage -> {
-                if (lastMessage != null) {
-                    tvLastMessage.setText(lastMessage.getContent());
-                } else {
-                    tvLastMessage.setText("No messages yet");
-                }
-            });
+            Message lastMessage = chatRoom.getLastMessage();
+            if (lastMessage != null) {
+                tvLastMessage.setText(lastMessage.getContent());
+            } else {
+                tvLastMessage.setText("No messages yet");
+            }
 
             itemView.setOnClickListener(v -> onChatRoomClickListener.onChatRoomClick(chatRoom));
         }
-    }
 
-    public void updateUserList(List<User> newUserList) {
-        this.userList.clear();
-        this.userList.addAll(newUserList);
-        notifyDataSetChanged();
-    }
-
-    public void updateChatRoomList(List<ChatRoom> newChatRooms) {
-        this.chatRoomList.clear();
-        this.chatRoomList.addAll(newChatRooms);
-        notifyDataSetChanged();
+        private User getUserById(String userId) {
+            for (User user : userList) {
+                if (user.getId().equals(userId)) {
+                    return user;
+                }
+            }
+            return null;
+        }
     }
 }

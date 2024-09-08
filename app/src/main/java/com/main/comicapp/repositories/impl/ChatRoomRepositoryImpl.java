@@ -29,11 +29,7 @@ public class ChatRoomRepositoryImpl implements ChatRoomRepository {
         chatRoom.setRoomId(roomId);
         return db.child(roomId).setValue(chatRoom);
     }
-    @Override
-    public Query getChatRoomsForUser(String userId) {
-        return db.orderByChild("senderId").equalTo(userId)
-                .getRef().orderByChild("receiverId").equalTo(userId);
-    }
+
 
 
 }

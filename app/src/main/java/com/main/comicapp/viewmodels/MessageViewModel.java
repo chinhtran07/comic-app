@@ -9,24 +9,29 @@ import com.main.comicapp.repositories.DataCallback;
 import com.main.comicapp.repositories.MessageRepository;
 import com.main.comicapp.repositories.impl.MessageRepositoryImpl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MessageViewModel extends ViewModel {
 
     private final MessageRepository messageRepository;
-    private final MutableLiveData<List<Message>> messagesLiveData;
+    private final Map<String, MutableLiveData<List<Message>>> messagesLiveDataMap;
     private final MutableLiveData<Message> lastMessageLiveData;
     private final MutableLiveData<String> errorMessageLiveData;
 
     public MessageViewModel() {
         messageRepository = new MessageRepositoryImpl();
-        messagesLiveData = new MutableLiveData<>();
+        messagesLiveDataMap = new HashMap<>();
         lastMessageLiveData = new MutableLiveData<>();
         errorMessageLiveData = new MutableLiveData<>();
     }
 
-    public LiveData<List<Message>> getMessagesLiveData() {
-        return messagesLiveData;
+    public LiveData<List<Message>> getMessagesLiveData(String chatRoomId) {
+        if (!messagesLiveDataMap.containsKey(chatRoomId)) {
+            messagesLiveDataMap.put(chatRoomId, new MutableLiveData<>());
+        }
+        return messagesLiveDataMap.get(chatRoomId);
     }
 
     public LiveData<Message> getLastMessageLiveData() {
@@ -38,10 +43,15 @@ public class MessageViewModel extends ViewModel {
     }
 
     public void loadMessagesByChatRoom(String chatRoomId) {
+        if (!messagesLiveDataMap.containsKey(chatRoomId)) {
+            messagesLiveDataMap.put(chatRoomId, new MutableLiveData<>());
+        }
+        messagesLiveDataMap.get(chatRoomId).setValue(null);
+
         messageRepository.getAllMessagesByChatRoomId(chatRoomId, new DataCallback<List<Message>>() {
             @Override
             public void onSuccess(List<Message> data) {
-                messagesLiveData.setValue(data);
+                messagesLiveDataMap.get(chatRoomId).setValue(data);
             }
 
             @Override
@@ -52,6 +62,8 @@ public class MessageViewModel extends ViewModel {
     }
 
     public void loadLastMessageByChatRoom(String chatRoomId) {
+        lastMessageLiveData.setValue(null);
+
         messageRepository.getLastMessageByChatRoomId(chatRoomId, new DataCallback<Message>() {
             @Override
             public void onSuccess(Message message) {
