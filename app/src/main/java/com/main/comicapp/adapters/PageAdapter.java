@@ -46,8 +46,13 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.PageViewHolder
 
         Logger.getLogger(page.getImagePath());
 
-        Glide.with(context).load(page.getImagePath())
-                .into(holder.imageView);
+        StorageReference ref = storage.getReference().child(page.getImagePath());
+        final long ONE_MEGABYTE = 1024*1024;
+        ref.getBytes(ONE_MEGABYTE).addOnSuccessListener(bytes -> {
+            Glide.with(context).load(bytes)
+                    .into(holder.imageView);
+        }).addOnFailureListener(e -> {});
+
     }
 
     @Override

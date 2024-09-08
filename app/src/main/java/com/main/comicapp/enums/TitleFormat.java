@@ -2,7 +2,9 @@ package com.main.comicapp.enums;
 
 import androidx.annotation.NonNull;
 
-public enum TitleFormat {
+import java.io.Serializable;
+
+public enum TitleFormat implements Serializable {
     COMIC,
     NOVEL;
 

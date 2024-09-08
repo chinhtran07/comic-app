@@ -29,6 +29,7 @@ import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.main.comicapp.R;
+import com.main.comicapp.enums.TitleFormat;
 import com.main.comicapp.models.Chapter;
 import com.main.comicapp.viewmodels.ChapterViewModel;
 
@@ -49,7 +50,7 @@ import java.util.Date;
 public class UpdateChapterActivity extends AppCompatActivity {
 
     private EditText editTextChapterNumber, editTextDescription;
-    private Button buttonUpdateChapter, buttonSelectContent;
+    private Button buttonUpdateChapter, buttonSelectContent, buttonManagePages;
     private RadioGroup radioGroupContentType;
     private TextView textViewSelectedFiles;
     private ChapterViewModel chapterViewModel;
@@ -57,6 +58,7 @@ public class UpdateChapterActivity extends AppCompatActivity {
     private String titleId;  // Khai báo biến titleId để lưu giữ titleId ban đầu
     private int chapterNumber;
     private FirebaseStorage storage;
+    private TitleFormat titleFormat;
 
     private static final int PICK_IMAGE_REQUEST = 1;
     private static final int PICK_FILE_REQUEST = 2;
@@ -72,6 +74,7 @@ public class UpdateChapterActivity extends AppCompatActivity {
         editTextDescription = findViewById(R.id.edit_text_description);
         buttonUpdateChapter = findViewById(R.id.button_update_chapter);
         buttonSelectContent = findViewById(R.id.button_select_content);
+        buttonManagePages = findViewById(R.id.button_manage_pages);
         radioGroupContentType = findViewById(R.id.radio_group_content_type);
         textViewSelectedFiles = findViewById(R.id.text_view_selected_files);
 
@@ -79,6 +82,7 @@ public class UpdateChapterActivity extends AppCompatActivity {
 
         chapterViewModel = new ViewModelProvider(this).get(ChapterViewModel.class);
         chapterId = getIntent().getStringExtra("chapter_id");
+        titleFormat = (TitleFormat) getIntent().getSerializableExtra("title_format");
 
         if (chapterId != null) {
             loadChapterDetails(chapterId);
@@ -100,6 +104,18 @@ public class UpdateChapterActivity extends AppCompatActivity {
                 Toast.makeText(this, "Vui lòng chọn loại nội dung", Toast.LENGTH_SHORT).show();
             }
         });
+
+        buttonManagePages.setOnClickListener(v -> {
+            if (titleFormat.equals(TitleFormat.NOVEL)) {
+                Toast.makeText(this, "Truyện không hợp lệ để thêm trang", Toast.LENGTH_LONG).show();
+            }
+            else if (titleFormat.equals(TitleFormat.COMIC)) {
+                openPageManager();
+            }
+            else {
+                Toast.makeText(this, "Truyện không hợp lệ", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     private void loadChapterDetails(String chapterId) {
@@ -115,6 +131,7 @@ public class UpdateChapterActivity extends AppCompatActivity {
             }
         });
     }
+
 
     private boolean validateInputs() {
         String chapterNumberStr = editTextChapterNumber.getText().toString().trim();
@@ -186,6 +203,13 @@ public class UpdateChapterActivity extends AppCompatActivity {
         intent.setType("text/plain");
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         startActivityForResult(intent, PICK_FILE_REQUEST);
+    }
+
+    private void openPageManager() {
+        Intent intent = new Intent(this, AdminManagementPage.class);
+        intent.putExtra("chapter_id", chapterId);
+        intent.putExtra("title_id", titleId);
+        startActivity(intent);
     }
 
     @Override

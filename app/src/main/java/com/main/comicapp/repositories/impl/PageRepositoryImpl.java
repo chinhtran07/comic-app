@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -56,6 +57,17 @@ public class PageRepositoryImpl implements PageRepository {
         });
 
         return pagesLiveData;
+    }
+
+    @Override
+    public Task<Void> addPage(Page page) {
+        return getPageReference().document(page.getId()).set(page);
+    }
+
+    @Override
+    public void deletePage(String pageId) {
+        getPageReference().document(pageId).delete().addOnSuccessListener(aVoid ->{})
+                .addOnFailureListener(e -> {});
     }
 
     private CollectionReference getPageReference() {
