@@ -104,8 +104,14 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     public void updateMessages(List<Message> newMessages) {
-        this.messageList.clear();
-        this.messageList.addAll(newMessages);
-        notifyDataSetChanged();
+        int previousSize = this.messageList.size();
+        this.messageList.addAll(newMessages.subList(previousSize, newMessages.size()));
+        notifyItemRangeInserted(previousSize, newMessages.size() - previousSize);
     }
+    public void addMessage(Message message) {
+        this.messageList.add(message);
+        notifyItemInserted(messageList.size() - 1);
+    }
+
+
 }
