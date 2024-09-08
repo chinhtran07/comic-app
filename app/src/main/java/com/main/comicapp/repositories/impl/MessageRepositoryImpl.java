@@ -66,10 +66,10 @@ public class MessageRepositoryImpl implements MessageRepository {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         Message lastMessage = snapshot.getValue(Message.class);
                         callback.onSuccess(lastMessage);
-                        return;  // Thoát ngay khi tìm thấy tin nhắn cuối cùng
+                        return;
                     }
                 } else {
-                    callback.onSuccess(null);  // Trả về null thay vì ném ngoại lệ
+                    callback.onSuccess(null);
                 }
             }
 
