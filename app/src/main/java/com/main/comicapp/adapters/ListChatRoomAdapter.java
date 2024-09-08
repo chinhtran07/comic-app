@@ -55,7 +55,7 @@ public class ListChatRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == VIEW_TYPE_USER) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_user, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_item_user_chat, parent, false);
             return new UserViewHolder(view);
         } else {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_item_chat_room, parent, false);
